@@ -1,6 +1,6 @@
 html
   head
-    link(type='text/css', href='/skins/jplayer.blue.monday.css', rel='stylesheet')
+    link(type='text/css', href='/skins/blue.monday/jplayer.blue.monday.css', rel='stylesheet')
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript')
@@ -8,12 +8,11 @@ html
       $("#jquery_jplayer_1").jPlayer({
       ready: function () {
       $(this).jPlayer("setMedia", {
-      m4a: "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
-      oga: "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg"
+      mp3: "http://robotastic.com/media/40000-1378688764.mp3"
       });
       },
       swfPath: "/js",
-      supplied: "m4a, oga"
+      supplied: "mp3"
       });
       });
   body
