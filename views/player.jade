@@ -58,4 +58,5 @@ html
       ul
         - each call in calls
           li
-            a(href= '/media/'+call.filename)= call.talkgroup 
+            path = '/media/'+call.filename
+            a(href=path)  #{call.talkgroup} 

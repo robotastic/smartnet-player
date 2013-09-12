@@ -43,10 +43,10 @@ app.get('/', function(req, res) {
             talkgroup: item.talkgroup,
             filename: item.name
           };
-          calls.push(calls);
+          calls.push(call);
         } else {
 
-          res.render('player', calls);
+	    res.render('player', {calls: calls});
         }
       });
     });
