@@ -39,7 +39,11 @@ app.get('/', function(req, res) {
     transCollection.find(function(err, cursor) {
       cursor.each(function(err, item) {
         if (item) {
-          calls.push(item.talkgroup);
+          call = {
+            talkgroup: item.talkgroup,
+            filename: item.name
+          };
+          calls.push(calls);
         } else {
 
           res.render('player', calls);
