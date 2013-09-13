@@ -1,7 +1,11 @@
 var express = require('express');
-var app = express();
-var   server = app.listen(3004),
-    io = require('socket.io').listen(server);
+var app = express()
+    , http = require('http')
+    , server = http.createServer(app)
+    , io = require('socket.io').listen(server);
+
+
+
 
 var fs = require('fs');
 var path = require('path');
@@ -58,7 +62,7 @@ app.get('/', function(req, res) {
   });
 });
 
-
+server.listen(3004);
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {

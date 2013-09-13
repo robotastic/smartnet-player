@@ -12,6 +12,8 @@ html
         console.log(data);
         socket.emit('my other event', { my: 'data' });
       });
+      socket.on('error', function() { console.error(arguments) });
+      socket.on('message', function() { console.log(arguments) });
       $(document).ready(function(){
       $("#jquery_jplayer_1").jPlayer({
       ready: function () {
