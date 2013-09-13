@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
-var io = require('socket.io').listen(app);
+var   server = app.listen(3004),
+    io = require('socket.io').listen(server);
+
 var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
@@ -55,7 +57,7 @@ app.get('/', function(req, res) {
     });
   });
 });
-app.listen(3004);
+
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
