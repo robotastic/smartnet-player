@@ -1,11 +1,13 @@
 var express = require('express');
+var app = express();
+var io = require('socket.io').listen(app);
 var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
 var Db = require('mongodb').Db,
   Connection = require('mongodb').Connection,
   Server = require('mongodb').Server;
-
+  
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
 var scanner = new Db('scanner', new Server(host, port, {}));
@@ -18,7 +20,8 @@ scanner.open(function(err, scannerDb) {
 
 
 
-var app = express()
+
+
 
   function compile(str, path) {
     return stylus(str)
@@ -53,3 +56,10 @@ app.get('/', function(req, res) {
   });
 });
 app.listen(3004);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});

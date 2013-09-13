@@ -4,7 +4,14 @@ html
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/smartnet.js')
+    script(type='text/javascript', src="/socket.io/socket.io.js")
+
     script(type='text/javascript')
+      var socket = io.connect('http://robotastic.com');
+        socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
       $(document).ready(function(){
       $("#jquery_jplayer_1").jPlayer({
       ready: function () {
