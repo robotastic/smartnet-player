@@ -48,10 +48,10 @@ app.get('/', function(req, res) {
 });
 
 
-watch.createMonitor('/home/luke/smartnet-sync/rx', function(monitor) {
+watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   monitor.files['*.mp3'];
   monitor.on("created", function(f, stat) {
-    if (path.extname(f) == '.mp3') {
+      if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)){
       name = path.basename(f, '.mp3');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
@@ -60,15 +60,17 @@ watch.createMonitor('/home/luke/smartnet-sync/rx', function(monitor) {
       transItem = {
         talkgroup: tg,
         time: time,
-        name: path.basename(f);
+        name: path.basename(f)
       };
+  db.collection('transmissions', function(err, transCollection) {
       transCollection.insert(transItem);
       console.log("Added: " + f);
+  });
       fs.rename(f, '/srv/www/robotastic.com/public/media/' + path.basename(f), function(err) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        socket.emit('call', {
+        io.sockets.emit('call', {
             filename: path.basename(f), talkgroup: tg
         });
       });
