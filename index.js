@@ -1,9 +1,9 @@
 var express = require('express');
-
-var app = express()
-    , http = require('http')
-    , server = http.createServer(app)
-    , io = require('socket.io').listen(server);
+var watch = require('watch');
+var app = express(),
+  http = require('http'),
+  server = http.createServer(app),
+  io = require('socket.io').listen(server);
 
 var fs = require('fs');
 var path = require('path');
@@ -39,39 +39,67 @@ app.get('/', function(req, res) {
 
 
 
-
-    res.render('player', {
-      calls: []
-    });
+  res.render('player', {
+    calls: []
+  });
 
 
 
 });
 
+
+watch.createMonitor('/home/luke/smartnet-sync/rx', function(monitor) {
+  monitor.files['*.mp3'];
+  monitor.on("created", function(f, stat) {
+    if (path.extname(f) == '.mp3') {
+      name = path.basename(f, '.mp3');
+      var regex = /([0-9]*)-([0-9]*)/
+      var result = name.match(regex);
+      tg = parseInt(result[1]);
+      time = new Date(parseInt(result[2]) * 1000);
+      transItem = {
+        talkgroup: tg,
+        time: time,
+        name: path.basename(f);
+      };
+      transCollection.insert(transItem);
+      console.log("Added: " + f);
+      fs.rename(f, '/srv/www/robotastic.com/public/media/' + path.basename(f), function(err) {
+        if (err)
+          throw err;
+        console.log('Moved: ' + f);
+        socket.emit('call', {
+            filename: path.basename(f), talkgroup: tg
+        });
+      });
+
+    }
+  });
+});
 
 io.sockets.on('connection', function(socket) {
 
-    calls = [];
+  calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(function(err, cursor) {
-        cursor.each(function(err, item) {
-            if (item) {
-              call = {
-                talkgroup: item.talkgroup,
-                filename: item.name
-              };
-              calls.push(call);
-            } else {
+      cursor.each(function(err, item) {
+        if (item) {
+          call = {
+            talkgroup: item.talkgroup,
+            filename: item.name
+          };
+          calls.push(call);
+        } else {
 
 
 
-              socket.emit('calls', {calls: calls
-              });
-           
-            }
-        });
-  });
+          socket.emit('calls', {
+            calls: calls
+          });
+
+        }
+      });
     });
+  });
 });
 server.listen(3004);
-
