@@ -3,7 +3,7 @@
 function play_call(filename) {
     console.log("trying to play: " + filename);
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
-      mp3: filename
+      mp3: "/media/" + filename
     }).jPlayer("play");
 }
         

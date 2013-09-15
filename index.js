@@ -70,7 +70,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        io.sockets.emit('call', {
+        io.sockets.emit('calls', {
             filename: path.basename(f), talkgroup: tg
         });
       });
