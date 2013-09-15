@@ -34,17 +34,34 @@ app.set('view engine', 'jade')
 app.use(express.logger('dev'))
 
 app.use(express.static(__dirname + '/public'))
+app.use(express.bodyParser());
 
 app.get('/', function(req, res) {
-
-
-
   res.render('player', {
     calls: []
   });
+});
 
-
-
+app.post('/calls', function(req, res) {
+  console.log(req.body.objectData);
+  console.log(req.body);
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.find(function(err, cursor) {
+      cursor.each(function(err, item) {
+        if (item) {
+          call = {
+            talkgroup: item.talkgroup,
+            filename: item.name
+          };
+          calls.push(call);
+        } else {
+          res.contentType('json');
+          res.send({ calls: JSON.stringify(calls) });
+        }
+      });
+    });
+  });
+  
 });
 
 
