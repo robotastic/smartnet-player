@@ -37,22 +37,22 @@ app.use(express.static(__dirname + '/public'))
 
 app.get('/', function(req, res) {
 
-  db.collection('transmissions', function(err, transCollection) {
+
 
 
     res.render('player', {
-      calls: calls
+      calls: []
     });
 
 
-  });
+
 });
 
 
 io.sockets.on('connection', function(socket) {
 
     calls = [];
-
+  db.collection('transmissions', function(err, transCollection) {
     transCollection.find(function(err, cursor) {
         cursor.each(function(err, item) {
             if (item) {
@@ -67,13 +67,11 @@ io.sockets.on('connection', function(socket) {
 
               socket.emit('calls', {calls: calls
               });
-              socket.on('my other event', function(data) {
-                console.log(data);
-              });
-            });
+           
+            }
         });
-
+  });
     });
+});
 server.listen(3004);
 
-});

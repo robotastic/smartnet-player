@@ -7,6 +7,20 @@ html
     script(type='text/javascript', src="/socket.io/socket.io.js")
 
     script(type='text/javascript')
+      var socket = io.connect('http://robotastic.com');	
+
+      socket.on('calls', function (data) {
+
+      if (typeof data.calls !== "undefined")	{
+        for (var i = 0; i < data.calls.length; i++) {
+          print_call_row(data.calls[i].filename, data.calls[i].talkgroup);
+        }			
+      }	
+      if (typeof data.talkgroup !== "undefined") {
+        print_call_row(data.filename, data.talkgroup);													
+      } 
+
+      });
 
       $(document).ready(function(){
       $("#jquery_jplayer_1").jPlayer({
