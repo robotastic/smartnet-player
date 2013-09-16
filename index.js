@@ -45,9 +45,10 @@ app.get('/', function(req, res) {
 app.post('/calls', function(req, res) {
   console.log(req.body.objectData);
   console.log(req.body);
+    calls = [];
   db.collection('transmissions', function(err, transCollection) {
-    transCollection.find(function(err, cursor) {
-      cursor.each(function(err, item) {
+      transCollection.find(function(err, cursor) {
+	  cursor.limit(20).each(function(err, item) {
         if (item) {
           call = {
             talkgroup: item.talkgroup,
@@ -56,7 +57,7 @@ app.post('/calls', function(req, res) {
           calls.push(call);
         } else {
           res.contentType('json');
-          res.send({ calls: JSON.stringify(calls) });
+            res.send(JSON.stringify({calls: calls}));
         }
       });
     });
@@ -98,27 +99,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 io.sockets.on('connection', function(socket) {
 
-  calls = [];
-  db.collection('transmissions', function(err, transCollection) {
-    transCollection.find(function(err, cursor) {
-      cursor.each(function(err, item) {
-        if (item) {
-          call = {
-            talkgroup: item.talkgroup,
-            filename: item.name
-          };
-          calls.push(call);
-        } else {
+    console.log("Client Joined: " + socket.id);
 
-
-
-          socket.emit('calls', {
-            calls: calls
-          });
-
-        }
-      });
-    });
-  });
 });
 server.listen(3004);

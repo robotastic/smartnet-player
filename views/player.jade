@@ -1,6 +1,6 @@
 html
   head
-    link(type='text/css', href='/skins/blue.monday/jplayer.blue.monday.css', rel='stylesheet')
+    //link(type='text/css', href='/skins/blue.monday/jplayer.blue.monday.css', rel='stylesheet')
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/smartnet.js')
@@ -79,36 +79,18 @@ html
             li
               a.jp-play(href='javascript:;', tabindex='1') play
             li
-              a.jp-pause(href='javascript:;', tabindex='1') pause
-            li
               a.jp-stop(href='javascript:;', tabindex='1') stop
-            li
-              a.jp-mute(href='javascript:;', tabindex='1', title='mute') mute
-            li
-              a.jp-unmute(href='javascript:;', tabindex='1', title='unmute') unmute
-            li
-              a.jp-volume-max(href='javascript:;', tabindex='1', title='max volume') max volume
           .jp-progress
             .jp-seek-bar
               .jp-play-bar
-          .jp-volume-bar
-            .jp-volume-bar-value
           .jp-time-holder
             .jp-current-time
             .jp-duration
-            ul.jp-toggles
-              li
-                a.jp-repeat(href='javascript:;', tabindex='1', title='repeat') repeat
-              li
-                a.jp-repeat-off(href='javascript:;', tabindex='1', title='repeat off') repeat off
         .jp-title
           ul
             li Bubble
-        .jp-no-solution
-          span Update Required
-          | To play the media you will need to either update your browser to a recent version or update your
-          a(href='http://get.adobe.com/flashplayer/', target='_blank') Flash plugin
-          | .
+
+
     
     ul#call_list
     script(type='text/javascript', src='/js/bootstrap.min.js')

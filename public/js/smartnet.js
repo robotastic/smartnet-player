@@ -8,6 +8,7 @@ function play_call(filename) {
 }
 
 function print_call_row(filename, talkgroup) {
+    console.log("Row: " + talkgroup + filename);
 	newdiv = $("<div/>");
 	newdiv.html(talkgroup);
 	newdiv.click(function() {
@@ -23,10 +24,10 @@ $(document).ready(function() {
 		url: "/calls",
 		type: "POST",
 		dataType: "json",
-		data: {
+	    data: JSON.stringify({
 			num: 20,
 			tg: 4000
-		},
+	    }),
 		contentType: "application/json",
 		cache: false,
 		timeout: 5000,
@@ -36,8 +37,11 @@ $(document).ready(function() {
 		},
 
 		success: function(data) {
+		    console.log(data);
 			if (typeof data.calls !== "undefined") {
+			    console.log(data.calls.length);
 				for (var i = 0; i < data.calls.length; i++) {
+				    console.log(data.calls[i]);
 					print_call_row(data.calls[i].filename, data.calls[i].talkgroup);
 				}
 			}
