@@ -43,7 +43,7 @@ html
       });
   body
     .navbar.navbar-inverse.navbar-fixed-top
-    .container
+      .container
         .navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
             span.icon-bar
@@ -58,7 +58,17 @@ html
               a(href='#about') About
             li
               a(href='#contact') Contact
-
+          span(id='jp_container_1' class="pull-right")
+            span.btn-group
+              button( type="button", class="btn btn-default navbar-btn")
+                span(class="glyphicon glyphicon-play jp-play")
+              button( type="button", class="btn btn-default navbar-btn")
+                span(class="glyphicon glyphicon-stop jp-stop")
+            p(class="navbar-text")
+              span.jp-time-holder
+                span.jp-current-time 
+                / 
+                span.jp-duration
     .container
       .starter-template
         h1 Bootstrap starter template
@@ -66,31 +76,15 @@ html
           | Use this document as a way to quickly start any new project.
           br
           | All you get is this text and a mostly barebones HTML document.
-
-
-
-
-
+      table.table
+        thead
+          tr
+            th #
+            th Alpha
+            th Talkgroup
+            th Group
+            th Time
+        tbody#call_table
     #jquery_jplayer_1.jp-jplayer
-    #jp_container_1.jp-audio
-      .jp-type-single
-        .jp-gui.jp-interface
-          ul.jp-controls
-            li
-              a.jp-play(href='javascript:;', tabindex='1') play
-            li
-              a.jp-stop(href='javascript:;', tabindex='1') stop
-          .jp-progress
-            .jp-seek-bar
-              .jp-play-bar
-          .jp-time-holder
-            .jp-current-time
-            .jp-duration
-        .jp-title
-          ul
-            li Bubble
 
-
-    
-    ul#call_list
     script(type='text/javascript', src='/js/bootstrap.min.js')

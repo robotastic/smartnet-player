@@ -4,7 +4,7 @@ var app = express(),
   http = require('http'),
   server = http.createServer(app),
   io = require('socket.io').listen(server);
-
+var csv = require('csv');
 var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
@@ -16,13 +16,27 @@ var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NO
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
 var scanner = new Db('scanner', new Server(host, port, {}));
 var db;
+var channels = { };
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
 });
+csv()
+    .from.path( 'ChanList.csv', {columns: true} )
+    .to.array( function(data, count){
+	console.log("Loaded " + count + " talkgroups.");
+    } )
+    .transform(function(row){
 
-
+	channels[ row.Num ] = {
+	    alpha: row.Alpha,
+	    desc: row.Description,
+	    tag: row.Tag,
+	    group: row.Group
+	};
+	return row;
+    });
 
 function compile(str, path) {
   return stylus(str)
@@ -40,6 +54,14 @@ app.get('/', function(req, res) {
   res.render('player', {
     calls: []
   });
+});
+
+app.get('/channels', function(req, res) {
+
+          res.contentType('json');
+            res.send(JSON.stringify({channels: channels}));
+
+  
 });
 
 app.post('/calls', function(req, res) {
@@ -64,7 +86,6 @@ app.post('/calls', function(req, res) {
   });
   
 });
-
 
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   monitor.files['*.mp3'];

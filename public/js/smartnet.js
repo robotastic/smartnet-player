@@ -1,4 +1,5 @@
 //var socket = io.connect('http://robotastic.com');
+var channels;
 
 function play_call(filename) {
 	console.log("trying to play: " + filename);
@@ -8,18 +9,22 @@ function play_call(filename) {
 }
 
 function print_call_row(filename, talkgroup) {
-    console.log("Row: " + talkgroup + filename);
-	newdiv = $("<div/>");
-	newdiv.html(talkgroup);
-	newdiv.click(function() {
+    
+	newdata = $("<td/>");
+	newdata.html(talkgroup);
+	newdata.click(function() {
 		play_call(filename)
 	});
-	newli = $("<li/>");
-	newli.append(newdiv);
+	newrow = $("<tr/>");
+	newrow.append(newdata);
+    newrow.append("<td>"+channels[talkgroup].alpha+"</td>");
+    newrow.append("<td>"+channels[talkgroup].desc+"</td>");
+    newrow.append("<td>"+channels[talkgroup].group+"</td>");
 
-	$("#call_list").prepend(newli);
+	$("#call_table").prepend(newrow);
 }
-$(document).ready(function() {
+
+function init_table() {
 	$.ajax({
 		url: "/calls",
 		type: "POST",
@@ -51,5 +56,20 @@ $(document).ready(function() {
 			console.log('process error');
 		},
 	});
+
+
+
+}
+$(document).ready(function() {
+    $.ajax({
+	url: "/channels",
+	type: "GET",
+	contentType: "application/json",
+	success: function(data) {
+	    console.log("got data");
+	    channels = data.channels
+	    init_table();
+	}
+    });
 
 });
