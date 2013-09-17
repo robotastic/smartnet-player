@@ -1,5 +1,7 @@
 //var socket = io.connect('http://robotastic.com');
 var channels;
+var current_page;
+var per_page;
 
 function play_call(filename) {
 	console.log("trying to play: " + filename);
@@ -24,14 +26,13 @@ function print_call_row(filename, talkgroup) {
 	$("#call_table").prepend(newrow);
 }
 
-function init_table() {
+function fetch_calls(offset) {
 	$.ajax({
 		url: "/calls",
 		type: "POST",
 		dataType: "json",
 	    data: JSON.stringify({
-			num: 20,
-			tg: 4000
+			offset: offset
 	    }),
 		contentType: "application/json",
 		cache: false,
@@ -50,14 +51,55 @@ function init_table() {
 					print_call_row(data.calls[i].filename, data.calls[i].talkgroup);
 				}
 			}
+			if (typeof data.offset !== "undefined") {
+				current_page = data.offset / per_page;
+			}
+			if (typeof data.count !== "undefined") {
+				count = data.count;
+				page = current_page-2;
+				if (current_page>1) {
+					html = '<li><a href="#">&laquo;</a></li>';
+				} else {
+					html = '<li class="disabled"><a href="#">&laquo;</a></li>';
+				}
+				for (var i=0; i <5;) {
+					if (page < 1) {
+						page ++;
+					} else {
+						if (page == current_page) {
+							html = html + '<li class="active"><a href="#">'+ page + '</a></li>';
+						} else {
+							if (((page-1) * per_page) > count) {
+								break;
+							} else { 
+								html = html + '<li><a href="#">'+ page + '</a></li>';
+							}
+
+						}
+						page++;
+						i++;
+					}
+				}
+				if ((page*per_page) > count) {
+					html = html + '<li><a href="#">&raquo;</a></li>';
+				} else {
+					html = html + '<li class="disabled"><a href="#">&raquo;</a></li>';
+				}
+				$("#pages").html(html);
+			}
 		},
 
 		error: function() {
 			console.log('process error');
 		},
 	});
+}
 
+function init_table() {
+	per_page=20;
+	current_page=1;
 
+	fetch_calls(0);
 
 }
 $(document).ready(function() {

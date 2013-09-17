@@ -65,12 +65,12 @@ app.get('/channels', function(req, res) {
 });
 
 app.post('/calls', function(req, res) {
-  console.log(req.body.objectData);
-  console.log(req.body);
+  console.log(req.body.offset);
+    offset = req.body.offset;
     calls = [];
   db.collection('transmissions', function(err, transCollection) {
       transCollection.find(function(err, cursor) {
-	  cursor.limit(20).each(function(err, item) {
+	  cursor.skip(offset).limit(20).each(function(err, item) {
         if (item) {
           call = {
             talkgroup: item.talkgroup,
@@ -79,7 +79,7 @@ app.post('/calls', function(req, res) {
           calls.push(call);
         } else {
           res.contentType('json');
-            res.send(JSON.stringify({calls: calls}));
+            res.send(JSON.stringify({calls: calls, count: cursor.count(), offset: offset}));
         }
       });
     });
