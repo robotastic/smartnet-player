@@ -57,22 +57,28 @@ function fetch_calls(offset) {
 			if (typeof data.count !== "undefined") {
 				count = data.count;
 				page = current_page-2;
+				$("#pages").empty();
 				if (current_page>1) {
-					html = '<li><a href="#">&laquo;</a></li>';
+					//html = '<li><a href="#">&laquo;</a></li>';
+					html.append($('<li><a href="#">&laquo;</a></li>')).click(fetch_calls(current_page-1));
 				} else {
-					html = '<li class="disabled"><a href="#">&laquo;</a></li>';
+					//html = '<li class="disabled"><a href="#">&laquo;</a></li>';
+					html.append($('<li class="disabled"><a href="#">&laquo;</a></li>'));
 				}
 				for (var i=0; i <5;) {
 					if (page < 1) {
 						page ++;
 					} else {
 						if (page == current_page) {
-							html = html + '<li class="active"><a href="#">'+ page + '</a></li>';
+							//html = html + '<li class="active"><a href="#">'+ page + '</a></li>';
+							html.append($('<li class="active"><a href="#">'+ page + '</a></li>')).click(fetch_calls(page));
 						} else {
 							if (((page-1) * per_page) > count) {
 								break;
 							} else { 
-								html = html + '<li><a href="#">'+ page + '</a></li>';
+								//html = html + '<li><a href="#">'+ page + '</a></li>';
+								html.append($('<li><a href="#">'+ page + '</a></li>')).click(fetch_calls(page));
+						
 							}
 
 						}
@@ -80,12 +86,15 @@ function fetch_calls(offset) {
 						i++;
 					}
 				}
-				if ((page*per_page) > count) {
-					html = html + '<li><a href="#">&raquo;</a></li>';
+				if ((page*per_page) < count) {
+					//html = html + '<li><a href="#">&raquo;</a></li>';
+					html.append($('<li><a href="#">&raquo;</a></li>')).click(fetch_calls(current_page+1));
+				
 				} else {
-					html = html + '<li class="disabled"><a href="#">&raquo;</a></li>';
+					//html = html + '<li class="disabled"><a href="#">&raquo;</a></li>';
+					html.append($('<li class="disabled"><a href="#">&raquo;</a></li>'));
 				}
-				$("#pages").html(html);
+				
 			}
 		},
 
