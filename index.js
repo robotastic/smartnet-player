@@ -69,6 +69,7 @@ app.post('/calls', function(req, res) {
     offset = req.body.offset;
     calls = [];
   db.collection('transmissions', function(err, transCollection) {
+      transCollection.find().count(function (e, count) {
       transCollection.find(function(err, cursor) {
 	  cursor.skip(offset).limit(20).each(function(err, item) {
         if (item) {
@@ -79,8 +80,9 @@ app.post('/calls', function(req, res) {
           calls.push(call);
         } else {
           res.contentType('json');
-            res.send(JSON.stringify({calls: calls, count: cursor.count(), offset: offset}));
+            res.send(JSON.stringify({calls: calls, count: count, offset: offset}));
         }
+      });
       });
     });
   });
