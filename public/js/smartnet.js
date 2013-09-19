@@ -60,7 +60,7 @@ function fetch_calls(offset) {
 				$("#pages").empty();
 				if (current_page>1) {
 					//html = '<li><a href="#">&laquo;</a></li>';
-				    $("#pages").append($('<li><a href="#">&laquo;</a></li>')).click(fetch_calls(current_page-1));
+				    $("#pages").append($('<li><a href="#">&laquo;</a></li>')).click(function() {fetch_calls(current_page-1)});
 				} else {
 					//html = '<li class="disabled"><a href="#">&laquo;</a></li>';
 				    $("#pages").append($('<li class="disabled"><a href="#">&laquo;</a></li>'));
@@ -71,13 +71,13 @@ function fetch_calls(offset) {
 					} else {
 						if (page == current_page) {
 							//html = html + '<li class="active"><a href="#">'+ page + '</a></li>';
-						    $("#pages").append($('<li class="active"><a href="#">'+ page + '</a></li>')).click(fetch_calls(page));
+						    $("#pages").append($('<li class="active"><a href="#">'+ page + '</a></li>')).click(function() {fetch_calls(page)} );
 						} else {
 							if (((page-1) * per_page) > count) {
 								break;
 							} else { 
 								//html = html + '<li><a href="#">'+ page + '</a></li>';
-							    $("#pages").append($('<li><a href="#">'+ page + '</a></li>')).click(fetch_calls(page));
+							    $("#pages").append($('<li><a href="#">'+ page + '</a></li>')).click(function() {fetch_calls(page)} );
 						
 							}
 
@@ -88,7 +88,7 @@ function fetch_calls(offset) {
 				}
 				if ((page*per_page) < count) {
 					//html = html + '<li><a href="#">&raquo;</a></li>';
-				    $("#pages").append($('<li><a href="#">&raquo;</a></li>')).click(fetch_calls(current_page+1));
+				    $("#pages").append($('<li><a href="#">&raquo;</a></li>')).click( function() {fetch_calls(current_page+1)} );
 				
 				} else {
 					//html = html + '<li class="disabled"><a href="#">&raquo;</a></li>';

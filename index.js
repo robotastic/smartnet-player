@@ -1,5 +1,7 @@
 var express = require('express');
 var watch = require('watch');
+var taglib = require('taglib');
+var mkdirp = require('mkdirp');
 var app = express(),
   http = require('http'),
   server = http.createServer(app),
@@ -93,24 +95,35 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   monitor.files['*.mp3'];
   monitor.on("created", function(f, stat) {
       if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)){
-      name = path.basename(f, '.mp3');
-      var regex = /([0-9]*)-([0-9]*)/
-      var result = name.match(regex);
-      tg = parseInt(result[1]);
-      time = new Date(parseInt(result[2]) * 1000);
-      transItem = {
-        talkgroup: tg,
-        time: time,
-        name: path.basename(f)
-      };
-  db.collection('transmissions', function(err, transCollection) {
-      transCollection.insert(transItem);
-      console.log("Added: " + f);
-  });
+      		var name = path.basename(f, '.mp3');		
+		var regex = /([0-9]*)-([0-9]*)/
+		var result = name.match(regex);
+		var tg = parseInt(result[1]);
+	      	var time = new Date(parseInt(result[2]) * 1000);
+		var base_path = '/srv/www/robotastic.com/public/media';
+		var path = "/" + time.getFullYear() + "/" + time.getMonth() + "/"  + time.getDate() + "/";
+      		mkdirp(base_path + path, function (err) {
+    			if (err) console.error(err);	
+		});
       fs.rename(f, '/srv/www/robotastic.com/public/media/' + path.basename(f), function(err) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
+	taglib.read(path, function(err, tag, audioProperties){ 
+
+	      transItem = {
+		talkgroup: tg,
+		time: time,
+		name: path.basename(f),
+		length: audioProperties.length,
+		rate: audioProperties.sampleRate
+	      };
+	  db.collection('transmissions', function(err, transCollection) {
+	      transCollection.insert(transItem);
+	      console.log("Added: " + f);
+	  });
+
+	});
         io.sockets.emit('calls', {
             filename: path.basename(f), talkgroup: tg
         });
