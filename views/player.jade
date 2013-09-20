@@ -21,11 +21,11 @@ html
 
       if (typeof data.calls !== "undefined")	{
         for (var i = 0; i < data.calls.length; i++) {
-          print_call_row(data.calls[i].filename, data.calls[i].talkgroup);
+          print_call_row(data.calls[i].path, data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].len);
         }			
       }	
       if (typeof data.talkgroup !== "undefined") {
-        print_call_row(data.filename, data.talkgroup);													
+        print_call_row(data.path,data.filename, data.talkgroup, data.len);													
       } 
 
       });

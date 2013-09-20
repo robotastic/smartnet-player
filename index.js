@@ -101,11 +101,11 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 		var tg = parseInt(result[1]);
 	      	var time = new Date(parseInt(result[2]) * 1000);
 		var base_path = '/srv/www/robotastic.com/public/media';
-		var path = "/" + time.getFullYear() + "/" + time.getMonth() + "/"  + time.getDate() + "/";
-      		mkdirp(base_path + path, function (err) {
+		var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/"  + time.getDate() + "/";
+      		mkdirp(base_path + local_path, function (err) {
     			if (err) console.error(err);	
 		});
-      fs.rename(f, '/srv/www/robotastic.com/public/media/' + path.basename(f), function(err) {
+      fs.rename(f, base_path + local_path + path.basename(f), function(err) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
@@ -115,7 +115,8 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 		talkgroup: tg,
 		time: time,
 		name: path.basename(f),
-		length: audioProperties.length,
+		path: local_path,
+		len: audioProperties.length,
 		rate: audioProperties.sampleRate
 	      };
 	  db.collection('transmissions', function(err, transCollection) {

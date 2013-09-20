@@ -10,7 +10,7 @@ function play_call(filename) {
 	}).jPlayer("play");
 }
 
-function print_call_row(filename, talkgroup) {
+function print_call_row(path, filename, talkgroup, len) {
     
 	newdata = $("<td/>");
 	newdata.html(talkgroup);
@@ -48,7 +48,7 @@ function fetch_calls(offset) {
 			    console.log(data.calls.length);
 				for (var i = 0; i < data.calls.length; i++) {
 				    console.log(data.calls[i]);
-					print_call_row(data.calls[i].filename, data.calls[i].talkgroup);
+					print_call_row(data.calls[i].path,data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].len);
 				}
 			}
 			if (typeof data.offset !== "undefined") {
