@@ -6,7 +6,7 @@ var per_page;
 function play_call(filename) {
 	console.log("trying to play: " + filename);
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
-		mp3: "/media/" + filename
+		mp3: "/media" + filename
 	}).jPlayer("play");
 }
 
@@ -15,14 +15,14 @@ function print_call_row(path, filename, talkgroup, len) {
 	newdata = $("<td/>");
 	newdata.html(talkgroup);
 	newdata.click(function() {
-		play_call(filename)
+		play_call(path+filename)
 	});
 	newrow = $("<tr/>");
 	newrow.append(newdata);
     newrow.append("<td>"+channels[talkgroup].alpha+"</td>");
     newrow.append("<td>"+channels[talkgroup].desc+"</td>");
     newrow.append("<td>"+channels[talkgroup].group+"</td>");
-
+	newrow.append("<td>"+len+"</td>");
 	$("#call_table").prepend(newrow);
 }
 
@@ -122,5 +122,9 @@ $(document).ready(function() {
 	    init_table();
 	}
     });
-
+    $(".form_datetime").datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        minuteStep: 10,
+        autoclose: true
+    });
 });

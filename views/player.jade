@@ -1,8 +1,12 @@
 html
   head
     link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
+    link(type='text/css', href='/css/bootstrap-select.min.css', rel='stylesheet')
+    link(type='text/css', href='/css/datetimepicker.css', rel='stylesheet')
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
+    script(type='text/javascript', src='/js/bootstrap-datetimepicker.min.js')
+    script(type='text/javascript', src='/js/bootstrap-select.min.js')
     script(type='text/javascript', src='/js/smartnet.js')
     script(type='text/javascript', src="/socket.io/socket.io.js")
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -69,6 +73,28 @@ html
                 span.jp-current-time 
                 / 
                 span.jp-duration
+    nav(class="navbar navbar-default" role="navigation")
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='#') Brand
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        
+        ul.nav.navbar-nav
+          li
+            select.selectpicker
+              option Mustard
+              option Ketchup
+              option Relish
+          li
+            .input-append.date.form_datetime
+              input(size='16', type='text', value='', readonly='readonly')
+              span.add-on
+                i.icon-th
+    
     ul(class="pagination" id="pages")
     .container
       .starter-template
@@ -85,6 +111,7 @@ html
             th Talkgroup
             th Group
             th Time
+            th Length
         tbody#call_table
     #jquery_jplayer_1.jp-jplayer
 

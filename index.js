@@ -18,27 +18,29 @@ var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NO
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
 var scanner = new Db('scanner', new Server(host, port, {}));
 var db;
-var channels = { };
+var channels = {};
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
 });
 csv()
-    .from.path( 'ChanList.csv', {columns: true} )
-    .to.array( function(data, count){
-	console.log("Loaded " + count + " talkgroups.");
-    } )
-    .transform(function(row){
+  .from.path('ChanList.csv', {
+    columns: true
+  })
+  .to.array(function(data, count) {
+    console.log("Loaded " + count + " talkgroups.");
+  })
+  .transform(function(row) {
 
-	channels[ row.Num ] = {
-	    alpha: row.Alpha,
-	    desc: row.Description,
-	    tag: row.Tag,
-	    group: row.Group
-	};
-	return row;
-    });
+    channels[row.Num] = {
+      alpha: row.Alpha,
+      desc: row.Description,
+      tag: row.Tag,
+      group: row.Group
+    };
+    return row;
+  });
 
 function compile(str, path) {
   return stylus(str)
@@ -60,73 +62,80 @@ app.get('/', function(req, res) {
 
 app.get('/channels', function(req, res) {
 
-          res.contentType('json');
-            res.send(JSON.stringify({channels: channels}));
+  res.contentType('json');
+  res.send(JSON.stringify({
+    channels: channels
+  }));
 
-  
+
 });
 
 app.post('/calls', function(req, res) {
   console.log(req.body.offset);
-    offset = req.body.offset;
-    calls = [];
+  offset = req.body.offset;
+  calls = [];
   db.collection('transmissions', function(err, transCollection) {
-      transCollection.find().count(function (e, count) {
+    transCollection.find().count(function(e, count) {
       transCollection.find(function(err, cursor) {
-	  cursor.skip(offset).limit(20).each(function(err, item) {
-        if (item) {
-          call = {
-            talkgroup: item.talkgroup,
-            filename: item.name
-          };
-          calls.push(call);
-        } else {
-          res.contentType('json');
-            res.send(JSON.stringify({calls: calls, count: count, offset: offset}));
-        }
-      });
+        cursor.skip(offset).limit(20).each(function(err, item) {
+          if (item) {
+            call = {
+              talkgroup: item.talkgroup,
+              filename: item.name
+            };
+            calls.push(call);
+          } else {
+            res.contentType('json');
+            res.send(JSON.stringify({
+              calls: calls,
+              count: count,
+              offset: offset
+            }));
+          }
+        });
       });
     });
   });
-  
+
 });
 
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   monitor.files['*.mp3'];
   monitor.on("created", function(f, stat) {
-      if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)){
-      		var name = path.basename(f, '.mp3');		
-		var regex = /([0-9]*)-([0-9]*)/
-		var result = name.match(regex);
-		var tg = parseInt(result[1]);
-	      	var time = new Date(parseInt(result[2]) * 1000);
-		var base_path = '/srv/www/robotastic.com/public/media';
-		var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/"  + time.getDate() + "/";
-      		mkdirp(base_path + local_path, function (err) {
-    			if (err) console.error(err);	
-		});
+    if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.mp3');
+      var regex = /([0-9]*)-([0-9]*)/
+      var result = name.match(regex);
+      var tg = parseInt(result[1]);
+      var time = new Date(parseInt(result[2]) * 1000);
+      var base_path = '/srv/www/robotastic.com/public/media';
+      var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
+      mkdirp(base_path + local_path, function(err) {
+        if (err) console.error(err);
+      });
       fs.rename(f, base_path + local_path + path.basename(f), function(err) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-	taglib.read(path, function(err, tag, audioProperties){ 
+        taglib.read(path, function(err, tag, audioProperties) {
 
-	      transItem = {
-		talkgroup: tg,
-		time: time,
-		name: path.basename(f),
-		path: local_path,
-		len: audioProperties.length,
-		rate: audioProperties.sampleRate
-	      };
-	  db.collection('transmissions', function(err, transCollection) {
-	      transCollection.insert(transItem);
-	      console.log("Added: " + f);
-	  });
+          transItem = {
+            talkgroup: tg,
+            time: time,
+            name: path.basename(f),
+            path: local_path,
+            len: audioProperties.length,
+            rate: audioProperties.sampleRate
+          };
+          db.collection('transmissions', function(err, transCollection) {
+            transCollection.insert(transItem);
+            console.log("Added: " + f);
+          });
 
-	});
+        });
         io.sockets.emit('calls', {
-            filename: path.basename(f), talkgroup: tg
+          filename: path.basename(f),
+          talkgroup: tg
         });
       });
 
@@ -136,7 +145,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 io.sockets.on('connection', function(socket) {
 
-    console.log("Client Joined: " + socket.id);
+  console.log("Client Joined: " + socket.id);
 
 });
 server.listen(3004);
