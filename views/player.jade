@@ -84,11 +84,22 @@ html
       .collapse.navbar-collapse.navbar-ex1-collapse
         
         ul.nav.navbar-nav
-          li
-            select.selectpicker
-              option Mustard
-              option Ketchup
-              option Relish
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                | Dropdown
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='#') Action
+                li
+                  a(href='#') Another action
+                li
+                  a(href='#') Something else here
+                li
+                  a(href='#') Separated link
+                li
+                  a(href='#') One more separated link
+
           li
             .input-append.date.form_datetime
               input(size='16', type='text', value='', readonly='readonly')
