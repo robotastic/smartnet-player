@@ -2,6 +2,7 @@
 var channels;
 var current_page;
 var per_page;
+var filter_code;
 
 function play_call(filename) {
 	console.log("trying to play: " + filename);
@@ -26,6 +27,9 @@ function print_call_row(path, filename, talkgroup, len) {
 	$("#call_table").prepend(newrow);
 }
 
+function filter_calls() {
+	
+}
 function add_filters() {
 	var groups =  [  
 			{	name: 'Fire/EMS',
@@ -41,9 +45,15 @@ function add_filters() {
 		];
 	for (var i = 0; i < groups.length; i++) {
     	var group = groups[i];
-		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').click(function() {filter_calls(group.code)}));
+		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).click(filter_calls));
 	}
 }
+function page_click() {
+	var page = this.data("page");
+
+	fetch_calls(page);
+}
+
 function fetch_calls(offset) {
 	$.ajax({
 		url: "/calls",
@@ -79,7 +89,7 @@ function fetch_calls(offset) {
 				$("#pages").empty();
 				if (current_page>1) {
 					
-				    $("#pages").append($('<li><a href="#">&laquo;</a></li>').click(function() {fetch_calls(current_page-1)}));
+				    $("#pages").append($('<li><a href="#">&laquo;</a></li>').data("page", current_page-1).click(page_click));
 				} else {
 					
 				    $("#pages").append($('<li class="disabled"><a href="#">&laquo;</a></li>'));
@@ -90,13 +100,13 @@ function fetch_calls(offset) {
 					} else {
 						if (page == current_page) {
 							
-						    $("#pages").append($('<li class="active"><a href="#">'+ page + '</a></li>').click(function() {fetch_calls(page)} ));
+						    $("#pages").append($('<li class="active"><a href="#">'+ page + '</a></li>').data("page", page).click(page_click ));
 						} else {
 							if (((page-1) * per_page) > count) {
 								break;
 							} else { 
 								
-							    $("#pages").append($('<li><a href="#">'+ page + '</a></li>').click(function() {fetch_calls(page)} ));
+							    $("#pages").append($('<li><a href="#">'+ page + '</a></li>').data("page", page).click( page_click ));
 						
 							}
 
@@ -106,11 +116,11 @@ function fetch_calls(offset) {
 					}
 				}
 				if ((page*per_page) < count) {
-					//html = html + '<li><a href="#">&raquo;</a></li>';
-				    $("#pages").append($('<li><a href="#">&raquo;</a></li>').click( function() {fetch_calls(current_page+1)} ));
+					
+				    $("#pages").append($('<li><a href="#">&raquo;</a></li>').data("page", page+1).click( page_click ));
 				
 				} else {
-					//html = html + '<li class="disabled"><a href="#">&raquo;</a></li>';
+					
 				    $("#pages").append($('<li class="disabled"><a href="#">&raquo;</a></li>'));
 				}
 				
