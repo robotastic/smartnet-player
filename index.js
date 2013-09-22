@@ -1,6 +1,6 @@
 var express = require('express');
 var watch = require('watch');
-var taglib = require('taglib');
+//var taglib = require('taglib');
 var mkdirp = require('mkdirp');
 var app = express(),
   http = require('http'),
@@ -117,14 +117,14 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        taglib.read(path, function(err, tag, audioProperties) {
+//        taglib.read(path, function(err, tag, audioProperties) {
 
           transItem = {
             talkgroup: tg,
             time: time,
             name: path.basename(f),
             path: local_path,
-            len: audioProperties.length,
+              len: 0, //audioProperties.length,
             rate: audioProperties.sampleRate
           };
           db.collection('transmissions', function(err, transCollection) {
@@ -137,7 +137,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           filename: path.basename(f),
           talkgroup: tg
         });
-      });
+  //    });
 
     }
   });
