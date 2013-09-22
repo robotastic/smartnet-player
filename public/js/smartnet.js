@@ -50,7 +50,8 @@ function fetch_calls(offset) {
 		type: "POST",
 		dataType: "json",
 	    data: JSON.stringify({
-			offset: offset
+			offset: offset,
+			per_page: per_page
 	    }),
 		contentType: "application/json",
 		cache: false,
@@ -70,17 +71,17 @@ function fetch_calls(offset) {
 				}
 			}
 			if (typeof data.offset !== "undefined") {
-				current_page = data.offset / per_page;
+				current_page = data.offset;
 			}
 			if (typeof data.count !== "undefined") {
 				count = data.count;
 				page = current_page-2;
 				$("#pages").empty();
 				if (current_page>1) {
-					//html = '<li><a href="#">&laquo;</a></li>';
+					
 				    $("#pages").append($('<li><a href="#">&laquo;</a></li>').click(function() {fetch_calls(current_page-1)}));
 				} else {
-					//html = '<li class="disabled"><a href="#">&laquo;</a></li>';
+					
 				    $("#pages").append($('<li class="disabled"><a href="#">&laquo;</a></li>'));
 				}
 				for (var i=0; i <5;) {
@@ -88,13 +89,13 @@ function fetch_calls(offset) {
 						page ++;
 					} else {
 						if (page == current_page) {
-							//html = html + '<li class="active"><a href="#">'+ page + '</a></li>';
+							
 						    $("#pages").append($('<li class="active"><a href="#">'+ page + '</a></li>').click(function() {fetch_calls(page)} ));
 						} else {
 							if (((page-1) * per_page) > count) {
 								break;
 							} else { 
-								//html = html + '<li><a href="#">'+ page + '</a></li>';
+								
 							    $("#pages").append($('<li><a href="#">'+ page + '</a></li>').click(function() {fetch_calls(page)} ));
 						
 							}
@@ -145,4 +146,5 @@ $(document).ready(function() {
         minuteStep: 10,
         autoclose: true
     });
+    add_filters();
 });

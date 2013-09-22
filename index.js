@@ -92,15 +92,16 @@ app.get('/channels', function(req, res) {
 
 app.post('/calls', function(req, res) {
   console.log(req.body.offset);
-  offset = req.body.offset;
-  filter_code = req.body.filter_code;
-  start_time = req.body.start_time;
+  var per_page = req.body.per_page;
+  var offset = req.body.offset;
+  var filter_code = req.body.filter_code;
+  var start_time = req.body.start_time;
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find().count(function(e, count) {
       transCollection.find(function(err, cursor) {
-        cursor.skip(offset).limit(20).each(function(err, item) {
+        cursor.skip(offset).limit(per_page).each(function(err, item) {
           if (item) {
             call = {
               talkgroup: item.talkgroup,
