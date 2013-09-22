@@ -49,7 +49,7 @@ function add_filters() {
 	}
 }
 function page_click() {
-	var page = this.data("page");
+    var page = $(this).data("page");
 
 	fetch_calls(page);
 }
