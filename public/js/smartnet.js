@@ -60,7 +60,7 @@ function add_filters() {
 		name: 'Fire Dispatch',
 		code: 'tag-fire-dispatch'
 	}, {
-		name: 'Fire-Tac'
+	    name: 'Fire-Tac',
 		code: 'tag-fire-tac'
 	}, {
 		name: 'Fire-Talk',
@@ -93,7 +93,7 @@ function add_filters() {
 	}
 	for (var i = 0; i < tags.length; i++) {
 		var tag = tags[i];
-		$("#tag-filter").append($('<li><a href="#">' + tag.name + '</a></li>').data('code', group.tag).data('name', tag.name).click(filter_calls));
+		$("#tag-filter").append($('<li><a href="#">' + tag.name + '</a></li>').data('code', tag.code).data('name', tag.name).click(filter_calls));
 	}
 }
 

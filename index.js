@@ -4,7 +4,7 @@ var probe = require('node-ffprobe');
 
 
 
-probe(track, function(err, probeData) {
+
     var mkdirp = require('mkdirp');
     var app = express(),
       http = require('http'),
@@ -72,7 +72,7 @@ probe(track, function(err, probeData) {
         case 'group-services':
           filter = {
             talkgroup: {
-              $in: [33840, 33872, 33904, 34128, 34192, 34288, 34320, 34352, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 34832, 34864, 35024, 35056, 35088, 35152, 35184, 35216, 35248, 35408, 35440, 35600, 35664, 36880, 37040, 37200, 37232, 37328, 37456, 37488, 37648, 37680, 40080]
+              $in: [33840, 33872, 33904, 34128, 34192, 34288, 34320, 34352, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 34832, 34864, 35024, 35056, 35088, 35152, 35184, 35216, 35248, 35408, 35440, 35600, 35664, 36880, 37040, 37200, 37232, 37328, 37456, 37488, 40080]
             }
           };
           break;
@@ -246,7 +246,7 @@ probe(track, function(err, probeData) {
           var time = new Date(parseInt(result[2]) * 1000);
           var base_path = '/srv/www/robotastic.com/public/media';
           var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
-          mkdirp(base_path + local_path, function(err) {
+          mkdirp.sync(base_path + local_path, function(err) {
             if (err) console.error(err);
           });
           var target_file = base_path + local_path + path.basename(f);
@@ -261,21 +261,27 @@ probe(track, function(err, probeData) {
                 time: time,
                 name: path.basename(f),
                 path: local_path,
-                len: probeData.format.duration,
-                rate: audioProperties.sampleRate
               };
+		if (err) {
+		    console.log("Error with FFProbe: " + err);
+		transItem.len = -1;
+		}
+		else
+		    transItem.len = probeData.format.duration;
               db.collection('transmissions', function(err, transCollection) {
                 transCollection.insert(transItem);
                 console.log("Added: " + f);
+
               });
 
-            });
             io.sockets.emit('calls', {
-              talkgroup: item.talkgroup,
-              filename: item.path + item.name,
-              time: item.time,
-              len: item.len
+              talkgroup: transItem.talkgroup,
+              filename: transItem.path + transItem.name,
+              time: transItem.time,
+              len: transItem.len
             });
+            });
+
           });
 
         }
