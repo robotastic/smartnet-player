@@ -97,10 +97,10 @@ html
           li
             span(class="glyphicon glyphicon-clock")
             p.navbar-text Archive
-            .input-append.date.form_datetime
-              input(size='16', type='text', value='', readonly='readonly')
+            div(id="datetimepicker1" class="input-append date")
+              input(data-format="dd/MM/yyyy hh:mm:ss" type="text")
               span.add-on
-                i.icon-th
+                i(data-time-icon="icon-time" data-date-icon="icon-calendar")
           li
             button(type="button" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")

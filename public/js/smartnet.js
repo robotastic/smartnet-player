@@ -207,7 +207,7 @@ $(document).ready(function() {
 		}
 	});
 	$(function() {
-		$(".form_datetime").datetimepicker({
+		$("#datetimepicker1").datetimepicker({
 			format: "dd MM yyyy - hh:ii",
 			minuteStep: 10,
 			autoclose: true,
