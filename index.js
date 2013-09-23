@@ -101,7 +101,7 @@ app.post('/calls', function(req, res) {
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(filter).count(function(e, count) {
-      transCollection.find(function(err, cursor) {
+	transCollection.find(filter,function(err, cursor) {
         cursor.skip(offset).limit(per_page).each(function(err, item) {
           if (item) {
             call = {
