@@ -2,7 +2,7 @@ html
   head
     link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
     link(href='css/bootstrap.min.css', rel='stylesheet', media='screen')
-    link(type='text/css', href='/css/bootstrap-datetimepicker.min.css', rel='stylesheet')
+    link(type='text/css', href='/css/datetimepicker.css', rel='stylesheet')
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/bootstrap.min.js')
@@ -108,13 +108,13 @@ html
     ul(class="pagination" id="pages")
     .container
 
-      div(class='input-group date' id='datetimepicker1')
-        input.form-control(type="text")
-        span.input-group-add-on
-          span(class="glyphicon glyphicon-calendar")
+      .input-append.date.form_datetime
+        input(size='16', type='text', value='', readonly='readonly')
+        span.add-on
+          i.icon-th
       script(type='text/javascript')
         $(function () {
-          $('#datetimepicker1').datetimepicker();
+          $('.form_datetime').datetimepicker();
         });  
       .page-header
         h1
