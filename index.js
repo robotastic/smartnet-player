@@ -59,7 +59,48 @@ function build_filter(code, start_time) {
   break;
   case 'group-services':
     filter = {talkgroup: { $in: [33840,33872,33904,34128,34192,34288,34320,34352,34384,34416,34448,34480,34512,34576,34608,34672,34800,34832,34864,35024,35056,35088,35152,35184,35216,35248,35408,35440, 35600,35664,36880,37040,37200,37232,37328,37456,37488,37648,37680,40080] } };
-  break;  
+  break;
+  case 'tag-ops':
+    filter = {talkgroup: { $in: [33872,33904 ] } };
+  break;
+  case 'tag-ems-tac':
+    filter = {talkgroup: { $in: [1904,1920 ] } };
+  break;
+  case 'tag-ems-talk':
+    filter = {talkgroup: { $in: [1936 ] } };
+  break;
+  case 'tag-fire-dispatch':
+    filter = {talkgroup: { $in: [1616,40000,40032 ] } };
+  break;
+  case 'tag-fire-tac':
+    filter = {talkgroup: { $in: [1632,1648,1680,1696,1712,1744,1760,1776,1808,1824,1840,1872,1888,1968,2016,2048,2064,2080,2096,2112,2128,2144,2160,2176,2192,2224,2240,2640,2720,2736,2848,2864,2880,9808,9824,9840,9872] } };
+  break;
+  case 'tag-fire-talk':
+    filter = {talkgroup: { $in: [2000,2608,2752] } };
+  break;
+  case 'tag-hospital':
+    filter = {talkgroup: { $in: [2272,2288,2304,2320,2336,2352,2368,2384,2400,2416,2432,2448,2464,2480,2496,2512,36880] } };
+  break;
+  case 'tag-interop':
+    filter = {talkgroup: { $in: [1952,2592,2656,2672,9936,9968,9984,10032,19248,33616,33648,35536,35568,37456,37488,37648,37680,59952,59968,59984,60000] } };
+  break;
+  case 'tag-law-dispatch':
+    filter = {talkgroup: { $in: [16624,35408] } };
+  break;
+  case 'tag-law-tac':
+    filter = {talkgroup: { $in: [35440,37232] } };
+  break;
+  case 'tag-public-works':
+    filter = {talkgroup: { $in: [33584,33840,34288,34320,34384,34416,34448,34480,34512,34576,34608,34672,34800,35024,35056,35088,35184,35216,35248,35600,37040,37200,37328,40080] } };
+  break;
+  case 'tag-security':
+    filter = {talkgroup: { $in: [34128,34192,34352,34832,34864,35152] } };
+  break;
+  case 'tag-transportation':
+    filter = {talkgroup: { $in: [35664] } };
+  break;
+
+
 
  }
 return filter;

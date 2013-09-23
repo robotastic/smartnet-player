@@ -87,7 +87,11 @@ html
                 | Groups
                 b.caret
               ul.dropdown-menu(id="group-filter")
-
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                | Tags
+                b.caret
+              ul.dropdown-menu(id="tag-filter")
           li
             .input-append.date.form_datetime
               input(size='16', type='text', value='', readonly='readonly')
@@ -99,7 +103,9 @@ html
       .page-header
         h1
           span(id="filter-title")
-          small(id="filter-date")
+          small
+          | - 
+            span(id="filter-date")
       
       table.table
         thead
