@@ -1,6 +1,7 @@
 var express = require('express');
 var watch = require('watch');
 var probe = require('node-ffprobe');
+var util = require("util").inspect(obj, {depth:null});
 
 
 
@@ -216,7 +217,7 @@ app.post('/calls', function(req, res) {
   } else {
     sort_order['time'] = 1;
   }
-  console.log("Sort Order: " + sort_order + " start time: "+ start_time + " Filter: " + filter);
+  console.log("Sort Order: " + util.inspect(sort_order) + " start time: "+ start_time + " Filter: " + util.inspect(filter));
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
