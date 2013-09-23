@@ -209,11 +209,13 @@ app.post('/calls', function(req, res) {
   var filter_code = req.body.filter_code;
   var start_time = req.body.start_time;
   var filter = build_filter(filter_code, start_time);
-  var sort_order;
-  if (start_time) {
-    sort_order = {time: 1};
+  var sort_order = {};
+
+  if (start_time!="") {
+    sort_order['time'] = 1;
+    
   } else {
-    sort_order = {time: -1}
+    sort_order['time'] = -1;
   }
 
 
