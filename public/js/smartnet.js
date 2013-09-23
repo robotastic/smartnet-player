@@ -51,7 +51,7 @@ function add_filters() {
 		];
 	for (var i = 0; i < groups.length; i++) {
     	var group = groups[i];
-		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code,'name', group.name).click(filter_calls));
+		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).data('name', group.name).click(filter_calls));
 	}
 }
 
