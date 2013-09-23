@@ -12,8 +12,6 @@ function play_call(filename) {
 }
 
 function print_call_row(call) {
-	path, filename, talkgroup, len
-    data.calls[i].path,data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].data.calls[i].len
 	newdata = $("<td/>");
 	newdata.html(call.talkgroup);
 	newdata.click(function() {
