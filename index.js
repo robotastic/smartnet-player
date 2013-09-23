@@ -207,7 +207,7 @@ app.post('/calls', function(req, res) {
   var per_page = req.body.per_page;
   var offset = req.body.offset;
   var filter_code = req.body.filter_code;
-  var start_time = req.body.start_time;
+  var start_time = req.body.filter_date;
   var filter = build_filter(filter_code, start_time);
   var sort_order = {};
 
