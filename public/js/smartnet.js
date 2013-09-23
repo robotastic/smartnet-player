@@ -206,15 +206,8 @@ $(document).ready(function() {
 			init_table();
 		}
 	});
-	$(function() {
-		$("#datetimepicker1").datetimepicker({
-			format: "dd MM yyyy - hh:ii",
-			minuteStep: 10,
-			autoclose: true,
-			todayBtn: 1,
-			startView: 2,
-			todayHighlight: 1
-		});
-	});
+    $(function () {
+	    $("#datetimepicker1").datetimepicker({});
+    });
 	add_filters();
 });
