@@ -28,8 +28,11 @@ function print_call_row(path, filename, talkgroup, len) {
 }
 
 function filter_calls() {
-	
+	var code = $(this).data("code");
+	filter_code = code;
+	fetch_calls(0);
 }
+
 function add_filters() {
 	var groups =  [  
 			{	name: 'Fire/EMS',
@@ -48,6 +51,7 @@ function add_filters() {
 		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).click(filter_calls));
 	}
 }
+
 function page_click() {
     var page = $(this).data("page");
 
@@ -61,7 +65,8 @@ function fetch_calls(offset) {
 		dataType: "json",
 	    data: JSON.stringify({
 			offset: offset,
-			per_page: per_page
+			per_page: per_page,
+			filter_code: filter_code
 	    }),
 		contentType: "application/json",
 		cache: false,
@@ -136,7 +141,7 @@ function fetch_calls(offset) {
 function init_table() {
 	per_page=20;
 	current_page=1;
-
+	filter_code="";
 	fetch_calls(0);
 
 }
