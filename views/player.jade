@@ -114,7 +114,11 @@ html
           i.icon-th
       script(type='text/javascript')
         $(function () {
-          $('.form_datetime').datetimepicker();
+          $('.form_datetime').datetimepicker({
+            format: "MM dd yyyy - hh:ii",
+            autoclose: true,
+            minuteStep: 10
+          });
         });  
       .page-header
         h1
