@@ -11,19 +11,21 @@ function play_call(filename) {
 	}).jPlayer("play");
 }
 
-function print_call_row(path, filename, talkgroup, len) {
-    
+function print_call_row(call) {
+	path, filename, talkgroup, len
+    data.calls[i].path,data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].data.calls[i].len
 	newdata = $("<td/>");
-	newdata.html(talkgroup);
+	newdata.html(call.talkgroup);
 	newdata.click(function() {
-		play_call(path+filename)
+		play_call(call.filename)
 	});
 	newrow = $("<tr/>");
 	newrow.append(newdata);
-    newrow.append("<td>"+channels[talkgroup].alpha+"</td>");
-    newrow.append("<td>"+channels[talkgroup].desc+"</td>");
-    newrow.append("<td>"+channels[talkgroup].group+"</td>");
-	newrow.append("<td>"+len+"</td>");
+    newrow.append("<td>"+channels[call.talkgroup].alpha+"</td>");
+    newrow.append("<td>"+channels[call.talkgroup].desc+"</td>");
+    newrow.append("<td>"+channels[call.talkgroup].group+"</td>");
+    newrow.append("<td>"+call.time.getHours() + ":" +call.time.getMinutes() + ":" + call.time.getSeconds()+"</td>");
+	newrow.append("<td>"+call.len+"</td>");
 	$("#call_table").prepend(newrow);
 }
 
@@ -83,7 +85,8 @@ function fetch_calls(offset) {
 			    console.log(data.calls.length);
 				for (var i = 0; i < data.calls.length; i++) {
 				    console.log(data.calls[i]);
-					print_call_row(data.calls[i].path,data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].len);
+					print_call_row(data.calls[i]);
+						
 				}
 			}
 			if (typeof data.offset !== "undefined") {
@@ -160,7 +163,11 @@ $(document).ready(function() {
     $(".form_datetime").datetimepicker({
         format: "dd MM yyyy - hh:ii",
         minuteStep: 10,
-        autoclose: true
+        autoclose: true,
+        todayBtn:  1,
+        startView: 2,
+        todayHighlight: 1
     });
+
     add_filters();
 });

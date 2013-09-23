@@ -106,7 +106,9 @@ app.post('/calls', function(req, res) {
           if (item) {
             call = {
               talkgroup: item.talkgroup,
-              filename: item.name
+              filename: item.path + item.name,
+              time: item.time,
+              len: item.len
             };
             calls.push(call);
           } else {
@@ -159,8 +161,10 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
         });
         io.sockets.emit('calls', {
-          filename: path.basename(f),
-          talkgroup: tg
+          talkgroup: item.talkgroup,
+          filename: item.path + item.name,
+          time: item.time,
+          len: item.len
         });
   //    });
 

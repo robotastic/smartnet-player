@@ -1,12 +1,10 @@
 html
   head
     link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
-    link(type='text/css', href='/css/bootstrap-select.min.css', rel='stylesheet')
     link(type='text/css', href='/css/datetimepicker.css', rel='stylesheet')
     script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/bootstrap-datetimepicker.min.js')
-    script(type='text/javascript', src='/js/bootstrap-select.min.js')
     script(type='text/javascript', src='/js/smartnet.js')
     script(type='text/javascript', src="/socket.io/socket.io.js")
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -25,11 +23,11 @@ html
 
       if (typeof data.calls !== "undefined")	{
         for (var i = 0; i < data.calls.length; i++) {
-          print_call_row(data.calls[i].path, data.calls[i].filename, data.calls[i].talkgroup,data.calls[i].len);
+          print_call_row(data.calls[i]);
         }			
       }	
       if (typeof data.talkgroup !== "undefined") {
-        print_call_row(data.path,data.filename, data.talkgroup, data.len);													
+        print_call_row(data);													
       } 
 
       });
@@ -95,7 +93,7 @@ html
               input(size='16', type='text', value='', readonly='readonly')
               span.add-on
                 i.icon-th
-    
+
     ul(class="pagination" id="pages")
     .container
       .starter-template
