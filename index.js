@@ -216,7 +216,7 @@ app.post('/calls', function(req, res) {
   } else {
     sort_order['time'] = 1;
   }
-
+  console.log("Sort Order: " + sort_order + " start time: "+ start_time + " Filter: " + filter);
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
