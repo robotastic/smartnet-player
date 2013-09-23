@@ -97,10 +97,7 @@ html
           li
             span(class="glyphicon glyphicon-clock")
             p.navbar-text Archive
-            div(id="datetimepicker1" class="input-append date")
-              input(data-format="dd/MM/yyyy hh:mm:ss" type="text")
-              span.add-on
-                i(data-time-icon="icon-time" data-date-icon="icon-calendar")
+            
           li
             button(type="button" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")
@@ -108,6 +105,10 @@ html
 
     ul(class="pagination" id="pages")
     .container
+      div(id="datetimepicker1" class="input-append date")
+              input(data-format="dd/MM/yyyy hh:mm:ss" type="text")
+              span.add-on
+                i(data-time-icon="icon-time" data-date-icon="icon-calendar")
       .page-header
         h1
           span(id="filter-title")
