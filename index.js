@@ -209,12 +209,19 @@ app.post('/calls', function(req, res) {
   var filter_code = req.body.filter_code;
   var start_time = req.body.start_time;
   var filter = build_filter(filter_code, start_time);
+  var sort_order;
+  if (start_time) {
+    sort_order = {time: 1};
+  } else {
+    sort_order = {time: -1}
+  }
+
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(filter).count(function(e, count) {
       transCollection.find(filter, function(err, cursor) {
-        cursor.skip(offset).sort({time: -1}).limit(per_page).each(function(err, item) {
+        cursor.skip(offset*per_page).sort(sort_order).limit(per_page).each(function(err, item) {
           if (item) {
             call = {
               talkgroup: item.talkgroup,
