@@ -18,33 +18,9 @@ html
       script(src="../../assets/js/html5shiv.js")
       script(src="../../assets/js/respond.min.js")
 
-    script(type='text/javascript')
-      var socket = io.connect('http://robotastic.com');	
 
-      socket.on('calls', function (data) {
 
-      if (typeof data.calls !== "undefined")	{
-        for (var i = 0; i < data.calls.length; i++) {
-          print_call_row(data.calls[i]);
-        }			
-      }	
-      if (typeof data.talkgroup !== "undefined") {
-        print_call_row(data);													
-      } 
 
-      });
-
-      $(document).ready(function(){
-      $("#jquery_jplayer_1").jPlayer({
-      ready: function () {
-      $(this).jPlayer("setMedia", {
-      mp3: "http://robotastic.com/media/40000-1378688764.mp3"
-      });
-      },
-      swfPath: "/js",
-      supplied: "mp3"
-      });
-      });
   body
     .navbar.navbar-inverse.navbar-fixed-top
       .container
@@ -101,7 +77,7 @@ html
               span(class="glyphicon glyphicon-clock")
               p.navbar-text Archive
           li
-            button(type="button" class="btn btn-default navbar-btn")
+            button(type="button" id="live-btn" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")
               | Live
 
@@ -109,17 +85,11 @@ html
     .container
 
       .input-append.date.form_datetime
-        input(size='16', type='text', value='', readonly='readonly')
+        input(id="filter-date" size='16', type='text', value='', readonly='readonly')
         span.add-on
           i.icon-th
-      script(type='text/javascript')
-        $(function () {
-          $('.form_datetime').datetimepicker({
-            format: "MM dd yyyy - hh:ii",
-            autoclose: true,
-            minuteStep: 10
-          });
-        });  
+      
+          
       .page-header
         h1
           span(id="filter-title")

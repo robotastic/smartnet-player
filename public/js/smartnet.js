@@ -3,6 +3,8 @@ var channels;
 var current_page;
 var per_page;
 var filter_code;
+var filter_date;
+var socket;
 
 function play_call(filename) {
 	console.log("trying to play: " + filename);
@@ -111,7 +113,8 @@ function fetch_calls(offset) {
 		data: JSON.stringify({
 			offset: offset,
 			per_page: per_page,
-			filter_code: filter_code
+			filter_code: filter_code,
+			filter_date: filter_date
 		}),
 		contentType: "application/json",
 		cache: false,
@@ -195,7 +198,39 @@ function init_table() {
 	fetch_calls(0);
 
 }
+
+function socket_connect() {
+
+	if (!socket) {
+		console.log('func socket_connect');
+		socket = io.connect('http://robotastic.com');
+		socket.on('calls', function(data) {
+
+			if (typeof data.calls !== "undefined") {
+				for (var i = 0; i < data.calls.length; i++) {
+					print_call_row(data.calls[i]);
+				}
+			}
+			if (typeof data.talkgroup !== "undefined") {
+				print_call_row(data);
+			}
+
+		});
+	} else {
+		console.log('func socket_reconnect');
+		socket.socket.reconnect();
+	}
+}
+
+function socket_disconnect() {
+	console.log('func socket_disconnect');
+	if (socket) socket.disconnect();
+}
+
 $(document).ready(function() {
+
+
+
 	$.ajax({
 		url: "/channels",
 		type: "GET",
@@ -206,8 +241,33 @@ $(document).ready(function() {
 			init_table();
 		}
 	});
-    $(function () {
-	    $("#datetimepicker1").datetimepicker({});
-    });
+	$(function() {
+		$('.form_datetime').datetimepicker({
+			format: "MM dd yyyy - hh:ii",
+			autoclose: true,
+			minuteStep: 10,
+			showMeridian: true
+		}).on('changeDate', function(ev) {
+			socket_disconnect();
+			console.log(ev.date);
+			console.log(Date($('#filter-date').val));
+			filter_date = ev.date;
+			fetch_calls(0);
+		});
+	});
+	$("#jquery_jplayer_1").jPlayer({
+		ready: function() {
+			$(this).jPlayer("setMedia", {
+				mp3: "http://robotastic.com/media/40000-1378688764.mp3"
+			});
+		},
+		swfPath: "/js",
+		supplied: "mp3"
+	});
+	$('#live-btn').on('click', function (e) {
+		socket_connect();
+     	filter_date = null;
+     	fetch_calls(0);
+	});
 	add_filters();
 });
