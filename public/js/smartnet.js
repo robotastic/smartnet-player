@@ -249,8 +249,8 @@ $(document).ready(function() {
 			showMeridian: true
 		}).on('changeDate', function(ev) {
 			socket_disconnect();
-			console.log(ev.date);
-			console.log(Date($('#filter-date').val));
+			
+			
 			filter_date = ev.date;
 			fetch_calls(0);
 		});
