@@ -28,7 +28,13 @@ function compile(str, path) {
     .use(nib())
 }
 
-fs.readdir('/home/luke/smartnet-upload', function(err, f) {
+var source_path = '/home/luke/smartnet-upload';
+fs.readdir(source_path, function(err, file) {
+      files.map(function (file) {
+        return path.join(source_path, file);
+    }).filter(function (file) {
+        return fs.statSync(file).isFile();
+    }).forEach(function (f) {
   if (err) throw err;
   if ((path.extname(f) == '.mp3')) {
     var name = path.basename(f, '.mp3');
@@ -67,4 +73,5 @@ fs.readdir('/home/luke/smartnet-upload', function(err, f) {
       });
 
   }
+});
 });
