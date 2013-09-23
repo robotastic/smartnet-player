@@ -12,17 +12,18 @@ function play_call(filename) {
 }
 
 function print_call_row(call) {
-	newdata = $("<td/>");
+	var newdata = $("<td/>");
 	newdata.html(call.talkgroup);
 	newdata.click(function() {
 		play_call(call.filename)
 	});
-	newrow = $("<tr/>");
+	var time = new Date(call.time);
+	var newrow = $("<tr/>");
 	newrow.append(newdata);
     newrow.append("<td>"+channels[call.talkgroup].alpha+"</td>");
     newrow.append("<td>"+channels[call.talkgroup].desc+"</td>");
     newrow.append("<td>"+channels[call.talkgroup].group+"</td>");
-    newrow.append("<td>"+call.time.getHours() + ":" +call.time.getMinutes() + ":" + call.time.getSeconds()+"</td>");
+    newrow.append("<td>"+ time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()+"</td>");
 	newrow.append("<td>"+call.len+"</td>");
 	$("#call_table").prepend(newrow);
 }
