@@ -212,9 +212,9 @@ app.post('/calls', function(req, res) {
   var sort_order = {};
 
   if (start_time==null) {
-    sort_order['time'] = 1;
-  } else {
     sort_order['time'] = -1;
+  } else {
+    sort_order['time'] = 1;
   }
 
 
