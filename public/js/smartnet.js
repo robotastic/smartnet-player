@@ -30,6 +30,8 @@ function print_call_row(call) {
 
 function filter_calls() {
 	var code = $(this).data("code");
+	var name = $(this).data("name");
+	$('#filter-title').html(name);
 	filter_code = code;
 	fetch_calls(0);
 }
@@ -49,7 +51,7 @@ function add_filters() {
 		];
 	for (var i = 0; i < groups.length; i++) {
     	var group = groups[i];
-		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).click(filter_calls));
+		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code,'name', group.name).click(filter_calls));
 	}
 }
 
@@ -82,6 +84,8 @@ function fetch_calls(offset) {
 		    $("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
 			    console.log(data.calls.length);
+			    var time = new Date(data.calls[0].time);
+			    $('#filter-date').html(time.toDateString());
 				for (var i = 0; i < data.calls.length; i++) {
 				    console.log(data.calls[i]);
 					print_call_row(data.calls[i]);
@@ -145,6 +149,7 @@ function init_table() {
 	per_page=20;
 	current_page=1;
 	filter_code="";
+	$('#filter-title').html("All");
 	fetch_calls(0);
 
 }
