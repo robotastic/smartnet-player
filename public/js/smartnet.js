@@ -60,7 +60,7 @@ function add_filters() {
 		name: 'Fire Dispatch',
 		code: 'tag-fire-dispatch'
 	}, {
-	    name: 'Fire-Tac',
+		name: 'Fire-Tac',
 		code: 'tag-fire-tac'
 	}, {
 		name: 'Fire-Talk',
@@ -206,14 +206,15 @@ $(document).ready(function() {
 			init_table();
 		}
 	});
-	$(".form_datetime").datetimepicker({
-		format: "dd MM yyyy - hh:ii",
-		minuteStep: 10,
-		autoclose: true,
-		todayBtn: 1,
-		startView: 2,
-		todayHighlight: 1
+	$(function() {
+		$(".form_datetime").datetimepicker({
+			format: "dd MM yyyy - hh:ii",
+			minuteStep: 10,
+			autoclose: true,
+			todayBtn: 1,
+			startView: 2,
+			todayHighlight: 1
+		});
 	});
-
 	add_filters();
 });

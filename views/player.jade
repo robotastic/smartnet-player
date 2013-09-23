@@ -78,7 +78,9 @@ html
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand(href='#') Brand
+        span.navbar-brand
+          span(class="glyphicon glyphicon-filter">)
+          Filter
       .collapse.navbar-collapse.navbar-ex1-collapse
         
         ul.nav.navbar-nav
@@ -93,10 +95,16 @@ html
                 b.caret
               ul.dropdown-menu(id="tag-filter")
           li
+            span(class="glyphicon glyphicon-clock">)
+            span Archive
             .input-append.date.form_datetime
               input(size='16', type='text', value='', readonly='readonly')
               span.add-on
                 i.icon-th
+          li
+            button(type="button" class="btn btn-default btn-lg")
+              span(class="glyphicon glyphicon-headphones">)
+              Live
 
     ul(class="pagination" id="pages")
     .container
