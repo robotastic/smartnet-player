@@ -80,7 +80,7 @@ html
           span.icon-bar
         span.navbar-brand
           span(class="glyphicon glyphicon-filter")
-          Filter
+          | Filter
       .collapse.navbar-collapse.navbar-ex1-collapse
         
         ul.nav.navbar-nav
@@ -96,15 +96,15 @@ html
               ul.dropdown-menu(id="tag-filter")
           li
             span(class="glyphicon glyphicon-clock")
-            span Archive
+            p.navbar-text Archive
             .input-append.date.form_datetime
               input(size='16', type='text', value='', readonly='readonly')
               span.add-on
                 i.icon-th
           li
-            button(type="button" class="btn btn-default btn-lg")
+            button(type="button" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")
-              Live
+              | Live
 
     ul(class="pagination" id="pages")
     .container
