@@ -78,6 +78,7 @@ function fetch_calls(offset) {
 
 		success: function(data) {
 		    console.log(data);
+		    $("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
 			    console.log(data.calls.length);
 				for (var i = 0; i < data.calls.length; i++) {
