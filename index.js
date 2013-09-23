@@ -1,7 +1,7 @@
 var express = require('express');
 var watch = require('watch');
 var probe = require('node-ffprobe');
-var util = require("util").inspect(obj, {depth:null});
+var util = require("util");
 
 
 
