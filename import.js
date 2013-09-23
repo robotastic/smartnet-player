@@ -1,8 +1,7 @@
 var mkdirp = require('mkdirp');
 var probe = require('node-ffprobe');
-var app = express(),
-  http = require('http'),
-  server = http.createServer(app);
+
+
 
 var fs = require('fs');
 var path = require('path');
@@ -27,9 +26,14 @@ function compile(str, path) {
     .set('filename', path)
     .use(nib())
 }
-
-fs.readdir('/home/luke/smartnet-upload', function(err, f) {
+var source_path = '/home/luke/smartnet-upload';
+fs.readdir(source_path, function(err, files) {
   if (err) throw err;
+    files.map(function (file) {
+        return path.join(source_path, file);
+    }).filter(function (file) {
+        return fs.statSync(file).isFile();
+    }).forEach(function (f) {
   if ((path.extname(f) == '.mp3')) {
     var name = path.basename(f, '.mp3');
     var regex = /([0-9]*)-([0-9]*)/
@@ -38,10 +42,14 @@ fs.readdir('/home/luke/smartnet-upload', function(err, f) {
     var time = new Date(parseInt(result[2]) * 1000);
     var base_path = '/srv/www/robotastic.com/public/media';
     var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
-    mkdirp(base_path + local_path, function(err) {
-      if (err) console.error(err);
+      var target_path = base_path + local_path;
+      console.log("Target Path: " + target_path);
+      
+    mkdirp.sync(base_path + local_path, function(err) {
+      if (err) console.log(err);
     });
     var target_file = base_path + local_path + path.basename(f);
+      console.log("Target File: " + target_file + " Source: " + f);
     fs.rename(f, target_file, function(err) {
       if (err)
         throw err;
@@ -67,4 +75,5 @@ fs.readdir('/home/luke/smartnet-upload', function(err, f) {
       });
 
   }
+    });
 });
