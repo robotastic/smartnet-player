@@ -211,9 +211,8 @@ app.post('/calls', function(req, res) {
   var filter = build_filter(filter_code, start_time);
   var sort_order = {};
 
-  if (start_time!="") {
+  if (start_time==null) {
     sort_order['time'] = 1;
-    
   } else {
     sort_order['time'] = -1;
   }
