@@ -111,6 +111,12 @@ function page_click() {
 }
 
 function fetch_calls(offset) {
+
+	if (filter_date!="") {
+		var date_string = filter_date.toDateString() + " " + filter_date.toLocaleTimeString();		
+	} else {
+		var date_string = null;
+	}
 	$.ajax({
 		url: "/calls",
 		type: "POST",
@@ -119,7 +125,7 @@ function fetch_calls(offset) {
 			offset: offset,
 			per_page: per_page,
 			filter_code: filter_code,
-			filter_date: filter_date
+			filter_date: date_string
 		}),
 		contentType: "application/json",
 		cache: false,
@@ -210,7 +216,7 @@ function socket_connect() {
 		console.log('func socket_connect');
 		socket = io.connect('http://robotastic.com');
 		socket.on('calls', function(data) {
-
+			console.log("Socket.io - Recv: " + data);
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
 					print_call_row(data.calls[i]);
@@ -271,7 +277,7 @@ $(document).ready(function() {
 	});
 	$('#live-btn').on('click', function (e) {
 		socket_connect();
-     	filter_date = null;
+     	filter_date = "";
      	fetch_calls(0);
 	});
 	add_filters();
