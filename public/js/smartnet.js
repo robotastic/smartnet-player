@@ -202,6 +202,7 @@ function init_table() {
 	per_page = 20;
 	current_page = 1;
 	filter_code = "";
+	filter_date = "";
 	$('#filter-title').html("All");
 	fetch_calls(0);
 
