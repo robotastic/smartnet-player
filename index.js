@@ -173,6 +173,7 @@ function build_filter(code, start_time) {
   }
   if (start_time) {
     var start = new Date(start_time);
+
     filter.time = {$gte:start};
   }
   return filter;
