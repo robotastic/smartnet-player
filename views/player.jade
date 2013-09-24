@@ -38,17 +38,7 @@ html
               a(href='#about') About
             li
               a(href='#contact') Contact
-          span(id='jp_container_1' class="pull-right")
-            span.btn-group
-              button( type="button", class="btn btn-default navbar-btn")
-                span(class="glyphicon glyphicon-play jp-play")
-              button( type="button", class="btn btn-default navbar-btn")
-                span(class="glyphicon glyphicon-stop jp-stop")
-            p(class="navbar-text")
-              span.jp-time-holder
-                span.jp-current-time 
-                / 
-                span.jp-duration
+
     nav(class="navbar navbar-default" role="navigation")
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
@@ -73,7 +63,7 @@ html
                 b.caret
               ul.dropdown-menu(id="tag-filter")
 
-        ul.nav.navbar-nav.navbar-right
+        ul.nav.navbar-nav.navbar-left
           li.btn-group
             button(type="button" id="filter-data" class="form_datetime btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-calendar")
@@ -81,11 +71,23 @@ html
             button(type="button" id="live-btn" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")
               | Live
-    ul(class="pagination" id="pages")
+        span(id='jp_container_1' class="pull-right")
+          span.btn-group
+            button( type="button", class="btn btn-default navbar-btn")
+              span(class="glyphicon glyphicon-play jp-play")
+            button( type="button", class="btn btn-default navbar-btn")
+              span(class="glyphicon glyphicon-stop jp-stop")
+          p(class="navbar-text")
+            span.jp-time-holder
+              span.jp-current-time 
+              / 
+              span.jp-duration
+    
     .container
 
-      
-      .page-header
+      .pull-right
+        ul(class="pagination" id="pages")
+      .page-header.pull-left
         h1
           span(id="filter-title")
           small

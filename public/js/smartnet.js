@@ -148,13 +148,9 @@ function fetch_calls(offset) {
 			console.log(data);
 			$("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
-				console.log(data.calls.length);
-				var time = new Date(data.calls[0].time);
-				$('#filter-date').html(time.toDateString());
 				for (var i = 0; i < data.calls.length; i++) {
 					console.log(data.calls[i]);
 					print_call_row(data.calls[i], false);
-
 				}
 			}
 			if (typeof data.offset !== "undefined") {
@@ -272,6 +268,7 @@ $(document).ready(function() {
 			socket_disconnect();
 			
 			
+			$('#filter-date').html(ev.date.toDateString());
 			filter_date = ev.date;
 			fetch_calls(0);
 		});
@@ -288,6 +285,7 @@ $(document).ready(function() {
 	$('#live-btn').on('click', function (e) {
 		socket_connect();
      	filter_date = "";
+     	$('#filter-date').html("Live");
      	fetch_calls(0);
 	});
 	add_filters();
