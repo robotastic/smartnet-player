@@ -269,7 +269,8 @@ $(document).ready(function() {
 			
 			
 			$('#filter-date').html(ev.date.toDateString());
-			filter_date = ev.date;
+			var userOffset = ev.date.getTimezoneOffset()*60000
+			filter_date = new Date(ev.date.getTime() + userOffset);
 			fetch_calls(0);
 		});
 	});

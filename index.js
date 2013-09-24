@@ -231,7 +231,7 @@ app.post('/calls', function(req, res) {
               talkgroup: item.talkgroup,
               filename: item.path + item.name,
               time: item.time,
-              len: item.len
+              len: Math.round(item.len)+'s'
             };
             calls.push(call);
           } else {
@@ -292,7 +292,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             talkgroup: transItem.talkgroup,
             filename: transItem.path + transItem.name,
             time: transItem.time,
-            len: transItem.len
+            len: Math.round(transItem.len)+'s'
           });
         });
 
