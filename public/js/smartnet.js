@@ -27,11 +27,9 @@ function print_call_row(call) {
 	newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
 	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
-	if (filter_date){
-		$("#call_table").append(newrow);
-	} else {
+
 		$("#call_table").prepend(newrow);
-	}
+	
 }
 
 function filter_calls() {

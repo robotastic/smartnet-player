@@ -76,15 +76,20 @@ html
             .form-group
               span(class="glyphicon glyphicon-clock")
               p.navbar-text Archive
+          
+        form.navbar-form.navbar-left
+          .input-group.input-append.date.form_datetime
+            input.form-control(type='text', id="filter-date" size='16',readonly='readonly')
+          span.input-group-addon.glyphicon.glyphicon-calendar
+        ul.nav.navbar-nav
           li
             button(type="button" id="live-btn" class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-headphones")
               | Live
-
     ul(class="pagination" id="pages")
     .container
 
-      .input-append.date.form_datetime
+      
         input(id="filter-date" size='16', type='text', value='', readonly='readonly')
         span.add-on
           i.icon-th
