@@ -173,7 +173,8 @@ function build_filter(code, start_time) {
   }
   if (start_time) {
     var start = new Date(start_time);
-    filter.time = {$gte:start};
+      var corrected = new Date(start.getFullYear(), start.getMonth()+1, start.getDate()+1, start.getHours(), start.getMinutes());
+    filter.time = {$gte:corrected};
   }
   return filter;
 
