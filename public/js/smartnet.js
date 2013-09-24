@@ -25,9 +25,15 @@ function print_call_row(call, live) {
 		newrow.addClass("live-call");
 	}
 	newrow.append(newdata);
+	if (typeof channels[call.talkgroup] == 'undefined') {
+		newrow.append("<td>" + call.talkgroup + "</td>");
+		newrow.append("<td>Uknown</td>");
+		newrow.append("<td>Uknown</td>");
+	} else {
 	newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
 	newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 	newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
+}
 	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
     if(live) {
