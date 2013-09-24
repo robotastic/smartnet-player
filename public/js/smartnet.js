@@ -13,7 +13,7 @@ function play_call(filename) {
 	}).jPlayer("play");
 }
 
-function print_call_row(call) {
+function print_call_row(call, live) {
 	var newdata = $("<td/>");
 	newdata.html(call.talkgroup);
 	newdata.click(function() {
@@ -21,14 +21,17 @@ function print_call_row(call) {
 	});
 	var time = new Date(call.time);
 	var newrow = $("<tr/>");
+	if(live) {
+		newrow.addClass("live-call");
+	}
 	newrow.append(newdata);
 	newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
 	newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 	newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
 	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
-    if(filter_date != null) {
-		$("#call_table").append(newrow);
+    if(live) {
+		$("#call_table").prepend(newrow);
     } else {
 
 		$("#call_table").append(newrow);
@@ -144,7 +147,7 @@ function fetch_calls(offset) {
 				$('#filter-date').html(time.toDateString());
 				for (var i = 0; i < data.calls.length; i++) {
 					console.log(data.calls[i]);
-					print_call_row(data.calls[i]);
+					print_call_row(data.calls[i], false);
 
 				}
 			}
@@ -220,11 +223,11 @@ function socket_connect() {
 			console.log("Socket.io - Recv: " + data);
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
-					print_call_row(data.calls[i]);
+					print_call_row(data.calls[i], true);
 				}
 			}
 			if (typeof data.talkgroup !== "undefined") {
-				print_call_row(data);
+				print_call_row(data, true);
 			}
 
 		});

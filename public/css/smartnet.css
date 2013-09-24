@@ -5,3 +5,8 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+.live-call {
+	font-weight: bold;
+	color: red;
+}
