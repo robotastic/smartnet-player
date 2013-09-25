@@ -37,8 +37,8 @@ fs.readdir(source_path, function(err, files) {
   }).filter(function(file) {
     return fs.statSync(file).isFile();
   }).forEach(function(f) {
-//    if ((path.extname(f) == '.mp3')) {
-//      var name = path.basename(f, '.mp3');
+    //    if ((path.extname(f) == '.mp3')) {
+    //      var name = path.basename(f, '.mp3');
     if ((path.extname(f) == '.wav')) {
       var name = path.basename(f, '.wav');
       var regex = /([0-9]*)-([0-9]*)/
@@ -55,53 +55,49 @@ fs.readdir(source_path, function(err, files) {
       });
       var target_file = base_path + local_path + path.basename(f);
       console.log("Target File: " + target_file + " Source: " + f);
-      fs.renameSync(f, target_file, function(err) {
-        if (err)
-          throw err;
-        console.log('Moved: ' + f);
-        var input = fs.createReadStream(target_file);
-        input.pipe(reader);
-        reader.once('readable', function () {
+      fs.renameSync(f, target_file);
+      console.log('Moved: ' + f);
+      var input = fs.createReadStream(target_file);
+      input.pipe(reader);
+      reader.once('readable', function() {
         //probe(target_file, function(err, probeData) {
 
-  console.log('WaveHeader Size:\t%d',  12);
-  console.log('ChunkHeader Size:\t%d', 8);
-  console.log('FormatChunk Size:\t%d', reader.subchunk1Size);
-  console.log('RIFF ID:\t%s',          reader.riffId);
-  console.log('Total Size:\t%d',       reader.chunkSize);
-  console.log('Wave ID:\t%s',          reader.waveId);
-  console.log('Chunk ID:\t%s',         reader.chunkId);
-  console.log('Chunk Size:\t%d',       reader.subchunk1Size);
-  console.log('Compression format is of type: %d', reader.audioFormat);
-  console.log('Channels:\t%d',         reader.channels);
-  console.log('Sample Rate:\t%d',      reader.sampleRate);
-  console.log('Bytes / Sec:\t%d',      reader.byteRate);
-  console.log('wBlockAlign:\t%d',      reader.blockAlign);
-  console.log('Bits Per Sample Point:\t%d', reader.bitDepth);
-  // TODO: this should end up being "44" or whatever the total length of the WAV
-  //       header is. maybe emit "format" at this point rather than earlier???
-  console.log('wavDataPtr: %d',       0);
-  console.log('wavDataSize: %d',      reader.subchunk2Size);
-  console.log('Lenght: %d', reader.chunkSize / reader.byteRate);
-          transItem = {
-            talkgroup: tg,
-            time: time,
-            name: path.basename(f),
-            path: local_path
-          };
-          transItem.len = reader.chunkSize / reader.byteRate;
-          /*
+        console.log('WaveHeader Size:\t%d', 12);
+        console.log('ChunkHeader Size:\t%d', 8);
+        console.log('FormatChunk Size:\t%d', reader.subchunk1Size);
+        console.log('RIFF ID:\t%s', reader.riffId);
+        console.log('Total Size:\t%d', reader.chunkSize);
+        console.log('Wave ID:\t%s', reader.waveId);
+        console.log('Chunk ID:\t%s', reader.chunkId);
+        console.log('Chunk Size:\t%d', reader.subchunk1Size);
+        console.log('Compression format is of type: %d', reader.audioFormat);
+        console.log('Channels:\t%d', reader.channels);
+        console.log('Sample Rate:\t%d', reader.sampleRate);
+        console.log('Bytes / Sec:\t%d', reader.byteRate);
+        console.log('wBlockAlign:\t%d', reader.blockAlign);
+        console.log('Bits Per Sample Point:\t%d', reader.bitDepth);
+        // TODO: this should end up being "44" or whatever the total length of the WAV
+        //       header is. maybe emit "format" at this point rather than earlier???
+        console.log('wavDataPtr: %d', 0);
+        console.log('wavDataSize: %d', reader.subchunk2Size);
+        console.log('Lenght: %d', reader.chunkSize / reader.byteRate);
+        transItem = {
+          talkgroup: tg,
+          time: time,
+          name: path.basename(f),
+          path: local_path
+        };
+        transItem.len = reader.chunkSize / reader.byteRate;
+        /*
           if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
           }*/
-          db.collection('transmissions', function(err, transCollection) {
-            transCollection.insert(transItem);
-            console.log("Added: " + f);
-          });
-
+        db.collection('transmissions', function(err, transCollection) {
+          transCollection.insert(transItem);
+          console.log("Added: " + f);
         });
 
       });
