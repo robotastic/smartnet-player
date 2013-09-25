@@ -299,9 +299,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        var input = fs.createReadStream(target_file);
+        /*var input = fs.createReadStream(target_file);
         input.pipe(reader);
-        reader.once('readable', function () {
+        reader.once('readable', function () {*/
         //probe(target_file, function(err, probeData) {
 
           transItem = {
@@ -310,7 +310,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             name: path.basename(f),
             path: local_path,
           };
-          transItem.len = reader.chunkSize / reader.byteRate;
+          transItem.len = 1;//reader.chunkSize / reader.byteRate;
           /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
@@ -339,7 +339,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           });*/
         });
 
-      });
+      //});
 
     }
   });
