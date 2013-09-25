@@ -25,6 +25,7 @@ var db;
 var channels = {};
 var clients = [];
 
+
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
@@ -325,7 +326,7 @@ io.sockets.on('connection', function(socket) {
         clients.splice(clients.indexOf(client), 1);
         console.log(socket.id + ' disconnected');
         //remove user from db
-    }
+    });
     socket.on('code', function (data) {
       console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
       var index = clients.indexOf(client);
