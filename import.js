@@ -16,20 +16,23 @@ var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NO
 var scanner = new Db('scanner', new Server(host, port, {}));
 var db;
 var channels = {};
-
-scanner.open(function(err, scannerDb) {
-  db = scannerDb;
-  scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
-});
-
 function compile(str, path) {
   return stylus(str)
     .set('filename', path)
     .use(nib())
 }
 
+
+
+
 var reader = new wav.Reader();
 var source_path = '/home/luke/smartnet-upload';
+
+scanner.open(function(err, scannerDb) {
+  db = scannerDb;
+  scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
+
+
 fs.readdir(source_path, function(err, files) {
   if (err) throw err;
   files.map(function(file) {
@@ -57,12 +60,12 @@ fs.readdir(source_path, function(err, files) {
       console.log("Target File: " + target_file + " Source: " + f);
       fs.renameSync(f, target_file);
       console.log('Moved: ' + f);
-      var input = fs.createReadStream(target_file);
-      input.pipe(reader);
-      reader.once('readable', function() {
+ //     var input = fs.createReadStream(target_file);
+ //     input.pipe(reader);
+//      reader.once('readable', function() {
         //probe(target_file, function(err, probeData) {
 
-        console.log('WaveHeader Size:\t%d', 12);
+   /*     console.log('WaveHeader Size:\t%d', 12);
         console.log('ChunkHeader Size:\t%d', 8);
         console.log('FormatChunk Size:\t%d', reader.subchunk1Size);
         console.log('RIFF ID:\t%s', reader.riffId);
@@ -81,13 +84,13 @@ fs.readdir(source_path, function(err, files) {
         console.log('wavDataPtr: %d', 0);
         console.log('wavDataSize: %d', reader.subchunk2Size);
         console.log('Lenght: %d', reader.chunkSize / reader.byteRate);
-        transItem = {
+     */   transItem = {
           talkgroup: tg,
           time: time,
           name: path.basename(f),
           path: local_path
         };
-        transItem.len = reader.chunkSize / reader.byteRate;
+        transItem.len = 1;//reader.chunkSize / reader.byteRate;
         /*
           if (err) {
             console.log("Error with FFProbe: " + err);
@@ -98,7 +101,7 @@ fs.readdir(source_path, function(err, files) {
         db.collection('transmissions', function(err, transCollection) {
           transCollection.insert(transItem);
           console.log("Added: " + f);
-        });
+//        });
 
       });
 
@@ -106,4 +109,5 @@ fs.readdir(source_path, function(err, files) {
 
   });
 
+});
 });
