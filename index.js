@@ -2,7 +2,7 @@ var express = require('express');
 var watch = require('watch');
 var probe = require('node-ffprobe');
 var util = require("util");
-
+var wav = require('wav');
 
 
 var mkdirp = require('mkdirp');
@@ -23,6 +23,7 @@ var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NO
 var scanner = new Db('scanner', new Server(host, port, {}));
 var db;
 var channels = {};
+var clients = [];
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
@@ -250,10 +251,15 @@ app.post('/calls', function(req, res) {
 });
 
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
-  monitor.files['*.mp3'];
+  //monitor.files['*.mp3'];
+  monitor.files['*.wav'];
+  var reader = new wav.Reader();
+  
   monitor.on("created", function(f, stat) {
-    if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.mp3');
+    /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.mp3');*/
+    if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.wav');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
@@ -268,7 +274,10 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        probe(target_file, function(err, probeData) {
+        var input = fs.createReadStream(target_file);
+        input.pipe(reader);
+        reader.once('readable', function () {
+        //probe(target_file, function(err, probeData) {
 
           transItem = {
             talkgroup: tg,
@@ -276,12 +285,13 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             name: path.basename(f),
             path: local_path,
           };
-          if (err) {
+          transItem.len = reader.chunkSize / reader.byteRate;
+          /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
-          }
+          }*/
           db.collection('transmissions', function(err, transCollection) {
             transCollection.insert(transItem);
             console.log("Added: " + f);
@@ -302,9 +312,26 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
+
 io.sockets.on('connection', function(socket) {
+    var client = {
+      id: socket.id,
+      filter-code: null
+    };
+    console.log("Client Joined: " + socket.id );
+    clients.push(client);
 
-  console.log("Client Joined: " + socket.id);
-
+    socket.on('disconnect', function() { 
+        clients.splice(clients.indexOf(client), 1);
+        console.log(socket.id + ' disconnected');
+        //remove user from db
+    }
+    socket.on('filter-code', function (data) {
+      console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
+      var index = clients.indexOf(client);
+      clients[index].filter-code = data.filter-code;
+      console.log("Clients: " + util.inspect(clients));
+    });
+    socket.emit('ready', { });
 });
 server.listen(3004);

@@ -5,11 +5,13 @@ var per_page;
 var filter_code;
 var filter_date;
 var socket;
+var live = false;
+
 
 function play_call(filename) {
 	console.log("trying to play: " + filename);
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
-		mp3: "/media" + filename
+		wav: "/media" + filename
 	}).jPlayer("play");
 }
 
@@ -50,6 +52,9 @@ function filter_calls() {
 	$('#filter-title').html(name);
 	filter_code = code;
 	fetch_calls(0);
+	if (live) {
+		socket.emit('filter-code', { filter-code: filter-code });
+	}
 }
 
 function add_filters() {
@@ -233,6 +238,10 @@ function socket_connect() {
 			}
 
 		});
+		socket.on('ready', function (data) {
+    		console.log("Ready: " + data);
+    		socket.emit('filter-code', { filter-code: filter-code });
+  		});
 	} else {
 		console.log('func socket_reconnect');
 		socket.socket.reconnect();
@@ -272,22 +281,22 @@ $(document).ready(function() {
 			var userOffset = ev.date.getTimezoneOffset()*60000
 			filter_date = new Date(ev.date.getTime() + userOffset);
 			fetch_calls(0);
+			live = false;
 		});
 	});
 	$("#jquery_jplayer_1").jPlayer({
 		ready: function() {
-			$(this).jPlayer("setMedia", {
-				mp3: "http://robotastic.com/media/40000-1378688764.mp3"
-			});
+			$(this).jPlayer();
 		},
 		swfPath: "/js",
-		supplied: "mp3"
+		supplied: "wav"
 	});
 	$('#live-btn').on('click', function (e) {
 		socket_connect();
      	filter_date = "";
      	$('#filter-date').html("Live");
      	fetch_calls(0);
+     	live = true;
 	});
 	add_filters();
 });
