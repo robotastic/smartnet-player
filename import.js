@@ -37,8 +37,10 @@ fs.readdir(source_path, function(err, files) {
   }).filter(function(file) {
     return fs.statSync(file).isFile();
   }).forEach(function(f) {
-    if ((path.extname(f) == '.mp3')) {
-      var name = path.basename(f, '.mp3');
+//    if ((path.extname(f) == '.mp3')) {
+//      var name = path.basename(f, '.mp3');
+    if ((path.extname(f) == '.wav')) {
+      var name = path.basename(f, '.wav');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
