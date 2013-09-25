@@ -53,7 +53,7 @@ function filter_calls() {
 	filter_code = code;
 	fetch_calls(0);
 	if (live) {
-		socket.emit('filter-code', { filter-code: filter-code });
+		socket.emit('code', { code: filter_code });
 	}
 }
 
@@ -240,7 +240,7 @@ function socket_connect() {
 		});
 		socket.on('ready', function (data) {
     		console.log("Ready: " + data);
-    		socket.emit('filter-code', { filter-code: filter-code });
+    		socket.emit('filter-code', { code: filter_code });
   		});
 	} else {
 		console.log('func socket_reconnect');

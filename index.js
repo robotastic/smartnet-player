@@ -316,7 +316,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 io.sockets.on('connection', function(socket) {
     var client = {
       id: socket.id,
-      filter-code: null
+      code: null
     };
     console.log("Client Joined: " + socket.id );
     clients.push(client);
@@ -326,10 +326,10 @@ io.sockets.on('connection', function(socket) {
         console.log(socket.id + ' disconnected');
         //remove user from db
     }
-    socket.on('filter-code', function (data) {
+    socket.on('code', function (data) {
       console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
       var index = clients.indexOf(client);
-      clients[index].filter-code = data.filter-code;
+      clients[index].code = data.code;
       console.log("Clients: " + util.inspect(clients));
     });
     socket.emit('ready', { });
