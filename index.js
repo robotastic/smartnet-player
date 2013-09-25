@@ -267,7 +267,7 @@ app.post('/calls', function(req, res) {
 
 });
 function notify_clients(call) {
-  for(int i=0; i < clients.length; i++ ){
+  for(var i=0; i < clients.length; i++ ){
     if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
       if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
         clients[i].emit('calls', call );
