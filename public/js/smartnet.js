@@ -44,9 +44,9 @@ function print_call_row(call, live) {
 	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-link"></span></button>');
-	var linkview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-cloud-upload"></span></button>');
-    var btngroup = $('<div class="btn-group">');
+	var callview = $('<span class="glyphicon glyphicon-link"></span>');
+	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
+    var btngroup = $('<td/>');
     callview.click(function() {
     	    location.href = "/call/"+call.objectId;
     });

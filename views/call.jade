@@ -35,5 +35,15 @@ html
       .page-header
         h1= channel.desc
           small= time 
+      span.btn-group.btn-group-sm
+        button( type="button", class="btn btn-primary navbar-btn")
+          span(class="glyphicon glyphicon-play jp-play")
+        button( type="button", class="btn btn-primary navbar-btn")
+          span(class="glyphicon glyphicon-stop jp-stop")
+      p(class="navbar-text")
+        span.jp-time-holder
+          span.jp-current-time 
+          / 
+          span.jp-duration
 
 
