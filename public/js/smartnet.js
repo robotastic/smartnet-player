@@ -54,7 +54,7 @@ function print_call_row(call, live) {
     popoverOptions = {
     	container: 'body',
     	title: 'share',
-    	placement: 'top',,
+    	placement: 'top',
     	html: true,
     	content: poptent
     };
