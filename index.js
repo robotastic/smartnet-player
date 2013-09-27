@@ -231,7 +231,7 @@ app.get('/call/:id', function(req, res) {
     var objectId = req.params.id;
     var o_id = new BSON.ObjectID(objectId);
     db.collection('transmissions', function(err, transCollection) {
-        transCollection.find({
+        transCollection.findOne({
           '_id': o_id
         },
         function(err, item) {
