@@ -11,7 +11,7 @@ body {
 	color: red;
 }
 
-#nav.affix {
+#nav-filter.affix {
     position: fixed;
     top: 0;
     width: 100%
