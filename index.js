@@ -239,7 +239,7 @@ app.get('/call/:id', function(req, res) {
           if (item) {
             res.render('call', {
               item: item,
-              channels: channels[item.talkgroup]
+              channel: channels[item.talkgroup]
             });
 
           } else {
