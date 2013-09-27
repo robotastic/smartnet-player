@@ -1,0 +1,35 @@
+html
+  head
+    link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
+    link(href='css/bootstrap.flatly.min.css', rel='stylesheet', media='screen')
+    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+    script(type='text/javascript', src='/js/jquery.jplayer.min.js')
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    script(type='text/javascript', src='/js/smartnet.js')
+    script(type='text/javascript', src="/socket.io/socket.io.js")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    // Bootstrap
+
+
+    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries 
+    //[if lt IE 9]
+      script(src="/js/assets/html5shiv.js")
+      script(src="/js/assets/respond.min.js")
+
+
+
+
+  body
+    .navbar.navbar-inverse.navbar-static-top(id="nav-main")
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') DC Scanner
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='/about') About
+    h1 #{item.talkgroup}

@@ -14,7 +14,9 @@ var csv = require('csv');
 var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
-var Db = require('mongodb').Db,
+var mongo = require('mongodb');
+var BSON = mongo.BSONPure;
+var Db = mongo.Db,
   Connection = require('mongodb').Connection,
   Server = require('mongodb').Server;
 
@@ -226,11 +228,22 @@ app.get('/channels', function(req, res) {
 });
 
 app.get('/call/:id', function(req,res){
-  var objectId = req.route.param['id'];
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.find({'_id': o_id}), function(err, item) {
+      if (item) {
+        res.render('player', {
+          item: item
+        });
 
-  res.send(objectId);
-
+      } else {
+        res.send(404, 'Sorry, we cannot find that!');
+      }
+    });
+  });
 });
+
 app.post('/calls', function(req, res) {
   console.log(req.body.offset);
   var per_page = req.body.per_page;
