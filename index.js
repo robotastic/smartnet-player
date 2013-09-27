@@ -235,9 +235,9 @@ app.get('/call/:id', function(req, res) {
           '_id': o_id
         },
         function(err, item) {
-          console.log(util.inspect(item));
+          //console.log(util.inspect(item));
           if (item) {
-            var time = new Date(call.time);
+            var time = new Date(item.time);
             var timeString = time.toLocaleTimeString();
             res.render('call', {
               item: item,
