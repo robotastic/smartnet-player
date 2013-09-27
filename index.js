@@ -235,10 +235,11 @@ app.get('/call/:id', function(req, res) {
           '_id': o_id
         },
         function(err, item) {
+          console(util.inspect(item));
           if (item) {
             res.render('call', {
               item: item,
-              channels: channels
+              channels: channels[item.talkgroup]
             });
 
           } else {
