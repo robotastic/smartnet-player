@@ -268,9 +268,12 @@ app.post('/calls', function(req, res) {
 });
 function notify_clients(call) {
   for(var i=0; i < clients.length; i++ ){
+      console.log("Client: " + util.inspect(clients[i]));
     if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
+	console.log("Talkgroup filter found: " + clients[i].code);
       if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-        clients[i].emit('calls', call );
+	  console.log("Call TG # Found in filer");
+        clients[i].socket.emit('calls', call );
       }
     }
   }
