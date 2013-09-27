@@ -15,8 +15,8 @@ html
 
     // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries 
     //[if lt IE 9]>
-      script(src="../../assets/js/html5shiv.js")
-      script(src="../../assets/js/respond.min.js")
+      script(src="/js/assets/html5shiv.js")
+      script(src="/js/assets/respond.min.js")
 
 
 
@@ -29,15 +29,11 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Project name
+          a.navbar-brand(href='#') DC Scanner
         .collapse.navbar-collapse
           ul.nav.navbar-nav
-            li.active
-              a(href='#') Home
             li
-              a(href='#about') About
-            li
-              a(href='#contact') Contact
+              a(href='/about') About
     div(id="nav-filter")
       div(class="navbar navbar-static navbar-default" role="navigation")
         .navbar-inner
@@ -97,12 +93,13 @@ html
         table.table
           thead
             tr
-              th #
+              th 
               th Alpha
               th Talkgroup
               th Group
               th Time
               th Length
+              th
           tbody#call_table
     #jquery_jplayer_1.jp-jplayer
 

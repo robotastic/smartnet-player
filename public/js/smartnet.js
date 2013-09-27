@@ -16,17 +16,22 @@ function play_call(filename) {
 }
 
 function print_call_row(call, live) {
-	var newdata = $("<td/>");
-	newdata.html(call.talkgroup);
-	newdata.click(function() {
-		play_call(call.filename)
-	});
+	
+	
+
 	var time = new Date(call.time);
 	var newrow = $("<tr/>");
 	if(live) {
 		newrow.addClass("live-call");
 	}
-	newrow.append(newdata);
+
+	var buttoncell = $("<td/>");
+	var playbutton = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-play"></span></button>');
+	playbutton.click(function() {
+		play_call(call.filename)
+	});
+	buttoncell.append(playbutton);
+	newrow.append(buttoncell);
 	if (typeof channels[call.talkgroup] == 'undefined') {
 		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>Uknown</td>");
@@ -38,6 +43,14 @@ function print_call_row(call, live) {
 }
 	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
+	var actioncell = $("<td/>");
+	var callview = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-link"></span></button>');
+	var linkview = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cloud-upload"></span></button>');
+    var btngroup = $('<div class="btn-group">');
+    btngroup.append(callview);
+    btngroup.append(linkview);
+    newrow.append(btngroup);
+    
     if(live) {
 		$("#call_table").prepend(newrow);
     } else {
