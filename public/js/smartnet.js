@@ -26,7 +26,7 @@ function print_call_row(call, live) {
 	}
 
 	var buttoncell = $("<td/>");
-	var playbutton = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-play"></span></button>');
+	var playbutton = $('<span class="glyphicon glyphicon-play-circle"></span>');
 	playbutton.click(function() {
 		play_call(call.filename)
 	});
