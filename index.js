@@ -225,7 +225,7 @@ app.get('/channels', function(req, res) {
 
 });
 
-app.get('/call//:id', function(req,res){
+app.get('/call/:id', function(req,res){
   var objectId = req.route.param['id'];
 
   res.send(objectId);
