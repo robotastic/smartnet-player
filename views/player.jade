@@ -38,51 +38,53 @@ html
               a(href='#about') About
             li
               a(href='#contact') Contact
+    div(id="nav-filter")
+      div(class="navbar navbar-static" role="navigation")
+        .navbar-inner
+          .container
+            .navbar-header
+              button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-filter-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              span.navbar-brand
+                span(class="glyphicon glyphicon-filter")
+                | Filter
+            .collapse.navbar-collapse.navbar-filter-collapse
+              
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Groups
+                      b.caret
+                    ul.dropdown-menu(id="group-filter")
+                li.dropdown
+                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Tags
+                      b.caret
+                    ul.dropdown-menu(id="tag-filter")
 
-    nav(class="navbar navbar-default affix" role="navigation" id="nav-filter")
-      .navbar-header
-        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        span.navbar-brand
-          span(class="glyphicon glyphicon-filter")
-          | Filter
-      .collapse.navbar-collapse.navbar-ex1-collapse
-        
-        ul.nav.navbar-nav
-          li.dropdown
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | Groups
-                b.caret
-              ul.dropdown-menu(id="group-filter")
-          li.dropdown
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | Tags
-                b.caret
-              ul.dropdown-menu(id="tag-filter")
-
-        ul.nav.navbar-nav.navbar-left
-          li.btn-group(data-toggle="buttons-radio")
-            button(type="button" id="filter-data" class="form_datetime btn btn-default navbar-btn")
-              span(class="glyphicon glyphicon-calendar")
-              | Archive
-            button(type="button" id="live-btn" class="btn btn-default navbar-btn")
-              span(class="glyphicon glyphicon-headphones")
-              | Live
-        span(id='jp_container_1' class="pull-right")
-          span.btn-group
-            button( type="button", class="btn btn-default navbar-btn")
-              span(class="glyphicon glyphicon-play jp-play")
-            button( type="button", class="btn btn-default navbar-btn")
-              span(class="glyphicon glyphicon-stop jp-stop")
-          p(class="navbar-text")
-            span.jp-time-holder
-              span.jp-current-time 
-              / 
-              span.jp-duration
-    
+              ul.nav.navbar-nav.navbar-left
+                li.btn-group(data-toggle="buttons-radio")
+                  button(type="button" id="filter-data" class="form_datetime btn btn-default navbar-btn")
+                    span(class="glyphicon glyphicon-calendar")
+                    | Archive
+                  button(type="button" id="live-btn" class="btn btn-default navbar-btn")
+                    span(class="glyphicon glyphicon-headphones")
+                    | Live
+              span(id='jp_container_1' class="pull-right")
+                span.btn-group
+                  button( type="button", class="btn btn-default navbar-btn")
+                    span(class="glyphicon glyphicon-play jp-play")
+                  button( type="button", class="btn btn-default navbar-btn")
+                    span(class="glyphicon glyphicon-stop jp-stop")
+                p(class="navbar-text")
+                  span.jp-time-holder
+                    span.jp-current-time 
+                    / 
+                    span.jp-duration
+      
     .container
       .page-header
         h1
