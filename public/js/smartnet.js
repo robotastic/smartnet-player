@@ -26,7 +26,7 @@ function print_call_row(call, live) {
 	}
 
 	var buttoncell = $("<td/>");
-	var playbutton = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-play"></span></button>');
+	var playbutton = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-play"></span></button>');
 	playbutton.click(function() {
 		play_call(call.filename)
 	});
@@ -44,13 +44,13 @@ function print_call_row(call, live) {
 	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-link"></span></button>');
-	var linkview = $('<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cloud-upload"></span></button>');
+	var callview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-link"></span></button>');
+	var linkview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-cloud-upload"></span></button>');
     var btngroup = $('<div class="btn-group">');
     btngroup.append(callview);
     btngroup.append(linkview);
     newrow.append(btngroup);
-    
+
     if(live) {
 		$("#call_table").prepend(newrow);
     } else {
