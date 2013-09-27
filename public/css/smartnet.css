@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  //padding-top: 50px;
 }
 .starter-template {
   padding: 40px 15px;
@@ -9,4 +9,10 @@ body {
 .live-call {
 	font-weight: bold;
 	color: red;
+}
+
+#nav.affix {
+    position: fixed;
+    top: 0;
+    width: 100%
 }
