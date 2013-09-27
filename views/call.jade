@@ -47,8 +47,9 @@ html
           span.jp-duration
     #jquery_jplayer_1.jp-jplayer
     script(type='text/javascript').
-      var local_item =!{JSON.stringify(item)}
+      
       $(document).ready(function() {
+        var local_item =!{JSON.stringify(item)};
         $("#jquery_jplayer_1").jPlayer({
             ready: function(event) {
                 $(this).jPlayer("setMedia", {
