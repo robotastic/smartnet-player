@@ -47,7 +47,7 @@ html
           span.jp-duration
     #jquery_jplayer_1.jp-jplayer
     script(type='text/javascript').
-      var filename =!{JSON.stringify(item.filename)}
+      var filename = "!{item.filename}";
       $(document).ready(function() {
         $("#jquery_jplayer_1").jPlayer({
             ready: function(event) {
