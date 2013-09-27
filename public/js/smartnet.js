@@ -298,5 +298,6 @@ $(document).ready(function() {
      	fetch_calls(0);
      	live = true;
 	});
+	$('#nav-filter').affix(offset: { y: 54 })
 	add_filters();
 });

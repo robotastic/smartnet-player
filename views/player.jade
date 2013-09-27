@@ -22,7 +22,7 @@ html
 
 
   body
-    .navbar.navbar-inverse.navbar-fixed-top
+    .navbar.navbar-inverse.navbar-static-top
       .container
         .navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
@@ -39,7 +39,7 @@ html
             li
               a(href='#contact') Contact
 
-    nav(class="navbar navbar-default" role="navigation")
+    nav(class="navbar navbar-default" role="navigation" id="nav-filter")
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
           span.sr-only Toggle navigation
@@ -64,7 +64,7 @@ html
               ul.dropdown-menu(id="tag-filter")
 
         ul.nav.navbar-nav.navbar-left
-          li.btn-group
+          li.btn-group(data-toggle="buttons-radio")
             button(type="button" id="filter-data" class="form_datetime btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-calendar")
               | Archive
@@ -72,7 +72,7 @@ html
               span(class="glyphicon glyphicon-headphones")
               | Live
         span(id='jp_container_1' class="pull-right")
-          span.btn-group
+          span.btn-group.
             button( type="button", class="btn btn-default navbar-btn")
               span(class="glyphicon glyphicon-play jp-play")
             button( type="button", class="btn btn-default navbar-btn")
