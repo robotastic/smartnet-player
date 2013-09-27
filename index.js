@@ -225,6 +225,12 @@ app.get('/channels', function(req, res) {
 
 });
 
+app.get('/call//:id', function(req,res){
+  var objectId = req.route.param['id'];
+
+  res.send(objectId);
+
+});
 app.post('/calls', function(req, res) {
   console.log(req.body.offset);
   var per_page = req.body.per_page;

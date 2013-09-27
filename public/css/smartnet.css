@@ -10,7 +10,9 @@ body {
 	font-weight: bold;
 	color: red;
 }
-
+#nav-main {
+	margin-bottom: 0px;
+}
 #nav-filter.affix {
     position: fixed;
     top: 0;
