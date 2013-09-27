@@ -52,7 +52,7 @@ html
         $("#jquery_jplayer_1").jPlayer({
             ready: function(event) {
                 $(this).jPlayer("setMedia", {
-                    wav: local_item.filename
+                    wav: '/media' + local_item.path + local_item.filename
                 });
             },
             swfPath: "/js",
