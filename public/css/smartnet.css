@@ -10,6 +10,9 @@ body {
 	font-weight: bold;
 	color: red;
 }
+.call-link {
+	padding-right: 10px
+}
 #nav-main {
 	margin-bottom: 0px;
 }

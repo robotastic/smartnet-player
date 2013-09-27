@@ -44,7 +44,7 @@ function print_call_row(call, live) {
 	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<span class="glyphicon glyphicon-link"></span>');
+	var callview = $('<span class="glyphicon glyphicon-link call-link"></span>');
 	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
     var btngroup = $('<td/>');
     callview.click(function() {

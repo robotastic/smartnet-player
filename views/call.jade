@@ -45,5 +45,18 @@ html
           span.jp-current-time 
           / 
           span.jp-duration
+    #jquery_jplayer_1.jp-jplayer
+    script(type='text/javascript').
+      $(document).ready(function() {
+        $("#jquery_jplayer_1").jPlayer({
+            ready: function(event) {
+                $(this).jPlayer("setMedia", {
+                    wav: item.filename
+                });
+            },
+            swfPath: "/js",
+            supplied: "wav"
+        });
+      });
 
 
