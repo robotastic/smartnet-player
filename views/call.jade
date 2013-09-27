@@ -1,4 +1,4 @@
-html
+doctype html
   head
     link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
     link(href='/css/bootstrap.flatly.min.css', rel='stylesheet', media='screen')
@@ -25,10 +25,14 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') DC Scanner
+          a.navbar-brand(href='/') DC Scanner
         .collapse.navbar-collapse
           ul.nav.navbar-nav
             li
               a(href='/about') About
-    h1= item.talkgroup
-    p= channel.group
+    .container
+      .page-header
+        h1= channel.desc
+          small= time 
+
+

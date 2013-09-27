@@ -237,9 +237,12 @@ app.get('/call/:id', function(req, res) {
         function(err, item) {
           console.log(util.inspect(item));
           if (item) {
+            var time = new Date(call.time);
+            var timeString = time.toLocaleTimeString();
             res.render('call', {
               item: item,
-              channel: channels[item.talkgroup]
+              channel: channels[item.talkgroup],
+              time: timeString
             });
 
           } else {
