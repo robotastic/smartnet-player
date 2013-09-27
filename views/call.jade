@@ -50,7 +50,7 @@ html
       
       $(document).ready(function() {
         var local_item =!{JSON.stringify(item)};
-        var filename = '/media' + local_item.path + local_item.name
+        var filename = '/media' + local_item.path + local_item.name;
         $("#jquery_jplayer_1").jPlayer({
             ready: function(event) {
                 $(this).jPlayer("setMedia", {
