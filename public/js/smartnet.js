@@ -41,15 +41,27 @@ function print_call_row(call, live) {
 	newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 	newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
 }
-	newrow.append("<td>" + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + "</td>");
+	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
 	var callview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-link"></span></button>');
 	var linkview = $('<button type="button" class="btn btn-default btn-s"><span class="glyphicon glyphicon-cloud-upload"></span></button>');
     var btngroup = $('<div class="btn-group">');
+    callview.click(function() {
+    	    location.href = "/call/"+call.objectId;
+    });
+    poptent = "<b>Eevntually, you will be able to share calls using Twitter</b>";
+    popoverOptions = {
+    	container: 'body',
+    	title: 'share',
+    	placement: 'top',
+    	content: poptent
+    };
+    linkview.popover(popoverOptions);
     btngroup.append(callview);
     btngroup.append(linkview);
     newrow.append(btngroup);
+
 
     if(live) {
 		$("#call_table").prepend(newrow);

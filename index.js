@@ -56,20 +56,20 @@ function compile(str, path) {
 var talkgroup_filters = {};
 talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
 
-talkgroup_filters['group-common']= [2656, 2672, 9936, 9968, 16624, 19248, 33616, 33648, 35536, 35568, 37456, 37488, 37648, 37680, 59952, 59968];
+talkgroup_filters['group-common'] = [2656, 2672, 9936, 9968, 16624, 19248, 33616, 33648, 35536, 35568, 37456, 37488, 37648, 37680, 59952, 59968];
 talkgroup_filters['group-services'] = [33840, 33872, 33904, 34128, 34192, 34288, 34320, 34352, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 34832, 34864, 35024, 35056, 35088, 35152, 35184, 35216, 35248, 35408, 35440, 35600, 35664, 36880, 37040, 37200, 37232, 37328, 37456, 37488, 40080];
-talkgroup_filters['tag-ops']= [33872, 33904];
-talkgroup_filters['tag-ems-tac']= [1904, 1920];
-talkgroup_filters['tag-ems-talk']= [1936];
-talkgroup_filters['tag-fire-dispatch']=  [1616, 40000, 40032];
-talkgroup_filters['tag-fire-tac']=  [1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1968, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2640, 2720, 2736, 2848, 2864, 2880, 9808, 9824, 9840, 9872];
-talkgroup_filters['tag-hospital']=  [2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 36880];
-talkgroup_filters['tag-interop']=  [1952, 2592, 2656, 2672, 9936, 9968, 9984, 10032, 19248, 33616, 33648, 35536, 35568, 37456, 37488, 37648, 37680, 59952, 59968, 59984, 60000];
-talkgroup_filters['tag-law-tac']=  [35440, 37232];
-talkgroup_filters['tag-public-works']=  [33584, 33840, 34288, 34320, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 35024, 35056, 35088, 35184, 35216, 35248, 35600, 37040, 37200, 37328, 40080];
-talkgroup_filters['tag-security']=  [34128, 34192, 34352, 34832, 34864, 35152];
-talkgroup_filters['tag-transportation']= [35664];
-        
+talkgroup_filters['tag-ops'] = [33872, 33904];
+talkgroup_filters['tag-ems-tac'] = [1904, 1920];
+talkgroup_filters['tag-ems-talk'] = [1936];
+talkgroup_filters['tag-fire-dispatch'] = [1616, 40000, 40032];
+talkgroup_filters['tag-fire-tac'] = [1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1968, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2640, 2720, 2736, 2848, 2864, 2880, 9808, 9824, 9840, 9872];
+talkgroup_filters['tag-hospital'] = [2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 36880];
+talkgroup_filters['tag-interop'] = [1952, 2592, 2656, 2672, 9936, 9968, 9984, 10032, 19248, 33616, 33648, 35536, 35568, 37456, 37488, 37648, 37680, 59952, 59968, 59984, 60000];
+talkgroup_filters['tag-law-tac'] = [35440, 37232];
+talkgroup_filters['tag-public-works'] = [33584, 33840, 34288, 34320, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 35024, 35056, 35088, 35184, 35216, 35248, 35600, 37040, 37200, 37328, 40080];
+talkgroup_filters['tag-security'] = [34128, 34192, 34352, 34832, 34864, 35152];
+talkgroup_filters['tag-transportation'] = [35664];
+
 function build_filter(code, start_time) {
   var filter = {};
   switch (code) {
@@ -192,7 +192,9 @@ function build_filter(code, start_time) {
   if (start_time) {
     var start = new Date(start_time);
 
-    filter.time = {$gte:start};
+    filter.time = {
+      $gte: start
+    };
 
   }
   return filter;
@@ -232,24 +234,25 @@ app.post('/calls', function(req, res) {
   var filter = build_filter(filter_code, start_time);
   var sort_order = {};
 
-  if (start_time==null) {
+  if (start_time == null) {
     sort_order['time'] = -1;
   } else {
     sort_order['time'] = 1;
   }
-  console.log("Sort Order: " + util.inspect(sort_order) + " start time: "+ start_time + " Filter: " + util.inspect(filter));
+  console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(filter).count(function(e, count) {
       transCollection.find(filter, function(err, cursor) {
-        cursor.skip(offset*per_page).sort(sort_order).limit(per_page).each(function(err, item) {
+        cursor.skip(offset * per_page).sort(sort_order).limit(per_page).each(function(err, item) {
           if (item) {
             call = {
+              objectId: item._id,
               talkgroup: item.talkgroup,
               filename: item.path + item.name,
               time: item.time,
-              len: Math.round(item.len)+'s'
+              len: Math.round(item.len) + 's'
             };
             calls.push(call);
           } else {
@@ -266,11 +269,12 @@ app.post('/calls', function(req, res) {
   });
 
 });
+
 function notify_clients(call) {
-  for(var i=0; i < clients.length; i++ ){
+  for (var i = 0; i < clients.length; i++) {
     if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
       if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-        clients[i].emit('calls', call );
+        clients[i].emit('calls', call);
       }
     }
   }
@@ -279,7 +283,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   //monitor.files['*.mp3'];
   monitor.files['*.wav'];
   var reader = new wav.Reader();
-  
+
   monitor.on("created", function(f, stat) {
     /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.mp3');*/
@@ -304,40 +308,45 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         reader.once('readable', function () {*/
         //probe(target_file, function(err, probeData) {
 
-          transItem = {
-            talkgroup: tg,
-            time: time,
-            name: path.basename(f),
-            path: local_path,
-          };
-          transItem.len = 1;//reader.chunkSize / reader.byteRate;
-          /*if (err) {
+        transItem = {
+          talkgroup: tg,
+          time: time,
+          name: path.basename(f),
+          path: local_path,
+        };
+        transItem.len = 1; //reader.chunkSize / reader.byteRate;
+        /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
           }*/
-          db.collection('transmissions', function(err, transCollection) {
-            transCollection.insert(transItem);
+        db.collection('transmissions', function(err, transCollection) {
+          transCollection.insert(transItem, function(err, objects) {
+            if (err) console.warn(err.message);
+            var objectId = transItem._id;
+
             console.log("Added: " + f);
-
+            var call = {
+              objectId: objectId,
+              talkgroup: transItem.talkgroup,
+              filename: transItem.path + transItem.name,
+              time: transItem.time,
+              len: Math.round(transItem.len) + 's'
+            };
+            notify_clients(call);
           });
+        });
 
-          var call = {
-            talkgroup: transItem.talkgroup,
-            filename: transItem.path + transItem.name,
-            time: transItem.time,
-            len: Math.round(transItem.len)+'s'
-          };
-          notify_clients(call);
-          /*
+
+        /*
           io.sockets.emit('calls', {
             talkgroup: transItem.talkgroup,
             filename: transItem.path + transItem.name,
             time: transItem.time,
             len: Math.round(transItem.len)+'s'
           });*/
-        });
+      });
 
       //});
 
@@ -347,25 +356,25 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 
 io.sockets.on('connection', function(socket) {
-    var client = {
-      id: socket.id,
-      socket: socket,
-      code: null
-    };
-    console.log("Client Joined: " + socket.id );
-    clients.push(client);
+  var client = {
+    id: socket.id,
+    socket: socket,
+    code: null
+  };
+  console.log("Client Joined: " + socket.id);
+  clients.push(client);
 
-    socket.on('disconnect', function() { 
-        clients.splice(clients.indexOf(client), 1);
-        console.log(socket.id + ' disconnected');
-        //remove user from db
-    });
-    socket.on('code', function (data) {
-      console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
-      var index = clients.indexOf(client);
-      clients[index].code = data.code;
-      console.log("Clients: " + util.inspect(clients));
-    });
-    socket.emit('ready', { });
+  socket.on('disconnect', function() {
+    clients.splice(clients.indexOf(client), 1);
+    console.log(socket.id + ' disconnected');
+    //remove user from db
+  });
+  socket.on('code', function(data) {
+    console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
+    var index = clients.indexOf(client);
+    clients[index].code = data.code;
+    console.log("Clients: " + util.inspect(clients));
+  });
+  socket.emit('ready', {});
 });
 server.listen(3004);
