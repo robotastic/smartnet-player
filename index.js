@@ -227,21 +227,24 @@ app.get('/channels', function(req, res) {
 
 });
 
-app.get('/call/:id', function(req,res){
-  var objectId = req.params.id;
-  var o_id = new BSON.ObjectID(objectId);
-  db.collection('transmissions', function(err, transCollection) {
-    transCollection.find({'_id': o_id}), function(err, item) {
-      if (item) {
-        res.render('player', {
-          item: item
-        });
+app.get('/call/:id', function(req, res) {
+    var objectId = req.params.id;
+    var o_id = new BSON.ObjectID(objectId);
+    db.collection('transmissions', function(err, transCollection) {
+        transCollection.find({
+          '_id': o_id
+        },
+        function(err, item) {
+          if (item) {
+            res.render('player', {
+              item: item
+            });
 
-      } else {
-        res.send(404, 'Sorry, we cannot find that!');
-      }
+          } else {
+            res.send(404, 'Sorry, we cannot find that!');
+          }
+        });
     });
-  });
 });
 
 app.post('/calls', function(req, res) {
@@ -293,10 +296,10 @@ function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
     if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
-	console.log("Talkgroup filter found: " + clients[i].code);
+      console.log("Talkgroup filter found: " + clients[i].code);
       if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-	  console.log("Call TG # Found in filer");
-        clients[i].socket.emit('calls', call );
+        console.log("Call TG # Found in filer");
+        clients[i].socket.emit('calls', call);
       }
     }
   }
