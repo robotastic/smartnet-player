@@ -30,4 +30,5 @@ html
           ul.nav.navbar-nav
             li
               a(href='/about') About
-    h1 #{item.talkgroup}
+    h1= item.talkgroup
+    p= channels[item.talkgroup].desc
