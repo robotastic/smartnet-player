@@ -236,8 +236,9 @@ app.get('/call/:id', function(req, res) {
         },
         function(err, item) {
           if (item) {
-            res.render('player', {
-              item: item
+            res.render('call', {
+              item: item,
+              channels: channels
             });
 
           } else {
