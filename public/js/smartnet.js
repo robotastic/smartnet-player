@@ -84,7 +84,7 @@ function filter_calls() {
 }
 
 function add_filters() {
-	var groups = [{s
+	var groups = [{
 		name: 'Fire/EMS',
 		code: 'group-fire'
 	}, {
