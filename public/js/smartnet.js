@@ -84,7 +84,7 @@ function filter_calls() {
 }
 
 function add_filters() {
-	var groups = [{
+	var groups = [{s
 		name: 'Fire/EMS',
 		code: 'group-fire'
 	}, {
@@ -266,7 +266,7 @@ function socket_connect() {
 		});
 		socket.on('ready', function (data) {
     		console.log("Ready: " + data);
-    		socket.emit('filter-code', { code: filter_code });
+    		socket.emit('code', { code: filter_code });
   		});
 	} else {
 		console.log('func socket_reconnect');
