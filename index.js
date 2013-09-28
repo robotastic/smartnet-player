@@ -267,7 +267,7 @@ app.post('/calls', function(req, res) {
   } else {
     sort_order['time'] = 1;
   }
-  console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
+  //console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
@@ -302,6 +302,7 @@ function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
     if (clients[i].code == "") {
+      console.log("Call TG # is set to All");
       clients[i].socket.emit('calls', call);
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
