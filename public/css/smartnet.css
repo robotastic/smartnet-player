@@ -25,3 +25,11 @@ body {
     width: 100%;
     z-index: 9999;
 }
+
+#filter-title {
+	margin-right: 10px;
+}
+
+#filter-date {
+	margin-left: 10px;
+}

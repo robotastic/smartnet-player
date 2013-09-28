@@ -371,11 +371,9 @@ $(document).ready(function() {
 	$('#autoplay-btn').on('click', function (e) {
 		autoplay = !autoplay;
 		if (autoplay) {
-			$('#autoplay-btn').removeClass('btn-primary');
-			$('#autoplay-btn').addClass('btn-default');	
+			$('#autoplay-btn').addClass('active');	
 		} else {
-			$('#autoplay-btn').addClass('btn-primary');
-			$('#autoplay-btn').removeClass('btn-default');
+			$('#autoplay-btn').removeClass('active');
 		}
 	});
 });
