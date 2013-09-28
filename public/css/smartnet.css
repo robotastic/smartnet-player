@@ -6,6 +6,9 @@ body {
   text-align: center;
 }
 
+.now-playing {
+	color: green;
+}
 .live-call {
 	font-weight: bold;
 	color: red;

@@ -6,21 +6,47 @@ var filter_code;
 var filter_date;
 var socket;
 var live = false;
+var now_playing = null;
+var autoplay = false;
 
-
-function play_call(filename) {
+function play_call(row) {
+	var filename = row.data("filename");
+	now_playing = row;
 	console.log("trying to play: " + filename);
+	row.addClass("now-playing");
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
 		wav: "/media" + filename
 	}).jPlayer("play");
 }
+
+function call_over(event) {
+	if (now_playing){
+		now_playing.removeClass("now-playing");
+	}
+	if (autoplay) {
+		if (live) {
+			if (now_playing.prev().length != 0) {
+				play_call(now_playing.prev());
+			}
+		} else {
+			if (now_playing.next().length != 0) {
+				play_call(now_playing.next());
+			}
+		}
+
+	} else {
+		now_playing = null;
+	}
+}
+
 
 function print_call_row(call, live) {
 	
 	
 
 	var time = new Date(call.time);
-	var newrow = $("<tr/>");
+	var newrow = $("<tr/>").data('filename', call.filename);
+
 	if(live) {
 		newrow.addClass("live-call");
 	}
@@ -28,7 +54,8 @@ function print_call_row(call, live) {
 	var buttoncell = $("<td/>");
 	var playbutton = $('<span class="glyphicon glyphicon-play-circle"></span>');
 	playbutton.click(function() {
-		play_call(call.filename)
+		row = $(this).parents( "tr" );
+		play_call(row);
 	});
 	buttoncell.append(playbutton);
 	newrow.append(buttoncell);
@@ -281,7 +308,7 @@ function socket_disconnect() {
 
 $(document).ready(function() {
 
-
+	now_playing = null;
 
 	$.ajax({
 		url: "/channels",
@@ -317,6 +344,9 @@ $(document).ready(function() {
 		swfPath: "/js",
 		supplied: "wav"
 	});
+	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) { 
+		call_over(event);
+ 	});
 	$('#live-btn').on('click', function (e) {
 		socket_connect();
      	filter_date = "";
@@ -326,4 +356,7 @@ $(document).ready(function() {
 	});
 	$('#nav-filter').affix({offset: { top: 0 }})
 	add_filters();
+	$('#autoplay-btn').on('click', function (e) {
+		autoplay = !autoplay;
+	});
 });
