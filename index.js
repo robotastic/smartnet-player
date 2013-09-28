@@ -317,7 +317,7 @@ function notify_clients(call) {
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   //monitor.files['*.mp3'];
   monitor.files['*.wav'];
-  var reader = new wav.Reader();
+
 
   monitor.on("created", function(f, stat) {
     /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
@@ -338,50 +338,51 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
+        var reader = new wav.Reader();
         var input = fs.createReadStream(target_file);
         input.pipe(reader);
-        reader.once('readable', function () {
-        //probe(target_file, function(err, probeData) {
+        reader.once('readable', function() {
+          //probe(target_file, function(err, probeData) {
 
-        transItem = {
-          talkgroup: tg,
-          time: time,
-          name: path.basename(f),
-          path: local_path,
-        };
-        transItem.len = reader.chunkSize / reader.byteRate;
-        /*if (err) {
+          transItem = {
+            talkgroup: tg,
+            time: time,
+            name: path.basename(f),
+            path: local_path,
+          };
+          transItem.len = reader.chunkSize / reader.byteRate;
+          /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
           }*/
-        db.collection('transmissions', function(err, transCollection) {
-          transCollection.insert(transItem, function(err, objects) {
-            if (err) console.warn(err.message);
-            var objectId = transItem._id;
+          db.collection('transmissions', function(err, transCollection) {
+            transCollection.insert(transItem, function(err, objects) {
+              if (err) console.warn(err.message);
+              var objectId = transItem._id;
 
-            console.log("Added: " + f);
-            var call = {
-              objectId: objectId,
-              talkgroup: transItem.talkgroup,
-              filename: transItem.path + transItem.name,
-              time: transItem.time,
-              len: Math.round(transItem.len) + 's'
-            };
-            notify_clients(call);
+              console.log("Added: " + f);
+              var call = {
+                objectId: objectId,
+                talkgroup: transItem.talkgroup,
+                filename: transItem.path + transItem.name,
+                time: transItem.time,
+                len: Math.round(transItem.len) + 's'
+              };
+              notify_clients(call);
+            });
           });
-        });
 
 
-        /*
+          /*
           io.sockets.emit('calls', {
             talkgroup: transItem.talkgroup,
             filename: transItem.path + transItem.name,
             time: transItem.time,
             len: Math.round(transItem.len)+'s'
           });*/
-      });
+        });
 
       });
 
