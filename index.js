@@ -228,29 +228,29 @@ app.get('/channels', function(req, res) {
 });
 
 app.get('/call/:id', function(req, res) {
-    var objectId = req.params.id;
-    var o_id = new BSON.ObjectID(objectId);
-    db.collection('transmissions', function(err, transCollection) {
-        transCollection.findOne({
-          '_id': o_id
-        },
-        function(err, item) {
-          //console.log(util.inspect(item));
-          if (item) {
-            var time = new Date(item.time);
-            var timeString = time.toLocaleString();
-            
-            res.render('call', {
-              item: item,
-              channel: channels[item.talkgroup],
-              time: timeString
-            });
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.findOne({
+        '_id': o_id
+      },
+      function(err, item) {
+        //console.log(util.inspect(item));
+        if (item) {
+          var time = new Date(item.time);
+          var timeString = time.toLocaleString();
 
-          } else {
-            res.send(404, 'Sorry, we cannot find that!');
-          }
-        });
-    });
+          res.render('call', {
+            item: item,
+            channel: channels[item.talkgroup],
+            time: timeString
+          });
+
+        } else {
+          res.send(404, 'Sorry, we cannot find that!');
+        }
+      });
+  });
 });
 
 app.post('/calls', function(req, res) {
@@ -301,11 +301,15 @@ app.post('/calls', function(req, res) {
 function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
-    if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
-      console.log("Talkgroup filter found: " + clients[i].code);
-      if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-        console.log("Call TG # Found in filer");
-        clients[i].socket.emit('calls', call);
+    if (clients[i].code == "") {
+      clients[i].socket.emit('calls', call);
+    } else {
+      if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
+        console.log("Talkgroup filter found: " + clients[i].code);
+        if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
+          console.log("Call TG # Found in filer");
+          clients[i].socket.emit('calls', call);
+        }
       }
     }
   }
@@ -334,9 +338,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        /*var input = fs.createReadStream(target_file);
+        var input = fs.createReadStream(target_file);
         input.pipe(reader);
-        reader.once('readable', function () {*/
+        reader.once('readable', function () {
         //probe(target_file, function(err, probeData) {
 
         transItem = {
@@ -345,7 +349,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           name: path.basename(f),
           path: local_path,
         };
-        transItem.len = 1; //reader.chunkSize / reader.byteRate;
+        transItem.len = reader.chunkSize / reader.byteRate;
         /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
@@ -379,7 +383,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           });*/
       });
 
-      //});
+      });
 
     }
   });
