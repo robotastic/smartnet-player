@@ -27,10 +27,16 @@ function call_over(event) {
 		if (live) {
 			if (now_playing.prev().length != 0) {
 				play_call(now_playing.prev());
+			} else {
+				now_playing = null;
 			}
 		} else {
 			if (now_playing.next().length != 0) {
 				play_call(now_playing.next());
+			}
+			else
+			{
+				now_playing = null;
 			}
 		}
 
@@ -93,7 +99,9 @@ function print_call_row(call, live) {
 
     if(live) {
 		$("#call_table").prepend(newrow);
-		play_call(newrow);
+		if (autoplay && (now_playing==null)) {
+			play_call(newrow);
+		}
     } else {
 
 		$("#call_table").append(newrow);
