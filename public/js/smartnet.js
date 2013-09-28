@@ -93,7 +93,7 @@ function print_call_row(call, live) {
 
     if(live) {
 		$("#call_table").prepend(newrow);
-		play_call($newrow);
+		play_call(newrow);
     } else {
 
 		$("#call_table").append(newrow);
