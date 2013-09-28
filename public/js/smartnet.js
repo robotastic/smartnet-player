@@ -11,8 +11,10 @@ var autoplay = false;
 
 function play_call(row) {
 	var filename = row.data("filename");
+
 	now_playing = row;
 	console.log("trying to play: " + filename);
+	row.removeClass("live-call");
 	row.addClass("now-playing");
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
 		wav: "/media" + filename
@@ -368,5 +370,12 @@ $(document).ready(function() {
 	add_filters();
 	$('#autoplay-btn').on('click', function (e) {
 		autoplay = !autoplay;
+		if (autoplay) {
+			$('#autoplay-btn').removeClass('btn-primary');
+			$('#autoplay-btn').addClass('btn-default');	
+		} else {
+			$('#autoplay-btn').addClass('btn-primary');
+			$('#autoplay-btn').removeClass('btn-default');
+		}
 	});
 });
