@@ -54,7 +54,7 @@ function print_call_row(call, live) {
 	var buttoncell = $("<td/>");
 	var playbutton = $('<span class="glyphicon glyphicon-play-circle"></span>');
 	playbutton.click(function() {
-		row = $(this).parents( "tr" );
+		row = $(this).parent( "tr" );
 		play_call(row);
 	});
 	buttoncell.append(playbutton);
