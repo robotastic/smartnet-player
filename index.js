@@ -368,6 +368,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             path: local_path,
           };
           transItem.len = reader.chunkSize / reader.byteRate;
+          fs.close();
           /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
