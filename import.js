@@ -36,7 +36,7 @@ scanner.open(function(err, scannerDb) {
   var files = fs.readdirSync(source_path);
   console.log("Found " + files.length + " Files");
   for (var j = 0; j < files.length; j++) {
-    var f = path.join(source_path, files[i]);
+    var f = path.join(source_path, files[j]);
     console.log("Trying: " +f);
 
     //    if ((path.extname(f) == '.mp3')) {
