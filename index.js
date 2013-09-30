@@ -28,6 +28,7 @@ var channels = {};
 var clients = [];
 
 
+
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
@@ -298,6 +299,21 @@ app.post('/calls', function(req, res) {
 
 });
 
+app.get('/stats', function(req, res) {
+
+
+for (var chan_num in channels) {
+   var obj = channels[chan_num];
+
+    db.collection('call_volume', function(err, collection) {
+      collection.find({_id.talkgroup: {chan_num}).toArray(function(err, results) {
+        for (var i=0; i < results.length; i++) {
+
+        }
+      });
+    });
+}
+});
 function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
