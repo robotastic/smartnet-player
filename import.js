@@ -51,7 +51,7 @@ function add_file(files, i) {
       console.log('Moved: ' + f);
       var input = fs.createReadStream(target_file);
       input.pipe(reader);
-      reader.on('readable', function() {
+      reader.on('format', function() {
 
         transItem = {
           talkgroup: tg,
@@ -59,15 +59,23 @@ function add_file(files, i) {
           name: path.basename(f),
           path: local_path
         };
+
         transItem.len = reader.chunkSize / reader.byteRate;
         
         db.collection('transmissions', function(err, transCollection) {
           transCollection.insert(transItem);
           console.log("Added: " + f);
-          input.unpipe(reader);
-          add_file(files,i+1);
+
         });
 
+      });
+      reader.on('data', function(chunk) {
+        console.log('got %d bytes of data', chunk.length);
+      });
+      reader.on('end', function() {
+        console.log('end');
+          input.unpipe(reader);
+          add_file(files,i+1);
       });
     }
   }
