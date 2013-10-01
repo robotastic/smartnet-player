@@ -71,6 +71,7 @@ html
           $.each( data, function( key, val ) {
             var div = $("<div>", {id: "graph-"+i, class: "graph"});
             div.append("<h2/>").text(val.name);
+            $(".container").append(div);
             add_graph("#graph-"+i, val);
           });
         });
