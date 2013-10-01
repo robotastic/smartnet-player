@@ -331,6 +331,7 @@ app.get('/stats', function(req, res) {
           
           var obj = stats[results[0]._id.talkgroup];
           obj['historic'] = historic;
+          stats[results[0]._id.talkgroup] = obj;
         }
         if (chan_count == db_count ) {
           console.log(util.inspect(stats));
