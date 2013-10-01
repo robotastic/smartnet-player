@@ -301,38 +301,35 @@ app.post('/calls', function(req, res) {
 
 app.get('/stats', function(req, res) {
 
-  var stats = {};
+    var stats = {};
 
-  for (var chan_num in channels) {
-    var historic = new Array();
-    for (hour = 0; hour < 25; hour++) {
-      historic[hour] = 0;
-    }
+    for (var chan_num in channels) {
+      var historic = new Array();
+      for (hour = 0; hour < 25; hour++) {
+        historic[hour] = 0;
+      }
 
-    var obj = channels[chan_num];
-    var now = new Date();
+      var obj = channels[chan_num];
+      var now = new Date();
 
-    db.collection('call_volume', function(err, collection) {
-      collection.find({
-        "_id.talkgroup": 
-          chan_num
-        }
-      }).toArray(function(err, results) {
-        for (var i = 0; i < results.length; i++) {
+      db.collection('call_volume', function(err, collection) {
+          collection.find({
+              "_id.talkgroup": chan_num
+            }
+          ).toArray(function(err, results) {
+          for (var i = 0; i < results.length; i++) {
 
-          historic[results[i]._id.hour] = results[i].value.count;
-        }
-        stats[chan_num] = {
-          name: channels[chan_num].alpha,
-          desc: channels[chan_num].desc,
-          historic: channel
-        }
+            historic[results[i]._id.hour] = results[i].value.count;
+          }
+          stats[chan_num] = {
+            name: channels[chan_num].alpha,
+            desc: channels[chan_num].desc,
+            historic: channel
+          }
+        });
       });
-    });
   }
-  console.log(util.inspect(stats));
-  res.contentType('json');
-  res.send(JSON.stringify(stats));
+  console.log(util.inspect(stats)); res.contentType('json'); res.send(JSON.stringify(stats));
 });
 
 function notify_clients(call) {
