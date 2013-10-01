@@ -332,7 +332,6 @@ app.get('/volume', function(req, res) {
           }
         }
         if (chan_count == db_count) {
-          console.log(util.inspect(stats));
           res.contentType('json');
           res.send(JSON.stringify(stats));
         }
