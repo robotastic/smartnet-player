@@ -42,59 +42,35 @@ html
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
-        var formatPercent = d3.format(".0%");
+        
 
-        var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1);
+        var w = 500;
+        var h = 100;
+        var barPadding = 1;
 
-        var y = d3.scale.linear()
-            .range([height, 0]);
+        function add_graph(channel) {
+        var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .tickFormat(formatPercent);
-
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        d3.json("/volume", function(channels) {
-          x.domain(channels[0].historic );
-          y.domain([0, 24]);
-
-          svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-
-          svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis)
-            .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", ".71em")
-              .style("text-anchor", "end")
-              .text("Frequency");
-
-          svg.selectAll(".bar")
-              .data(data)
-            .enter().append("rect")
-              .attr("class", "bar")
-              .attr("x", function(d) { return x(d.letter); })
-              .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.frequency); })
-              .attr("height", function(d) { return height - y(d.frequency); });
-
-        });
-
+        svg.selectAll("rect")
+           .data(channel.historic)
+           .enter()
+           .append("rect")
+           .attr("x", function(d, i) {
+            return i * (w / channel.historic.length);
+            })
+           .attr("y", function(d) {
+                    return h - (d * 4);
+                 })
+                 .attr("width", w / channel.historic.length - barPadding)
+                 .attr("height", function(d) {
+                    return d * 4;
+                 });
+        }
+        $.getJSON( "/volume", function( data ) {
+          $.each( data, function( key, val ) {
+            add_graph(val);
+          });
+      });
         
     #jquery_jplayer_1.jp-jplayer
 
