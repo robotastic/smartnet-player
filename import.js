@@ -50,7 +50,7 @@ function add_file(files, i) {
       console.log('Moved: ' + f);
       var input = fs.createReadStream(target_file);
       input.pipe(reader);
-      reader.on('end', function() {
+      reader.on('readable', function() {
 
         transItem = {
           talkgroup: tg,
