@@ -37,3 +37,7 @@ body {
 .jp-time-holder {
 	padding-right: 10px;
 }
+
+.graph {
+	clear: both;
+}

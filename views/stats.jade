@@ -45,11 +45,11 @@ html
         
 
         var w = 500;
-        var h = 100;
+        var h = 125;
         var barPadding = 1;
 
-        function add_graph(channel) {
-          var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+        function add_graph(id, channel) {
+          var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
           svg.selectAll("rect")
              .data(channel.historic)
@@ -61,14 +61,17 @@ html
              .attr("y", function(d) {
                       return h - (d * 4);
                    })
-                   .attr("width", w / channel.historic.length - barPadding)
-                   .attr("height", function(d) {
-                      return d * 4;
-                   });
+             .attr("width", w / channel.historic.length - barPadding)
+             .attr("height", function(d) {
+                return d * 2;
+             }).attr("fill", "teal");
         }
         $.getJSON( "/volume", function( data ) {
+          var i =0;
           $.each( data, function( key, val ) {
-            add_graph(val);
+            var div = $("<div>", {id: "graph-"+i, class: "graph"});
+            div.append("<h2/>").text(val.name);
+            add_graph("#graph-"+i, val);
           });
         });
         
