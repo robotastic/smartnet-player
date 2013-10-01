@@ -298,60 +298,48 @@ app.post('/calls', function(req, res) {
   });
 
 });
-
-app.get('/stats', function(req, res) {
+app.get('/stats', function(req, res) { 
+          res.render('stats', {});
+});
+app.get('/volume', function(req, res) {
 
   var stats = {};
   var chan_count = 0;
   var db_count = 0;
 
   db.collection('call_volume', function(err, collection) {
-  for (var chan_num in channels) {
-    var historic = new Array();
-    chan_count++;
+    for (var chan_num in channels) {
+      var historic = new Array();
+      chan_count++;
 
-    for (hour = 0; hour < 25; hour++) {
-      historic[hour] = 0;
-    }
-    stats[chan_num] = {
-            name: channels[chan_num].alpha,
-            desc: channels[chan_num].desc,
-            historic: historic
-          };
-    
-   
-    
-
+      for (hour = 0; hour < 25; hour++) {
+        historic[hour] = 0;
+      }
+      stats[chan_num] = {
+        name: channels[chan_num].alpha,
+        desc: channels[chan_num].desc,
+        historic: historic
+      };
       var query = {
         "_id.talkgroup": parseInt(chan_num)
       };
       collection.find(query).toArray(function(err, results) {
         db_count++;
         if (err) console.log(err);
-        if (results && (results.length > 0)){
-           console.log("TG: " + results[0]._id.talkgroup + " Length: " + results.length );
-         
+        if (results && (results.length > 0)) {
           for (var i = 0; i < results.length; i++) {
-
             stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
-            console.log("  - " + results[i]._id.hour + " | " + results[i].value.count);
           }
-          /*var obj = stats[results[0]._id.talkgroup];
-          obj['historic'] = historic;
-          stats[results[0]._id.talkgroup] = obj;*/
         }
-        else {
-          console.log("Skipping: " + db_count);
-        }
-        if (chan_count == db_count ) {
+        if (chan_count == db_count) {
           console.log(util.inspect(stats));
           res.contentType('json');
           res.send(JSON.stringify(stats));
         }
       });
-    
-  }
-});
+
+    }
+  });
 });
 
 function notify_clients(call) {
