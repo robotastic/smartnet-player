@@ -66,7 +66,7 @@ html
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         d3.json("/volume", function(channels) {
-          x.domain(channels.map(function(d) { return d.historic; }));
+          x.domain(channels[0].historic );
           y.domain([0, 24]);
 
           svg.append("g")
