@@ -91,7 +91,7 @@ scanner.open(function(err, scannerDb) {
           path: local_path
         };
         transItem.len = reader.chunkSize / reader.byteRate;
-        fs.closeSync(target_file);
+        fs.closeSync(input);
         /*
           if (err) {
             console.log("Error with FFProbe: " + err);
