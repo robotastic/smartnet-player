@@ -313,22 +313,22 @@ app.get('/stats', function(req, res) {
 
     var obj = channels[chan_num];
     var now = new Date();
-    console.log("Channel: " + chan_num);
+    console.log("Channel: " + chan_num + " Count: " + chan_count + " length: " + channels.length);
     db.collection('call_volume', function(err, collection) {
       collection.find({
         "_id.talkgroup": chan_num
       }).toArray(function(err, results) {
-        console.log(chan_num + " - " + util.inspect(results) + " - " + err);
+        console.log(results[i]._id.talkgroup + " - " + util.inspect(results) + " - " + err);
         for (var i = 0; i < results.length; i++) {
 
           historic[results[i]._id.hour] = results[i].value.count;
         }
         stats[chan_num] = {
-          name: channels[chan_num].alpha,
-          desc: channels[chan_num].desc,
+          name: channels[results[i]._id.talkgroup].alpha,
+          desc: channels[results[i]._id.talkgroup].desc,
           historic: historic
         }
-        if (chan_count == channels.lenght) {
+        if (chan_count == channels.length) {
           console.log(util.inspect(stats));
           res.contentType('json');
           res.send(JSON.stringify(stats));
