@@ -330,7 +330,7 @@ app.get('/stats', function(req, res) {
           for (var i = 0; i < results.length; i++) {
 
             stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
-            console.log("  - " + results[i]._id.hour +)
+            console.log("  - " + results[i]._id.hour + " | " + results[i].value.count);
           }
           /*var obj = stats[results[0]._id.talkgroup];
           obj['historic'] = historic;
