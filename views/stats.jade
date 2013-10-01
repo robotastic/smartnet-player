@@ -49,28 +49,28 @@ html
         var barPadding = 1;
 
         function add_graph(channel) {
-        var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+          var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 
-        svg.selectAll("rect")
-           .data(channel.historic)
-           .enter()
-           .append("rect")
-           .attr("x", function(d, i) {
-            return i * (w / channel.historic.length);
-            })
-           .attr("y", function(d) {
-                    return h - (d * 4);
-                 })
-                 .attr("width", w / channel.historic.length - barPadding)
-                 .attr("height", function(d) {
-                    return d * 4;
-                 });
+          svg.selectAll("rect")
+             .data(channel.historic)
+             .enter()
+             .append("rect")
+             .attr("x", function(d, i) {
+              return i * (w / channel.historic.length);
+              })
+             .attr("y", function(d) {
+                      return h - (d * 4);
+                   })
+                   .attr("width", w / channel.historic.length - barPadding)
+                   .attr("height", function(d) {
+                      return d * 4;
+                   });
         }
         $.getJSON( "/volume", function( data ) {
           $.each( data, function( key, val ) {
             add_graph(val);
           });
-      });
+        });
         
     #jquery_jplayer_1.jp-jplayer
 
