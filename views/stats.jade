@@ -36,7 +36,7 @@ html
               a(href='/about') About
     
     .container
-
+      #graphs
       script.
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
@@ -69,9 +69,10 @@ html
         $.getJSON( "/volume", function( data ) {
           var i =0;
           $.each( data, function( key, val ) {
+            i++;
             var div = $("<div>", {id: "graph-"+i, class: "graph"});
             div.append("<h2/>").text(val.name);
-            $(".container").append(div);
+            $("#graphs").append(div);
             add_graph("#graph-"+i, val);
           });
         });
