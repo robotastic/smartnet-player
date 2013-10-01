@@ -64,7 +64,7 @@ function add_file(files, i) {
           transCollection.insert(transItem);
           console.log("Added: " + f);
           input.unpipe(reader);
-          add_file(files,i);
+          add_file(files,i+1);
         });
 
       });
