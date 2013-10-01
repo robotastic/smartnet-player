@@ -313,7 +313,7 @@ app.get('/stats', function(req, res) {
 
     var obj = channels[chan_num];
     var now = new Date();
-    console.log("Channel: " + chan_num + " Count: " + chan_count + " length: " + channels.length);
+    var last_chan_num = chan_num; // since the DB call is Async, this will be the final chan and once we hit it we can stop
     db.collection('call_volume', function(err, collection) {
       collection.find({
         "_id.talkgroup": chan_num
@@ -328,7 +328,7 @@ app.get('/stats', function(req, res) {
           desc: channels[results[i]._id.talkgroup].desc,
           historic: historic
         }
-        if (chan_count == channels.length) {
+        if (last_chan_num == results[i]._id.talkgroup ) {
           console.log(util.inspect(stats));
           res.contentType('json');
           res.send(JSON.stringify(stats));
