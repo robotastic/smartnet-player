@@ -7,7 +7,7 @@ html
     script(type='text/javascript', src="http://d3js.org/d3.v3.min.js")
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/bootstrap.min.js')
-    script(type='text/javascript', src='/js/stats.js')
+    //script(type='text/javascript', src='/js/stats.js')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv="X-UA-Compatible" content="IE=9")
     // Bootstrap
@@ -65,9 +65,9 @@ html
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.json("/volume", function(error, data) {
-          x.domain(data.map(function(d) { return d.letter; }));
-          y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+        d3.json("/volume", function(channels) {
+          x.domain(data.map(function(d) { return d.historic; }));
+          y.domain([0, 24]);
 
           svg.append("g")
               .attr("class", "x axis")
