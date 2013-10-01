@@ -65,6 +65,16 @@ html
              .attr("height", function(d) {
                 return d * 2;
              }).attr("fill", "teal");
+          svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0," + (h - padding) + ")")
+              .call(xAxis);
+            
+            //Create Y axis
+          svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(" + padding + ",0)")
+              .call(yAxis);
         }
         $.getJSON( "/volume", function( data ) {
           var i =0;
