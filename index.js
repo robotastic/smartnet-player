@@ -317,7 +317,7 @@ app.get('/stats', function(req, res) {
       collection.find({
         "_id.talkgroup": chan_num
       }).toArray(function(err, results) {
-        console.log(chan_num + " - " + util.inspect(results));
+        console.log(chan_num + " - " + util.inspect(results) + " - " + err);
         for (var i = 0; i < results.length; i++) {
 
           historic[results[i]._id.hour] = results[i].value.count;
@@ -327,12 +327,13 @@ app.get('/stats', function(req, res) {
           desc: channels[chan_num].desc,
           historic: historic
         }
+          console.log(util.inspect(stats));
+       res.contentType('json');
+        res.send(JSON.stringify(stats));
       });
     });
   }
-  console.log(util.inspect(stats));
-  res.contentType('json');
-  res.send(JSON.stringify(stats));
+
 });
 
 function notify_clients(call) {
