@@ -301,160 +301,162 @@ app.post('/calls', function(req, res) {
 
 app.get('/stats', function(req, res) {
 
-    var stats = {};
+  var stats = {};
 
-    for (var chan_num in channels) {
-      var historic = new Array();
-      for (hour=0; hour<25; hour++) {
-        historic[hour] = 0;
-      }
+  for (var chan_num in channels) {
+    var historic = new Array();
+    for (hour = 0; hour < 25; hour++) {
+      historic[hour] = 0;
+    }
 
-      var obj = channels[chan_num];
-      var now = new Date();
+    var obj = channels[chan_num];
+    var now = new Date();
 
-      db.collection('call_volume', function(err, collection) {
-          collection.find({
-              "_id.talkgroup": {
-                chan_num
-              },{time: {gte: Date.today - 1}}}).toArray(function(err, results) {
-              for (var i = 0; i < results.length; i++) {
-                
-                historic[results[i]._id.hour] = results[i].value.count; 
-              }
-              stats[chan_num] = {
-                name: channels[chan_num].alpha,
-                desc: channels[chan_num].desc,
-                historic: channel
-              }
-            });
-          });
-      }
-      console.log(util.inspect(stats));
-      res.contentType('json');
-      res.send(JSON.stringify(stats));
+    db.collection('call_volume', function(err, collection) {
+      collection.find({
+        "_id.talkgroup": 
+          chan_num
+        }
+      }).toArray(function(err, results) {
+        for (var i = 0; i < results.length; i++) {
+
+          historic[results[i]._id.hour] = results[i].value.count;
+        }
+        stats[chan_num] = {
+          name: channels[chan_num].alpha,
+          desc: channels[chan_num].desc,
+          historic: channel
+        }
+      });
     });
+  }
+  console.log(util.inspect(stats));
+  res.contentType('json');
+  res.send(JSON.stringify(stats));
+});
 
-  function notify_clients(call) {
+function notify_clients(call) {
 
-    for (var i = 0; i < clients.length; i++) {
-      if (clients[i].code == "") {
-        console.log("Call TG # is set to All");
-        clients[i].socket.emit('calls', call);
-      } else {
-        if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
-          console.log("Talkgroup filter found: " + clients[i].code);
-          if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-            console.log("Call TG # Found in filer");
-            clients[i].socket.emit('calls', call);
-          }
+  for (var i = 0; i < clients.length; i++) {
+    if (clients[i].code == "") {
+      console.log("Call TG # is set to All");
+      clients[i].socket.emit('calls', call);
+    } else {
+      if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
+        console.log("Talkgroup filter found: " + clients[i].code);
+        if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
+          console.log("Call TG # Found in filer");
+          clients[i].socket.emit('calls', call);
         }
       }
     }
   }
-  watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
-    //monitor.files['*.mp3'];
-    monitor.files['*.wav'];
+}
+watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
+  //monitor.files['*.mp3'];
+  monitor.files['*.wav'];
 
 
-    monitor.on("created", function(f, stat) {
-      /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
+  monitor.on("created", function(f, stat) {
+    /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.mp3');*/
-      if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
-        var name = path.basename(f, '.wav');
-        var regex = /([0-9]*)-([0-9]*)/
-        var result = name.match(regex);
-        var tg = parseInt(result[1]);
-        var time = new Date(parseInt(result[2]) * 1000);
-        var base_path = '/srv/www/robotastic.com/public/media';
-        var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
-        mkdirp.sync(base_path + local_path, function(err) {
-          if (err) console.error(err);
-        });
-        var target_file = base_path + local_path + path.basename(f);
-        fs.rename(f, target_file, function(err) {
-          if (err)
-            throw err;
-          console.log('Moved: ' + f);
-          var reader = new wav.Reader();
-          var input = fs.createReadStream(target_file);
-          input.pipe(reader);
-          reader.once('readable', function() {
-            //probe(target_file, function(err, probeData) {
+    if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.wav');
+      var regex = /([0-9]*)-([0-9]*)/
+      var result = name.match(regex);
+      var tg = parseInt(result[1]);
+      var time = new Date(parseInt(result[2]) * 1000);
+      var base_path = '/srv/www/robotastic.com/public/media';
+      var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
+      mkdirp.sync(base_path + local_path, function(err) {
+        if (err) console.error(err);
+      });
+      var target_file = base_path + local_path + path.basename(f);
+      fs.rename(f, target_file, function(err) {
+        if (err)
+          throw err;
+        console.log('Moved: ' + f);
+        var reader = new wav.Reader();
+        var input = fs.createReadStream(target_file);
+        input.pipe(reader);
+        reader.once('readable', function() {
+          //probe(target_file, function(err, probeData) {
 
-            transItem = {
-              talkgroup: tg,
-              time: time,
-              name: path.basename(f),
-              path: local_path,
-            };
-            transItem.len = reader.chunkSize / reader.byteRate;
+          transItem = {
+            talkgroup: tg,
+            time: time,
+            name: path.basename(f),
+            path: local_path,
+          };
+          transItem.len = reader.chunkSize / reader.byteRate;
 
-            /*if (err) {
+          /*if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
           }*/
-            db.collection('transmissions', function(err, transCollection) {
-              transCollection.insert(transItem, function(err, objects) {
-                if (err) console.warn(err.message);
-                var objectId = transItem._id;
+          db.collection('transmissions', function(err, transCollection) {
+            transCollection.insert(transItem, function(err, objects) {
+              if (err) console.warn(err.message);
+              var objectId = transItem._id;
 
-                console.log("Added: " + f);
-                var call = {
-                  objectId: objectId,
-                  talkgroup: transItem.talkgroup,
-                  filename: transItem.path + transItem.name,
-                  time: transItem.time,
-                  len: Math.round(transItem.len) + 's'
-                };
-                notify_clients(call);
-              });
+              console.log("Added: " + f);
+              var call = {
+                objectId: objectId,
+                talkgroup: transItem.talkgroup,
+                filename: transItem.path + transItem.name,
+                time: transItem.time,
+                len: Math.round(transItem.len) + 's'
+              };
+              notify_clients(call);
             });
+          });
 
 
-            /*
+          /*
           io.sockets.emit('calls', {
             talkgroup: transItem.talkgroup,
             filename: transItem.path + transItem.name,
             time: transItem.time,
             len: Math.round(transItem.len)+'s'
           });*/
-          });
-          reader.on('data', function(chunk) {
-            //console.log('got %d bytes of data', chunk.length);
-          });
-          reader.on('end', function() {
-            console.log('Finished Reading File');
-            input.unpipe(reader);
-            
-          });
         });
+        reader.on('data', function(chunk) {
+          //console.log('got %d bytes of data', chunk.length);
+        });
+        reader.on('end', function() {
+          console.log('Finished Reading File');
+          input.unpipe(reader);
 
-      }
-    });
+        });
+      });
+
+    }
   });
+});
 
 
-  io.sockets.on('connection', function(socket) {
-    var client = {
-      id: socket.id,
-      socket: socket,
-      code: null
-    };
-    console.log("Client Joined: " + socket.id);
-    clients.push(client);
+io.sockets.on('connection', function(socket) {
+  var client = {
+    id: socket.id,
+    socket: socket,
+    code: null
+  };
+  console.log("Client Joined: " + socket.id);
+  clients.push(client);
 
-    socket.on('disconnect', function() {
-      clients.splice(clients.indexOf(client), 1);
-      console.log(socket.id + ' disconnected');
-      //remove user from db
-    });
-    socket.on('code', function(data) {
-      console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
-      var index = clients.indexOf(client);
-      clients[index].code = data.code;
-      console.log("Clients: " + util.inspect(clients));
-    });
-    socket.emit('ready', {});
-  }); server.listen(3004);
+  socket.on('disconnect', function() {
+    clients.splice(clients.indexOf(client), 1);
+    console.log(socket.id + ' disconnected');
+    //remove user from db
+  });
+  socket.on('code', function(data) {
+    console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
+    var index = clients.indexOf(client);
+    clients[index].code = data.code;
+    console.log("Clients: " + util.inspect(clients));
+  });
+  socket.emit('ready', {});
+});
+server.listen(3004);
