@@ -304,6 +304,8 @@ app.get('/stats', function(req, res) {
   var stats = {};
   var chan_count = 0;
   var db_count = 0;
+
+  db.collection('call_volume', function(err, collection) {
   for (var chan_num in channels) {
     var historic = new Array();
     chan_count++;
@@ -319,11 +321,13 @@ app.get('/stats', function(req, res) {
     
    
     
-    db.collection('call_volume', function(err, collection) {
-      collection.find({
-        "_id.talkgroup": chan_num
-      }).toArray(function(err, results) {
+
+      var query = {
+        "_id.talkgroup": parseInt(chan_num)
+      };
+      collection.find(query).toArray(function(err, results) {
         db_count++;
+        if (err) console.log(err);
         if (results && (results.length > 0)){
            console.log("TG: " + results[0]._id.talkgroup + " Length: " + results.length );
          
@@ -345,9 +349,9 @@ app.get('/stats', function(req, res) {
           res.send(JSON.stringify(stats));
         }
       });
-    });
+    
   }
-
+});
 });
 
 function notify_clients(call) {
