@@ -313,7 +313,8 @@ app.get('/stats', function(req, res) {
     }
     stats[chan_num] = {
             name: channels[chan_num].alpha,
-            desc: channels[chan_num].desc
+            desc: channels[chan_num].desc,
+            historic: historic
           };
     
    
@@ -324,14 +325,19 @@ app.get('/stats', function(req, res) {
       }).toArray(function(err, results) {
         db_count++;
         if (results && (results.length > 0)){
+           console.log("TG: " + results[0]._id.talkgroup + " Length: " + results.length );
+         
           for (var i = 0; i < results.length; i++) {
 
-            historic[results[i]._id.hour] = results[i].value.count;
+            stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
+            console.log("  - " + results[i]._id.hour +)
           }
-          
-          var obj = stats[results[0]._id.talkgroup];
+          /*var obj = stats[results[0]._id.talkgroup];
           obj['historic'] = historic;
-          stats[results[0]._id.talkgroup] = obj;
+          stats[results[0]._id.talkgroup] = obj;*/
+        }
+        else {
+          console.log("Skipping: " + db_count);
         }
         if (chan_count == db_count ) {
           console.log(util.inspect(stats));
