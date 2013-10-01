@@ -305,17 +305,19 @@ app.get('/stats', function(req, res) {
 
   for (var chan_num in channels) {
     var historic = new Array();
+
     for (hour = 0; hour < 25; hour++) {
       historic[hour] = 0;
     }
 
     var obj = channels[chan_num];
     var now = new Date();
-
+    console.log("Channel: " + chan_num);
     db.collection('call_volume', function(err, collection) {
       collection.find({
         "_id.talkgroup": chan_num
       }).toArray(function(err, results) {
+        console.log(chan_num + " - " + util.inspect(results));
         for (var i = 0; i < results.length; i++) {
 
           historic[results[i]._id.hour] = results[i].value.count;
