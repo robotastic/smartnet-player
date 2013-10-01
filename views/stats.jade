@@ -57,11 +57,11 @@ html
 
                   //Create scale functions
           var xScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic, function(d) { return d[0]; })])
+                     .domain([0, d3.max(channel.historic, function(d) { return d; })])
                      .range([padding, w - padding * 2]);
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic, function(d) { return d[1]; })])
+                     .domain([0, d3.max(channel.historic, function(d) { return d; })])
                      .range([h - padding, padding]);
 
           var rScale = d3.scale.linear()

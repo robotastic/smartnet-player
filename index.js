@@ -313,6 +313,7 @@ app.get('/volume', function(req, res) {
       chan_count++;
 
       for (hour = 0; hour < 25; hour++) {
+        
         historic[hour] = 0;
       }
       stats[chan_num] = {
