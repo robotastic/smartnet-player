@@ -83,5 +83,5 @@ scanner.open(function(err, scannerDb) {
 
   var files = fs.readdirSync(source_path);
   console.log("Found " + files.length + " Files");
-  add_file(files,i);
+  add_file(files,0);
 });
