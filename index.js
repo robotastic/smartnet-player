@@ -302,9 +302,10 @@ app.post('/calls', function(req, res) {
 app.get('/stats', function(req, res) {
 
   var stats = {};
-
+  var chan_count = 0;
   for (var chan_num in channels) {
     var historic = new Array();
+    chan_count++;
 
     for (hour = 0; hour < 25; hour++) {
       historic[hour] = 0;
@@ -327,9 +328,11 @@ app.get('/stats', function(req, res) {
           desc: channels[chan_num].desc,
           historic: historic
         }
+        if (chan_count == channels.lenght) {
           console.log(util.inspect(stats));
-       res.contentType('json');
-        res.send(JSON.stringify(stats));
+          res.contentType('json');
+          res.send(JSON.stringify(stats));
+        }
       });
     });
   }
