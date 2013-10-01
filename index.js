@@ -329,7 +329,8 @@ app.get('/stats', function(req, res) {
             historic[results[i]._id.hour] = results[i].value.count;
           }
           
-          stats[results[0]._id.talkgroup]['historic'] = historic;
+          var obj = stats[results[0]._id.talkgroup];
+          obj['historic'] = historic;
         }
         if (chan_count == db_count ) {
           console.log(util.inspect(stats));
