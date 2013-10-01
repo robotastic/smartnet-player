@@ -27,6 +27,7 @@ function add_file(files, i) {
     if ( i< files.length) {
     var f = path.join(source_path, files[i]);
     console.log("Trying: " +f);
+    var reader = new wav.Reader();
 
     //    if ((path.extname(f) == '.mp3')) {
     //      var name = path.basename(f, '.mp3');
@@ -73,7 +74,7 @@ function add_file(files, i) {
 }
 
 
-var reader = new wav.Reader();
+
 var source_path = '/home/luke/smartnet-upload';
 
 scanner.open(function(err, scannerDb) {
