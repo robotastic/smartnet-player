@@ -311,23 +311,25 @@ app.get('/stats', function(req, res) {
     for (hour = 0; hour < 25; hour++) {
       historic[hour] = 0;
     }
-
-    var obj = channels[chan_num];
-    var now = new Date();
+    stats[chan_num] = {
+            name: channels[chan_num].alpha,
+            desc: channels[chan_num].desc
+          };
+    
+   
     
     db.collection('call_volume', function(err, collection) {
       collection.find({
         "_id.talkgroup": chan_num
       }).toArray(function(err, results) {
         db_count++;
-        for (var i = 0; i < results.length; i++) {
+        if (results && (results.length > 0)){
+          for (var i = 0; i < results.length; i++) {
 
-          historic[results[i]._id.hour] = results[i].value.count;
-        }
-        stats[chan_num] = {
-          name: channels[results[i]._id.talkgroup].alpha,
-          desc: channels[results[i]._id.talkgroup].desc,
-          historic: historic
+            historic[results[i]._id.hour] = results[i].value.count;
+          }
+          
+          stats[results[0]._id.talkgroup]['historic'] = historic;
         }
         if (chan_count == db_count ) {
           console.log(util.inspect(stats));
