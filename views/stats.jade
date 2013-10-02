@@ -53,7 +53,7 @@ html
 
 
         function add_graph(id, channel) {
-          var x = d3.time.scale().domain([new Date(2011, 0, 1), new Date(2011, 0, 1, 23, 59)]).range([0, w]);
+          var x = d3.time.scale().domain([new Date(2011, 0, 1), new Date(2011, 0, 1, 23, 59)]).range([padding, w - padding * 2]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
                   //Create scale functions
@@ -65,9 +65,6 @@ html
                      .domain([0, d3.max(channel.historic, function(d) { return d; })])
                      .range([h - padding, padding]);
 
-          var rScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic, function(d) { return d[1]; })])
-                     .range([2, 5]);
 
           //Define X axis
           var xAxis = d3.svg.axis()
@@ -85,12 +82,8 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d, i) {
-              return i * (w / channel.historic.length);
-              })
-             .attr("y", function(d) {
-                      return h - (d * 2);
-                   })
+             .attr("x", xScale)
+             .attr("y", yScale)
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) {
                 return d * 2;
