@@ -230,6 +230,8 @@ app.post('/', function(req, res) {
   if (!filter_code) filter_code = "";
   var filter_date = req.body.filter_date;
   if (!filter_date) filter_date = "";
+  console.log("Code: " + filter_code + " Date: "+filter_date);
+  console.log(util.inspect(req.body));
   res.render('player', {
     filter_date: filter_date,
     filter_code: filter_code

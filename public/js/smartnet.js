@@ -277,8 +277,7 @@ function fetch_calls(offset) {
 function init_table() {
 	per_page = 20;
 	current_page = 1;
-	//filter_code = "";
-	//filter_date = "";
+
 	$('#filter-title').html("All");
 	fetch_calls(0);
 
@@ -374,7 +373,5 @@ $(document).ready(function() {
 			$('#autoplay-btn').removeClass('active');
 		}
 	});
-	if (filter_code != ""){
-		fetch_calls(0);
-	}
+
 });
