@@ -51,7 +51,7 @@ html
 
 
         function clickEvent(d, i) {
-            var channel = $(this).data("channel");
+            var channel = $(this).closest("div").data("channel");
             alert("Channel: " + channel.name + " D: " + d + " I: " + i);
         };
 
