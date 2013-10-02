@@ -217,6 +217,15 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.bodyParser());
 
 app.get('/', function(req, res) {
+  var filter_code = "";
+  var filter_date = "";
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: filter_code
+  });
+});
+
+app.post('/', function(req, res) {
   var filter_code = req.body.filter_code;
   if (!filter_code) filter_code = "";
   var filter_date = req.body.filter_date;
