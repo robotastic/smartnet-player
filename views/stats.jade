@@ -58,11 +58,11 @@ html
 
                   //Create scale functions
           var xScale = d3.scale.ordinal()
-                     .domain(channel.historic)
+                     .domain([0, channel.historic.length])
                      .range([padding, w - padding]);
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic)])
+                     .domain([0, d3.max(channel.historic, function(d) { return d; })])
                      .range([h - padding, padding]);
 
 
@@ -85,9 +85,7 @@ html
              .attr("x", xScale)
              .attr("y", yScale)
              .attr("width", w / channel.historic.length - barPadding)
-             .attr("height", function(d) {
-                return d * 2;
-             }).attr("fill", "teal");
+             .attr("height", yScale).attr("fill", "teal");
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
