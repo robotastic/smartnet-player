@@ -82,10 +82,10 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d, i) { return xScale(i) - .5; })
+             .attr("x", function(d, i) { i * ((w - 2*padding) / channel.historic.length) +padding })
              .attr("y", function(d) { return h - yScale(d) - .5; })
              .attr("width", w / channel.historic.length - barPadding)
-             .attr("height", yScale).attr("fill", "teal");
+             .attr("height", yScale - padding).attr("fill", "teal");
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
