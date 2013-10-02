@@ -82,7 +82,7 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) +padding })
+             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding })
              .attr("y", function(d) { return h - yScale(d) - .5; })
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", yScale - padding).attr("fill", "teal");
