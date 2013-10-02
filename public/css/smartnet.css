@@ -42,6 +42,10 @@ body {
 	clear: both;
 }
 
+rect:hover {
+ opacity : 0.5;
+}
+
 .axis path,
 .axis line {
     fill: none;

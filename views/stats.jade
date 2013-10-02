@@ -36,6 +36,7 @@ html
               a(href='/about') About
     
     .container
+      #redirect-form
       #graphs
       script.
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -46,13 +47,26 @@ html
 
         var w = 500;
         var h = 125;
-        var barPadding = 2;
+        var barPadding = 3;
         var padding = 30;
 
 
         function clickEvent(d, i) {
-            var channel = $(this).closest("div").data("channel");
+            var graph = $(this).closest("div");
+            var channel = graph.data("channel");
+            var start = graph.data("t");
+            var filter_code = 'tg-' + channel.chan_num;
+
+
+            start.setHours(start.getHours() - i);
+
+            var date_string = start.toDateString() + " " + fstart.toLocaleTimeString();    
+  
+
             alert("Channel: " + channel.name + " D: " + d + " I: " + i);
+            $('#redirect-form').html('<form action="http://robotastic/calls" name="redirect" method="post" style="display:none;"><input type="text" name="filter_code" value="' + filter_code + '" /><input type="text" name="filter_date" value="' + date_string + '" /></form>');
+
+    document.forms['vote'].submit();
         };
 
         function add_graph(id, channel, t) {
@@ -71,7 +85,7 @@ html
 
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic)])
-                     .range([padding, h - padding]);
+                     .range([h - padding, padding]);
 
 
           //Define X axis

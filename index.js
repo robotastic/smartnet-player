@@ -75,122 +75,126 @@ talkgroup_filters['tag-transportation'] = [35664];
 
 function build_filter(code, start_time) {
   var filter = {};
-  switch (code) {
-    case 'group-fire':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'group-common':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'group-services':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-ops':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-ems-tac':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-ems-talk':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-fire-dispatch':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-fire-tac':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-fire-talk':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-hospital':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-interop':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-law-dispatch':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-law-tac':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-public-works':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-security':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-    case 'tag-transportation':
-      filter = {
-        talkgroup: {
-          $in: talkgroup_filters[code]
-        }
-      };
-      break;
-
-
-
+  if (code.substring(0, 3) == 'tg-') {
+    tg_num = parseInt(code.substring(3));
+    filter = {
+      talkgroup: tg_num
+    }
+  } else {
+    switch (code) {
+      case 'group-fire':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'group-common':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'group-services':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-ops':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-ems-tac':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-ems-talk':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-fire-dispatch':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-fire-tac':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-fire-talk':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-hospital':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-interop':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-law-dispatch':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-law-tac':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-public-works':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-security':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+      case 'tag-transportation':
+        filter = {
+          talkgroup: {
+            $in: talkgroup_filters[code]
+          }
+        };
+        break;
+    }
   }
   if (start_time) {
     var start = new Date(start_time);
@@ -213,8 +217,13 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.bodyParser());
 
 app.get('/', function(req, res) {
+  var filter_code = req.body.filter_code;
+  if (!filter_code) filter_code = "";
+  var filter_date = req.body.filter_date;
+  if (!filter_date) filter_date = "";
   res.render('player', {
-    calls: []
+    filter_date: filter_date,
+    filter_code: filter_code
   });
 });
 
@@ -255,7 +264,7 @@ app.get('/call/:id', function(req, res) {
 });
 
 app.post('/calls', function(req, res) {
-  console.log(req.body.offset);
+ 
   var per_page = req.body.per_page;
   var offset = req.body.offset;
   var filter_code = req.body.filter_code;
@@ -298,8 +307,8 @@ app.post('/calls', function(req, res) {
   });
 
 });
-app.get('/stats', function(req, res) { 
-          res.render('stats', {});
+app.get('/stats', function(req, res) {
+  res.render('stats', {});
 });
 app.get('/volume', function(req, res) {
 
@@ -319,6 +328,7 @@ app.get('/volume', function(req, res) {
       stats[chan_num] = {
         name: channels[chan_num].alpha,
         desc: channels[chan_num].desc,
+        num: chan_num,
         historic: historic
       };
       var query = {

@@ -2,8 +2,6 @@
 var channels;
 var current_page;
 var per_page;
-var filter_code;
-var filter_date;
 var socket;
 var live = false;
 var now_playing = null;
@@ -85,7 +83,7 @@ function print_call_row(call, live) {
     callview.click(function() {
     	    location.href = "/call/"+call.objectId;
     });
-    poptent = "<b>Eevntually, you will be able to share calls using Twitter</b>";
+    poptent = "<b>Evntually, you will be able to share calls using Twitter</b>";
     popoverOptions = {
     	container: 'body',
     	title: 'share',
@@ -279,8 +277,8 @@ function fetch_calls(offset) {
 function init_table() {
 	per_page = 20;
 	current_page = 1;
-	filter_code = "";
-	filter_date = "";
+	//filter_code = "";
+	//filter_date = "";
 	$('#filter-title').html("All");
 	fetch_calls(0);
 
@@ -376,4 +374,7 @@ $(document).ready(function() {
 			$('#autoplay-btn').removeClass('active');
 		}
 	});
+	if (filter_code != ""){
+		fetch_calls(0);
+	}
 });
