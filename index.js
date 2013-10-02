@@ -79,7 +79,8 @@ function build_filter(code, start_time) {
     tg_num = parseInt(code.substring(3));
     filter = {
       talkgroup: tg_num
-    }
+    };
+    console.log(util.inspect(filter));
   } else {
     switch (code) {
       case 'group-fire':
