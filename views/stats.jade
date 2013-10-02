@@ -57,12 +57,12 @@ html
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
                   //Create scale functions
-          var xScale = d3.scale.linear()
-                     .domain([0, channel.historic.length])
+          var xScale = d3.scale.ordinal()
+                     .domain(channel.historic)
                      .range([padding, w - padding]);
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic, function(d) { return d; })])
+                     .domain([0, d3.max(channel.historic)])
                      .range([h - padding, padding]);
 
 
@@ -82,10 +82,8 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d) {
-            return xScale(d)})
-             .attr("y", function(d) {
-            return yScale(d)})
+             .attr("x", xScale)
+             .attr("y", yScale)
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) {
                 return d * 2;
