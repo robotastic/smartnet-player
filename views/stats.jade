@@ -85,7 +85,7 @@ html
              .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding })
              .attr("y", function(d) { return h - yScale(d) - .5; })
              .attr("width", w / channel.historic.length - barPadding)
-             .attr("height", yScale - padding).attr("fill", "teal");
+             .attr("height", function(d) { return yScale(d) - padding; }).attr("fill", "teal");
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
