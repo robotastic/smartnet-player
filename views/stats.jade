@@ -99,7 +99,6 @@ html
                     .scale(yScale)
                     .orient("left")
                   .ticks(5);
-
           svg.selectAll("rect")
              .data(channel.historic)
              .enter()
@@ -108,18 +107,16 @@ html
              .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding; })
              .attr("y", function(d) { return h - yScale(d) })
              .attr("width", w / channel.historic.length - barPadding)
-             .attr("height", function(d) { return yScale(d) - padding; }).attr("fill", "teal");
+             .attr("height", function(d) { return yScale(d) - padding; })
+             .attr("fill", "teal");
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
               .call(xAxis);
-            
-            //Create Y axis
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(" + padding + ",0)")
               .call(yAxis);
-
         }
         $.getJSON( "/volume", function( data ) {
           var i =0;
