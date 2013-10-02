@@ -53,6 +53,7 @@ html
 
 
         function add_graph(id, channel) {
+          var x = d3.time.scale().domain([new Date(2011, 0, 1), new Date(2011, 0, 1, 23, 59)]).range([0, w]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
                   //Create scale functions
@@ -70,9 +71,9 @@ html
 
           //Define X axis
           var xAxis = d3.svg.axis()
-                    .scale(xScale)
+                    .scale(x)
                     .orient("bottom")
-                    .ticks(12);
+                    .ticks(6);
 
           //Define Y axis
           var yAxis = d3.svg.axis()
