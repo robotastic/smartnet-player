@@ -66,7 +66,7 @@ html
             alert("Channel: " + channel.name + " D: " + d + " I: " + i);
             $('#redirect-form').html('<form action="http://robotastic/calls" name="redirect" method="post" style="display:none;"><input type="text" name="filter_code" value="' + filter_code + '" /><input type="text" name="filter_date" value="' + date_string + '" /></form>');
 
-    document.forms['vote'].submit();
+            document.forms['redirect'].submit();
         };
 
         function add_graph(id, channel, t) {
@@ -82,18 +82,14 @@ html
           var xScale = d3.scale.linear()
                      .domain([0, 1])
                      .range([0, 20]);
-
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic)])
                      .range([h - padding, padding]);
-
-
           //Define X axis
           var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient("bottom")
                     .ticks(6);
-
           //Define Y axis
           var yAxis = d3.svg.axis()
                     .scale(yScale)
