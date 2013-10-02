@@ -27,7 +27,7 @@ function add_file(files, i) {
     if ( i< files.length) {
     var f = path.join(source_path, files[i]);
     console.log("Trying: " +f);
-    var reader = new wav.Reader();
+    
 
     //    if ((path.extname(f) == '.mp3')) {
     //      var name = path.basename(f, '.mp3');
@@ -49,6 +49,8 @@ function add_file(files, i) {
       console.log("Target File: " + target_file + " Source: " + f);
       fs.renameSync(f, target_file);
       console.log('Moved: ' + f);
+
+      var reader = new wav.Reader();
       var input = fs.createReadStream(target_file);
       input.pipe(reader);
       reader.on('format', function() {
@@ -70,7 +72,7 @@ function add_file(files, i) {
 
       });
       reader.on('data', function(chunk) {
-        console.log('got %d bytes of data', chunk.length);
+        //console.log('got %d bytes of data', chunk.length);
       });
       reader.on('end', function() {
         console.log('end');

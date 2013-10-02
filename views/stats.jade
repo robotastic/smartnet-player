@@ -52,8 +52,11 @@ html
 
 
 
-        function add_graph(id, channel) {
-          var x = d3.time.scale().domain([new Date(2011, 0, 1), new Date(2011, 0, 1, 23, 59)]).range([padding, w - padding * 2]);
+        function add_graph(id, channel, t) {
+          var current = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours());
+          var start = new Date(current);
+          start.setDate(start.getDate() - 1);
+          var x = d3.time.scale().domain([start, current]).range([padding, w - padding * 2]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
                   //Create scale functions
@@ -82,7 +85,7 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding })
+             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding - .5; })
              .attr("y", function(d) { return h - yScale(d) - .5; })
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) { return yScale(d) - padding; }).attr("fill", "teal");
@@ -104,7 +107,7 @@ html
             var div = $("<div>", {id: "graph-"+i, class: "graph"});
             div.append("<h2/>").text(val.name);
             $("#graphs").append(div);
-            add_graph("#graph-"+i, val);
+            add_graph("#graph-"+i, val, new Date());
           });
         });
         

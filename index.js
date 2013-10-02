@@ -313,7 +313,7 @@ app.get('/volume', function(req, res) {
       chan_count++;
 
       for (hour = 0; hour < 25; hour++) {
-        
+
         historic[hour] = 0;
       }
       stats[chan_num] = {
@@ -386,7 +386,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         var reader = new wav.Reader();
         var input = fs.createReadStream(target_file);
         input.pipe(reader);
-        reader.once('readable', function() {
+        reader.once('format', function() {
           //probe(target_file, function(err, probeData) {
 
           transItem = {
