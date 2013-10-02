@@ -46,13 +46,18 @@ html
 
         var w = 500;
         var h = 125;
-        var barPadding = 1;
+        var barPadding = 2;
         var padding = 30;
 
 
-
+        function clickEvent(d, i) {
+            var channel = $(this).data("channel");
+            alert("Channel: " + channel.name + " D: " + d + " I: " + i);
+        };
 
         function add_graph(id, channel, t) {
+          $(id).data('channel', channel).data('start', t);
+
           var current = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours());
           var start = new Date(current);
           start.setDate(start.getDate() - 1);
@@ -85,8 +90,9 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding - .5; })
-             .attr("y", function(d) { return h - yScale(d) - .5; })
+             .on("click", clickEvent)
+             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding; })
+             .attr("y", function(d) { return h - yScale(d) })
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) { return yScale(d) - padding; }).attr("fill", "teal");
           svg.append("g")
@@ -99,6 +105,7 @@ html
               .attr("class", "axis")
               .attr("transform", "translate(" + padding + ",0)")
               .call(yAxis);
+
         }
         $.getJSON( "/volume", function( data ) {
           var i =0;
