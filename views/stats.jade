@@ -54,7 +54,7 @@ html
         function clickEvent(d, i) {
             var graph = $(this).closest("div");
             var channel = graph.data("channel");
-            var start = graph.data("t");
+            var start = graph.data("start");
             var filter_code = 'tg-' + channel.chan_num;
 
 
@@ -84,7 +84,7 @@ html
                      .range([0, 20]);
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic)])
-                     .range([h - padding, padding]);
+                     .range([padding, h - padding]);
           //Define X axis
           var xAxis = d3.svg.axis()
                     .scale(x)
