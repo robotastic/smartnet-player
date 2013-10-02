@@ -62,8 +62,8 @@ html
                      .range([padding, w - padding]);
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic, function(d) { return d; })])
-                     .range([h - padding, padding]);
+                     .domain([0, d3.max(channel.historic)])
+                     .range([padding, h - padding]);
 
 
           //Define X axis
@@ -82,7 +82,7 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", xScale)
+             .attr("x", function(d, i) { return xScale(i) - padding; })
              .attr("y", yScale)
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", yScale).attr("fill", "teal");
