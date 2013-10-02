@@ -59,7 +59,7 @@ html
                   //Create scale functions
           var xScale = d3.scale.linear()
                      .domain([0, channel.historic.length])
-                     .range([padding, w - padding * 2]);
+                     .range([padding, w - padding]);
 
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic, function(d) { return d; })])
@@ -82,8 +82,10 @@ html
              .data(channel.historic)
              .enter()
              .append("rect")
-             .attr("x", xScale)
-             .attr("y", yScale)
+             .attr("x", function(d) {
+            return xScale(d)})
+             .attr("y", function(d) {
+            return yScale(d)})
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) {
                 return d * 2;
