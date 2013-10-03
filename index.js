@@ -11,6 +11,7 @@ var app = express(),
   server = http.createServer(app),
   io = require('socket.io').listen(server);
 var csv = require('csv');
+var sys = require('sys');
 var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
@@ -252,6 +253,50 @@ app.post('/', function(req, res) {
 
 app.get('/about', function(req, res) {
   res.render('about', {});
+});
+
+app.get('/media*', function(req, res){
+  sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
+ 
+  var file = '/srv/www/robotastic.com/public' + req.url;
+  var stat = fs.statSync(file);
+
+  console.log ("File: " + file);
+  if (!stat.isFile()) return;
+ 
+  var start = 0;
+  var end = 0;
+  var range = req.header('Range');
+  if (range != null) {
+    start = parseInt(range.slice(range.indexOf('bytes=')+6,
+      range.indexOf('-')));
+    end = parseInt(range.slice(range.indexOf('-')+1,
+      range.length));
+  }
+  if (isNaN(end) || end == 0) end = stat.size-1;
+ 
+  if (start > end) return;
+ 
+  sys.puts('Browser requested bytes from ' + start + ' to ' +
+    end + ' of file ' + file);
+ 
+  var date = new Date();
+ 
+  res.writeHead(206, { // NOTE: a partial http response
+    // 'Date':date.toUTCString(),
+    'Connection':'close',
+    // 'Cache-Control':'private',
+    // 'Content-Type':'video/webm',
+    // 'Content-Length':end - start,
+    'Content-Range':'bytes '+start+'-'+end+'/'+stat.size,
+    // 'Accept-Ranges':'bytes',
+    // 'Server':'CustomStreamer/0.0.1',
+    'Transfer-Encoding':'chunked'
+    });
+ 
+  var stream = fs.createReadStream(file,
+    { flags: 'r', start: start, end: end});
+  stream.pipe(res);
 });
 
 app.get('/channels', function(req, res) {
