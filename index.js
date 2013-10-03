@@ -71,7 +71,7 @@ csv()
     tg_array.push(row.Num);
     talkgroup_filters['tg-' + row.Num] = tg_array;
     return row;
-  })..on('close', function(count){
+  }).on('close', function(count){
   // when writing to a file, use the 'close' event
   // the 'end' event may fire before the file has been written
   console.log(util.inspect(talkgroup_filters));
