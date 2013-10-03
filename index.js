@@ -57,7 +57,7 @@ csv()
   })
   .to.array(function(data, count) {
     console.log("Loaded " + count + " talkgroups.");
-    
+
   })
   .transform(function(row) {
 
@@ -71,18 +71,13 @@ csv()
     tg_array.push(row.Num);
     talkgroup_filters['tg-' + row.Num] = tg_array;
     return row;
-  }).on('close', function(count){
-  // when writing to a file, use the 'close' event
-  // the 'end' event may fire before the file has been written
-  console.log(util.inspect(talkgroup_filters));
-})
+  });
 
 function compile(str, path) {
   return stylus(str)
     .set('filename', path)
     .use(nib())
 }
-
 
 
 
@@ -219,7 +214,7 @@ function build_filter(code, start_time) {
 
   }
   filter.len = {
-      $gte: 1.0
+    $gte: 1.0
   };
   return filter;
 
@@ -247,7 +242,7 @@ app.post('/', function(req, res) {
   if (!filter_code) filter_code = "";
   var filter_date = req.body.filter_date;
   if (!filter_date) filter_date = "";
-  console.log("Code: " + filter_code + " Date: "+filter_date);
+  console.log("Code: " + filter_code + " Date: " + filter_date);
   console.log(util.inspect(req.body));
   res.render('player', {
     filter_date: filter_date,
@@ -296,7 +291,7 @@ app.get('/call/:id', function(req, res) {
 });
 
 app.post('/calls', function(req, res) {
- 
+
   var per_page = req.body.per_page;
   var offset = req.body.offset;
   var filter_code = req.body.filter_code;
@@ -309,7 +304,7 @@ app.post('/calls', function(req, res) {
   } else {
     sort_order['time'] = 1;
   }
-  console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
+  //console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
@@ -393,6 +388,8 @@ function notify_clients(call) {
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
         console.log("Talkgroup filter found: " + clients[i].code);
+        console.log("Talkgroups: " + talkgroup_filters[clients[i].code]);
+
         if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           console.log("Call TG # Found in filer");
           clients[i].socket.emit('calls', call);
@@ -458,7 +455,11 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 time: transItem.time,
                 len: Math.round(transItem.len) + 's'
               };
-              notify_clients(call);
+
+              // we only want to notify clients if the clip is longer than 1 second.
+              if (transItem.len >= 1) {
+                notify_clients(call);
+              }
             });
           });
 
