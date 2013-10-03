@@ -390,7 +390,7 @@ function notify_clients(call) {
         console.log("Talkgroup filter found: " + clients[i].code);
         console.log("Talkgroups: " + util.inspect(talkgroup_filters[clients[i].code]));
 
-        if (talkgroup_filters[clients[i].code] == call.talkgroup) || (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1)) {
+        if ((talkgroup_filters[clients[i].code] == call.talkgroup) || (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1)) {
           console.log("Call TG # Found in filer");
           clients[i].socket.emit('calls', call);
         }
