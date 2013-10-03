@@ -205,6 +205,9 @@ function build_filter(code, start_time) {
     };
 
   }
+  filter.len = {
+      $gte: 1.0
+  };
   return filter;
 
 }

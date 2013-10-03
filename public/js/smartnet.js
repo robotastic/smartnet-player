@@ -186,7 +186,7 @@ function add_tg_filter() {
 	for (var chan_num in channels) {
         if (channels.hasOwnProperty(chan_num)) {
            var tg = channels[chan_num];
-           $("#tag-filter").append($('<li><a href="#">' + tg.alpha + '</a></li>').data('code', 'tg-'+chan_num).data('name', tg.alpha).click(filter_calls));
+           $("#tg-filter").append($('<li><a href="#">' + tg.desc + '</a></li>').data('code', 'tg-'+chan_num).data('name', tg.desc).click(filter_calls));
 
         }
     }
