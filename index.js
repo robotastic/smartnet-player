@@ -67,10 +67,15 @@ csv()
       tag: row.Tag,
       group: row.Group
     };
-    var tg_array = new Array(row.Num);
+    var tg_array = new Array();
+    tg_array.push(row.Num);
     talkgroup_filters['tg-' + row.Num] = tg_array;
     return row;
-  });
+  })..on('close', function(count){
+  // when writing to a file, use the 'close' event
+  // the 'end' event may fire before the file has been written
+  console.log(util.inspect(talkgroup_filters));
+})
 
 function compile(str, path) {
   return stylus(str)
@@ -304,7 +309,7 @@ app.post('/calls', function(req, res) {
   } else {
     sort_order['time'] = 1;
   }
-  //console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
+  console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
 
   calls = [];
   db.collection('transmissions', function(err, transCollection) {
