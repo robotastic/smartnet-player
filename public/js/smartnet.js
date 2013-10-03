@@ -121,6 +121,7 @@ function filter_calls() {
 }
 
 function add_filters() {
+	var tgs = []
 	var groups = [{
 		name: 'Fire/EMS',
 		code: 'group-fire'
@@ -179,6 +180,16 @@ function add_filters() {
 		var tag = tags[i];
 		$("#tag-filter").append($('<li><a href="#">' + tag.name + '</a></li>').data('code', tag.code).data('name', tag.name).click(filter_calls));
 	}
+}
+
+function add_tg_filter() {
+	for (var chan_num in channels) {
+        if (channels.hasOwnProperty(chan_num)) {
+           var tg = channels[chan_num];
+           $("#tag-filter").append($('<li><a href="#">' + tg.alpha + '</a></li>').data('code', 'tg-'+chan_num).data('name', tg.alpha).click(filter_calls));
+
+        }
+    }
 }
 
 function page_click() {
@@ -326,6 +337,7 @@ $(document).ready(function() {
 		success: function(data) {
 			console.log("got data");
 			channels = data.channels
+			add_tg_filter();
 			init_table();
 		}
 	});
