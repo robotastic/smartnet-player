@@ -33,29 +33,7 @@ scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
 });
-csv()
-  .from.path('ChanList.csv', {
-    columns: true
-  })
-  .to.array(function(data, count) {
-    console.log("Loaded " + count + " talkgroups.");
-  })
-  .transform(function(row) {
 
-    channels[row.Num] = {
-      alpha: row.Alpha,
-      desc: row.Description,
-      tag: row.Tag,
-      group: row.Group
-    };
-    return row;
-  });
-
-function compile(str, path) {
-  return stylus(str)
-    .set('filename', path)
-    .use(nib())
-}
 var talkgroup_filters = {};
 talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
 
@@ -72,6 +50,36 @@ talkgroup_filters['tag-law-tac'] = [35440, 37232];
 talkgroup_filters['tag-public-works'] = [33584, 33840, 34288, 34320, 34384, 34416, 34448, 34480, 34512, 34576, 34608, 34672, 34800, 35024, 35056, 35088, 35184, 35216, 35248, 35600, 37040, 37200, 37328, 40080];
 talkgroup_filters['tag-security'] = [34128, 34192, 34352, 34832, 34864, 35152];
 talkgroup_filters['tag-transportation'] = [35664];
+
+csv()
+  .from.path('ChanList.csv', {
+    columns: true
+  })
+  .to.array(function(data, count) {
+    console.log("Loaded " + count + " talkgroups.");
+    
+  })
+  .transform(function(row) {
+
+    channels[row.Num] = {
+      alpha: row.Alpha,
+      desc: row.Description,
+      tag: row.Tag,
+      group: row.Group
+    };
+    var tg_array = new Array(row.Num);
+    talkgroup_filters['tg-' + row.Num] = tg_array;
+    return row;
+  });
+
+function compile(str, path) {
+  return stylus(str)
+    .set('filename', path)
+    .use(nib())
+}
+
+
+
 
 function build_filter(code, start_time) {
   var filter = {};
