@@ -100,7 +100,8 @@ function print_call_row(call, live) {
     if(live) {
 		$("#call_table").prepend(newrow);
 		if (autoplay && (now_playing==null)) {
-			play_call(newrow);
+			var delay = Math.floor(Math.random() * 1000) + 500;
+			setTimeout(play_call,delay,newrow);
 		}
     } else {
 
