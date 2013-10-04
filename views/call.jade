@@ -32,20 +32,26 @@ html
             li
               a(href='/about') About
     .container
-      .page-header
-        h1= channel.desc
-        small= time 
-      #jp_container_1
-        span.btn-group.btn-group-sm
-          button( type="button", class="btn btn-primary navbar-btn")
-            span(class="glyphicon glyphicon-play jp-play")
-          button( type="button", class="btn btn-primary navbar-btn")
-            span(class="glyphicon glyphicon-stop jp-stop")
-        p(class="navbar-text")
-          span.jp-time-holder
-            span.jp-current-time 
-            / 
-            span.jp-duration
+
+      .panel.panel-default
+        .panel-heading
+            h3.panel-title= channel.desc
+            small= time
+          .panel-body
+            | Panel content
+              .well.well-lg
+                #jp_container_1
+                  span.btn-group.btn-group-sm
+                    button( type="button", class="btn btn-primary navbar-btn")
+                      span(class="glyphicon glyphicon-play jp-play")
+                    button( type="button", class="btn btn-primary navbar-btn")
+                      span(class="glyphicon glyphicon-stop jp-stop")
+                  p(class="navbar-text")
+                    span.jp-time-holder
+                      span.jp-current-time 
+                      / 
+                      span.jp-duration
+            
     #jquery_jplayer_1.jp-jplayer
     script(type='text/javascript').
       

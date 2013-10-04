@@ -318,7 +318,7 @@ app.get('/call/:id', function(req, res) {
         //console.log(util.inspect(item));
         if (item) {
           var time = new Date(item.time);
-          var timeString = time.toLocaleString();
+          var timeString = time.toDateString() + " " + time.toLocaleTimeString();
 
           res.render('call', {
             item: item,
