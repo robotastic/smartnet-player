@@ -58,7 +58,7 @@ function print_call_row(call, live) {
 	}
 
 	var buttoncell = $("<td/>");
-	var playbutton = $('<span class="glyphicon glyphicon-play"></span>');
+	var playbutton = $('<span class="glyphicon glyphicon-play call-play"></span>');
 	playbutton.click(function() {
 		row = $(this).closest( "tr" );
 		play_call(row);
@@ -379,7 +379,7 @@ $(document).ready(function() {
 	add_filters();
 	autoplayOptions = {
 		placement: 'bottom',
-		title: 'Autoplay Next/New Calls'
+		title: 'Autoplay'
 	};
 	$('#autoplay-btn').tooltip(autoplayOptions);
 	$('#autoplay-btn').on('click', function (e) {

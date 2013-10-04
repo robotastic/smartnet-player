@@ -14,7 +14,11 @@ body {
 	color: red;
 }
 .call-link {
-	padding-right: 10px
+	padding-right: 10px;
+	color: #666;
+}
+.call-play {
+	cursor: pointer;
 }
 #nav-main {
 	margin-bottom: 0px;
