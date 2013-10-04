@@ -89,7 +89,6 @@ function build_filter(code, start_time) {
     filter = {
       talkgroup: tg_num
     };
-    console.log(util.inspect(filter));
   } else {
     switch (code) {
       case 'group-fire':
@@ -243,8 +242,7 @@ app.post('/', function(req, res) {
   if (!filter_code) filter_code = "";
   var filter_date = req.body.filter_date;
   if (!filter_date) filter_date = "";
-  console.log("Code: " + filter_code + " Date: " + filter_date);
-  console.log(util.inspect(req.body));
+
   res.render('player', {
     filter_date: filter_date,
     filter_code: filter_code
@@ -256,12 +254,12 @@ app.get('/about', function(req, res) {
 });
 
 app.get('/media*', function(req, res){
-  sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
+  //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
  
   var file = '/srv/www/robotastic.com' + req.url;
   var stat = fs.statSync(file);
 
-  console.log ("File: " + file);
+  //console.log ("File: " + file);
   if (!stat.isFile()) return;
  
   var start = 0;
@@ -433,8 +431,7 @@ function notify_clients(call) {
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
         console.log("Talkgroup filter found: " + clients[i].code);
-        console.log("Talkgroups: " + util.inspect(talkgroup_filters[clients[i].code]));
-
+        
         if  (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           console.log("Call TG # Found in filer");
           clients[i].socket.emit('calls', call);
@@ -550,7 +547,6 @@ io.sockets.on('connection', function(socket) {
     console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
     var index = clients.indexOf(client);
     clients[index].code = data.code;
-    console.log("Clients: " + util.inspect(clients));
   });
   socket.emit('ready', {});
 });
