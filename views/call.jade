@@ -39,19 +39,22 @@ html
             small= time
           .panel-body
             | Panel content
-              .well.well-lg
-                #jp_container_1
-                  span.btn-group.btn-group-sm
-                    button( type="button", class="btn btn-primary navbar-btn")
-                      span(class="glyphicon glyphicon-play jp-play")
-                    button( type="button", class="btn btn-primary navbar-btn")
-                      span(class="glyphicon glyphicon-stop jp-stop")
-                  p(class="navbar-text")
-                    span.jp-time-holder
-                      span.jp-current-time 
-                      / 
-                      span.jp-duration
-            
+            .well.well-lg
+              #jp_container_1
+                span.btn-group.btn-group-sm
+                  button( type="button", class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-play jp-play")
+                  button( type="button", class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-stop jp-stop")
+                p(class="navbar-text")
+                  span.jp-time-holder
+                    span.jp-current-time 
+                    / 
+                    span.jp-duration
+            h4= channel.group
+            h4= channel.tag
+            p= item.talkgroup
+
     #jquery_jplayer_1.jp-jplayer
     script(type='text/javascript').
       
