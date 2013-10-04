@@ -58,7 +58,7 @@ function print_call_row(call, live) {
 	}
 
 	var buttoncell = $("<td/>");
-	var playbutton = $('<span class="glyphicon glyphicon-play-circle"></span>');
+	var playbutton = $('<span class="glyphicon glyphicon-play"></span>');
 	playbutton.click(function() {
 		row = $(this).closest( "tr" );
 		play_call(row);
@@ -377,11 +377,11 @@ $(document).ready(function() {
 	});
 	$('#nav-filter').affix({offset: { top: 0 }})
 	add_filters();
-	autoplay-options = {
+	autoplayOptions = {
 		placement: 'bottom',
 		title: 'Autoplay Next/New Calls'
 	};
-	$('#autoplay-btn').tooltip(autoplay-options);
+	$('#autoplay-btn').tooltip(autoplayOptions);
 	$('#autoplay-btn').on('click', function (e) {
 		autoplay = !autoplay;
 		if (autoplay) {
