@@ -66,11 +66,11 @@ html
                       | Tags
                       b.caret
                     ul.dropdown-menu(id="tag-filter")
-                li.dropdown
-                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                li.dropdown(data-container="body")
+                  a.dropdown-toggle(href='#', data-toggle='dropdown', data-container="body" )
                       | Talkgroups
                       b.caret
-                    ul.dropdown-menu(id="tg-filter")
+                    ul.dropdown-menu(id="tg-filter", data-container="body")
 
               ul.nav.navbar-nav.navbar-left
                 li.btn-group.btn-group-sm(data-toggle="buttons-radio")
