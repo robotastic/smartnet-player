@@ -63,6 +63,7 @@ function print_call_row(call, live) {
 		row = $(this).closest( "tr" );
 		play_call(row);
 	});
+
 	buttoncell.append(playbutton);
 	newrow.append(buttoncell);
 	if (typeof channels[call.talkgroup] == 'undefined') {
@@ -77,19 +78,18 @@ function print_call_row(call, live) {
 	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<span class="glyphicon glyphicon-link call-link"></span>');
+	var callview = $('<a href="/call/'+call.objectId+'"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
     var btngroup = $('<td/>');
-    callview.click(function() {
-    	    location.href = "/call/"+call.objectId;
-    });
+
     poptent = "<b>Evntually, you will be able to share calls using Twitter</b>";
     popoverOptions = {
     	container: 'body',
     	title: 'share',
     	placement: 'top',
     	html: true,
-    	content: poptent
+    	content: poptent,
+    	trigger: 'hover'
     };
     linkview.popover(popoverOptions);
     btngroup.append(callview);
@@ -377,6 +377,11 @@ $(document).ready(function() {
 	});
 	$('#nav-filter').affix({offset: { top: 0 }})
 	add_filters();
+	autoplay-options = {
+		placement: 'bottom',
+		title: 'Autoplay Next/New Calls'
+	};
+	$('#autoplay-btn').tooltip(autoplay-options);
 	$('#autoplay-btn').on('click', function (e) {
 		autoplay = !autoplay;
 		if (autoplay) {
