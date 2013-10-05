@@ -1,28 +1,11 @@
 doctype 5
 html
-  head
-    link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
-    link(href='css/bootstrap.spacelab.min.css', rel='stylesheet', media='screen')
+  include includes/head
     link(type='text/css', href='/css/datetimepicker.css', rel='stylesheet')
-    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(type='text/javascript', src='/js/jquery.jplayer.min.js')
-    script(type='text/javascript', src='/js/bootstrap.min.js')
     script(type='text/javascript', src='/js/bootstrap-datetimepicker.min.js')
-
     script(type='text/javascript', src='/js/smartnet.js')
     script(type='text/javascript', src="/socket.io/socket.io.js")
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv="X-UA-Compatible" content="IE=9")
-    // Bootstrap
-
-
-    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries 
-    //[if lt IE 9]
-      script(src="/js/assets/html5shiv.js")
-      script(src="/js/assets/respond.min.js")
-
-
-
+    script(type='text/javascript', src='/js/jquery.jplayer.min.js')
 
   body
     script.
