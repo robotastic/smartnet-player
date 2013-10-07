@@ -16,5 +16,6 @@ reduce = function(key, values) {
 
   return {count: count};
 }
-
-db.transmissions.mapReduce(map, reduce, {out: "call_volume"});
+date = new Date()
+date.setDate(date.getDate() - 1)
+db.transmissions.mapReduce(map, reduce, {query:{ time: {gte: date}},out: "call_volume"});
