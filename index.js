@@ -3,7 +3,7 @@ var watch = require('watch');
 var probe = require('node-ffprobe');
 var util = require("util");
 var wav = require('wav');
-
+var schedule = require('node-schedule');
 
 var mkdirp = require('mkdirp');
 var app = express(),
@@ -27,7 +27,7 @@ var scanner = new Db('scanner', new Server(host, port, {}));
 var db;
 var channels = {};
 var clients = [];
-
+var stats = {};
 
 
 scanner.open(function(err, scannerDb) {
@@ -80,7 +80,85 @@ function compile(str, path) {
     .use(nib())
 }
 
+function build_stat(collection) {
+  var chan_count = 0;
+  stats={};
+  var db_count = 0;
+  for (var chan_num in channels) {
+      var historic = new Array();
+      chan_count++;
 
+      for (hour = 0; hour < 25; hour++) {
+
+        historic[hour] = 0;
+      }
+      stats[chan_num] = {
+        name: channels[chan_num].alpha,
+        desc: channels[chan_num].desc,
+        num: chan_num,
+        historic: historic
+      };
+      var query = {
+        "_id.talkgroup": parseInt(chan_num)
+      };
+      collection.find(query).toArray(function(err, results) {
+        db_count++;
+        if (err) console.log(err);
+        if (results && (results.length > 0)) {
+          for (var i = 0; i < results.length; i++) {
+            stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
+          }
+        }
+        if (chan_count == db_count) {
+
+        }
+      });
+
+    }
+}
+function build_call_volume() {
+  map = function() {
+    hour = this.time.getHours();
+
+    emit({
+      hour: hour,
+      talkgroup: this.talkgroup
+    }, {
+      count: 1
+    });
+  }
+
+  reduce = function(key, values) {
+    var count = 0;
+
+    values.forEach(function(v) {
+      count += v['count'];
+    });
+
+    return {
+      count: count
+    };
+  }
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.mapReduce(map, reduce, {
+      out: {
+        replace: "call_volume"
+      }
+    }, function(err, collection) {
+      build_stat(collection);
+
+    });
+  });
+}
+  db.collection('call_volume', function(err, collection) {
+    build_stat(collection);    
+  });
+
+schedule.scheduleJob({
+  minute: 0
+}, function() {
+  build_call_volume();
+});
 
 function build_filter(code, start_time) {
   var filter = {};
@@ -253,47 +331,50 @@ app.get('/about', function(req, res) {
   res.render('about', {});
 });
 
-app.get('/media*', function(req, res){
+app.get('/media*', function(req, res) {
   //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
- 
+
   var file = '/srv/www/robotastic.com' + req.url;
   var stat = fs.statSync(file);
 
   //console.log ("File: " + file);
   if (!stat.isFile()) return;
- 
+
   var start = 0;
   var end = 0;
   var range = req.header('Range');
   if (range != null) {
-    start = parseInt(range.slice(range.indexOf('bytes=')+6,
+    start = parseInt(range.slice(range.indexOf('bytes=') + 6,
       range.indexOf('-')));
-    end = parseInt(range.slice(range.indexOf('-')+1,
+    end = parseInt(range.slice(range.indexOf('-') + 1,
       range.length));
   }
-  if (isNaN(end) || end == 0) end = stat.size-1;
- 
+  if (isNaN(end) || end == 0) end = stat.size - 1;
+
   if (start > end) return;
- 
+
   sys.puts('Browser requested bytes from ' + start + ' to ' +
     end + ' of file ' + file);
- 
+
   var date = new Date();
- 
+
   res.writeHead(206, { // NOTE: a partial http response
     // 'Date':date.toUTCString(),
-    'Connection':'close',
+    'Connection': 'close',
     // 'Cache-Control':'private',
     // 'Content-Type':'video/webm',
     // 'Content-Length':end - start,
-    'Content-Range':'bytes '+start+'-'+end+'/'+stat.size,
+    'Content-Range': 'bytes ' + start + '-' + end + '/' + stat.size,
     // 'Accept-Ranges':'bytes',
     // 'Server':'CustomStreamer/0.0.1',
-    'Transfer-Encoding':'chunked'
-    });
- 
-  var stream = fs.createReadStream(file,
-    { flags: 'r', start: start, end: end});
+    'Transfer-Encoding': 'chunked'
+  });
+
+  var stream = fs.createReadStream(file, {
+    flags: 'r',
+    start: start,
+    end: end
+  });
   stream.pipe(res);
 });
 
@@ -382,44 +463,8 @@ app.get('/stats', function(req, res) {
 });
 app.get('/volume', function(req, res) {
 
-  var stats = {};
-  var chan_count = 0;
-  var db_count = 0;
-
-  db.collection('call_volume', function(err, collection) {
-    for (var chan_num in channels) {
-      var historic = new Array();
-      chan_count++;
-
-      for (hour = 0; hour < 25; hour++) {
-
-        historic[hour] = 0;
-      }
-      stats[chan_num] = {
-        name: channels[chan_num].alpha,
-        desc: channels[chan_num].desc,
-        num: chan_num,
-        historic: historic
-      };
-      var query = {
-        "_id.talkgroup": parseInt(chan_num)
-      };
-      collection.find(query).toArray(function(err, results) {
-        db_count++;
-        if (err) console.log(err);
-        if (results && (results.length > 0)) {
-          for (var i = 0; i < results.length; i++) {
-            stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
-          }
-        }
-        if (chan_count == db_count) {
           res.contentType('json');
           res.send(JSON.stringify(stats));
-        }
-      });
-
-    }
-  });
 });
 
 function notify_clients(call) {
@@ -431,8 +476,8 @@ function notify_clients(call) {
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
         console.log("Talkgroup filter found: " + clients[i].code);
-        
-        if  (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
+
+        if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           console.log("Call TG # Found in filer");
           clients[i].socket.emit('calls', call);
         }

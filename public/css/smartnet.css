@@ -62,3 +62,6 @@ rect:hover {
     font-family: sans-serif;
     font-size: 11px;
 }
+#about {
+  max-width: 760px;
+}
