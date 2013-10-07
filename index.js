@@ -33,6 +33,10 @@ var stats = {};
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
+  //do the initial build of the stats
+  db.collection('call_volume', function(err, collection) {
+    build_stat(collection);    
+  });
 });
 
 var talkgroup_filters = {};
@@ -150,9 +154,7 @@ function build_call_volume() {
     });
   });
 }
-  db.collection('call_volume', function(err, collection) {
-    build_stat(collection);    
-  });
+
 
 schedule.scheduleJob({
   minute: 0
