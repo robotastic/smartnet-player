@@ -134,9 +134,9 @@ function build_stat(collection) {
     }
 }
 function build_call_volume() {
-  var now = new Date();
+  
   map = function() {
-    
+    var now = new Date();
     var difference = now.getTime() - this.time.getTime();
     var hour =  Math.floor(difference/1000/60/60);
     emit({
