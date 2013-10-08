@@ -286,6 +286,35 @@ function fetch_calls(offset) {
 	});
 }
 
+function find_code_name(code) {
+	var i;
+	if (code.substring(0, 3) == 'tg-') {
+    	tg_num = parseInt(code.substring(3));
+    	for (var chan_num in channels) {
+	        if (channels.hasOwnProperty(chan_num)) {
+	           var tg = channels[chan_num];
+	           if (tg.chan_num == tg_num) {
+	           	return tg.desc;
+	           }
+	 
+	        }
+    	}
+	}
+	for (var i = 0; i < groups.length; i++) {
+		var group = groups[i];
+		if (group.code == code) {
+			return group.name
+		}
+	}
+	for (var i = 0; i < tags.length; i++) {
+		var tag = tags[i];
+		if (tag.code == code) {
+			return tag.name;
+		}
+	}
+	return 'All';
+}
+
 function init_table() {
 	per_page = 20;
 	current_page = 1;
@@ -322,6 +351,8 @@ function socket_connect() {
 	}
 }
 
+
+
 function socket_disconnect() {
 	console.log('func socket_disconnect');
 	if (socket) socket.disconnect();
@@ -340,8 +371,17 @@ $(document).ready(function() {
 			channels = data.channels
 			add_tg_filter();
 			init_table();
+			if (filter_code) {
+				$('#filter-title').html(find_code_name(filter_code));
+			}
+				// if the page got loaded with a filtered date
+			if (filter_date) {
+				$('#filter-date').html(filter_date.toDateString());
+			}
 		}
 	});
+
+
 	$(function() {
 		$('.form_datetime').datetimepicker({
 			format: "MM dd yyyy - hh:ii",
