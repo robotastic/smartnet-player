@@ -114,6 +114,19 @@ function build_stat(collection) {
           }
         }
         if (chan_count == db_count) {
+          for(var chan_num in stats){
+              var chan = stats[chan_num];
+              var erase_me = true;
+              for (var i=0; i<chan.historic.length; i++) {
+                if (chan.historic[i] != 0) {
+                  erase_me = false;
+                  break;
+                }
+              }
+              if (erase_me) {
+                delete stats[chan_num];
+              }
+          }
 
         }
       });
