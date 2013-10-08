@@ -77,14 +77,18 @@ html
                     .scale(yAxisScale)
                     .orient("left")
                   .ticks(5);
+
+          var barsWidth = (w - 2*padding);
+          var barWidth =  barsWidth / channel.historic.length;
+          
           svg.selectAll("rect")
              .data(channel.historic)
              .enter()
              .append("rect")
              .on("click", clickEvent)
-             .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding; })
+             .attr("x", function(d, i) { return (barsWidth - (i *  barWidth)) + padding; })
              .attr("y", function(d) { return h - yScale(d) })
-             .attr("width", w / channel.historic.length - barPadding)
+             .attr("width",  barWidth - barPadding)
              .attr("height", function(d) { return  yScale(d) - padding; })
              .attr("fill", "teal");
           svg.append("g")
