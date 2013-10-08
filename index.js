@@ -144,7 +144,10 @@ function build_call_volume() {
     };
   }
   db.collection('transmissions', function(err, transCollection) {
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
     transCollection.mapReduce(map, reduce, {
+      query:{ time: {gte: yesterday}}
       out: {
         replace: "call_volume"
       }
