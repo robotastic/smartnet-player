@@ -367,8 +367,8 @@ $(document).ready(function() {
 		type: "GET",
 		contentType: "application/json",
 		success: function(data) {
-			console.log("got data");
-			channels = data.channels
+			channels = data.channels;
+			add_filters();
 			add_tg_filter();
 			init_table();
 			if (filter_code) {
@@ -416,8 +416,8 @@ $(document).ready(function() {
      	fetch_calls(0);
      	live = true;
 	});
+
 	$('#nav-filter').affix({offset: { top: 0 }})
-	add_filters();
 	autoplayOptions = {
 		placement: 'bottom',
 		title: 'Autoplay'
