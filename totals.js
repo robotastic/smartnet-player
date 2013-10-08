@@ -2,8 +2,11 @@ db = db.getMongo().getDB("scanner");
 db.auth("scanner","vcW6rEixic3kdBWj"); 
 
 map = function() {
-    hour = this.time.getHours();
+    //hour = this.time.getHours();
+    var difference = now.getTime() - this.time.getTime();
+    var hour =  Math.floor(difference/1000/60/60);
 
+    print(hour + " " + difference + " " + this.talkgroup);
     emit({hour: hour, talkgroup: this.talkgroup}, {count: 1});
 }
 
