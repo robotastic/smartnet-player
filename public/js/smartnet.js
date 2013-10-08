@@ -7,6 +7,57 @@ var live = false;
 var now_playing = null;
 var autoplay = false;
 
+var groups = [{
+	name: 'Fire/EMS',
+	code: 'group-fire'
+}, {
+	name: 'DC Common',
+	code: 'group-common'
+}, {
+	name: 'Services',
+	code: 'group-services'
+}];
+var tags = [{
+	name: 'Emergency Ops',
+	code: 'tag-ops'
+}, {
+	name: 'EMS-Tac',
+	code: 'tag-ems-tac'
+}, {
+	name: 'EMS-Talk',
+	code: 'tag-ems-talk'
+}, {
+	name: 'Fire Dispatch',
+	code: 'tag-fire-dispatch'
+}, {
+	name: 'Fire-Tac',
+	code: 'tag-fire-tac'
+}, {
+	name: 'Fire-Talk',
+	code: 'tag-fire-talk'
+}, {
+	name: 'Hospital',
+	code: 'tag-hospital'
+}, {
+	name: 'Interop',
+	code: 'tag-interop'
+}, {
+	name: 'Law Dispatch',
+	code: 'tag-law-dispatch'
+}, {
+	name: 'Law Tac',
+	code: 'tag-law-tac'
+}, {
+	name: 'Public Works',
+	code: 'tag-public-works'
+}, {
+	name: 'Security',
+	code: 'tag-security'
+}, {
+	name: 'Transportation',
+	code: 'tag-transportation'
+}];
+
 function play_call(row) {
 	var filename = row.data("filename");
 
@@ -20,7 +71,7 @@ function play_call(row) {
 }
 
 function call_over(event) {
-	if (now_playing){
+	if (now_playing) {
 		now_playing.removeClass("now-playing");
 	}
 	if (autoplay) {
@@ -33,9 +84,7 @@ function call_over(event) {
 		} else {
 			if (now_playing.next().length != 0) {
 				play_call(now_playing.next());
-			}
-			else
-			{
+			} else {
 				now_playing = null;
 			}
 		}
@@ -47,20 +96,20 @@ function call_over(event) {
 
 
 function print_call_row(call, live) {
-	
-	
+
+
 
 	var time = new Date(call.time);
 	var newrow = $("<tr/>").data('filename', call.filename);
 
-	if(live) {
+	if (live) {
 		newrow.addClass("live-call");
 	}
 
 	var buttoncell = $("<td/>");
 	var playbutton = $('<span class="glyphicon glyphicon-play call-play"></span>');
 	playbutton.click(function() {
-		row = $(this).closest( "tr" );
+		row = $(this).closest("tr");
 		play_call(row);
 	});
 
@@ -71,42 +120,42 @@ function print_call_row(call, live) {
 		newrow.append("<td>Uknown</td>");
 		newrow.append("<td>Uknown</td>");
 	} else {
-	newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
-	newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
-	newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
-}
+		newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
+		newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
+		newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
+	}
 	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<a href="/call/'+call.objectId+'"><span class="glyphicon glyphicon-link call-link"></span></a>');
+	var callview = $('<a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
-    var btngroup = $('<td/>');
+	var btngroup = $('<td/>');
 
-    poptent = "<b>Evntually, you will be able to share calls using Twitter</b>";
-    popoverOptions = {
-    	container: 'body',
-    	title: 'share',
-    	placement: 'top',
-    	html: true,
-    	content: poptent,
-    	trigger: 'hover'
-    };
-    linkview.popover(popoverOptions);
-    btngroup.append(callview);
-    btngroup.append(linkview);
-    newrow.append(btngroup);
+	poptent = "<b>Evntually, you will be able to share calls using Twitter</b>";
+	popoverOptions = {
+		container: 'body',
+		title: 'share',
+		placement: 'top',
+		html: true,
+		content: poptent,
+		trigger: 'hover'
+	};
+	linkview.popover(popoverOptions);
+	btngroup.append(callview);
+	btngroup.append(linkview);
+	newrow.append(btngroup);
 
 
-    if(live) {
+	if (live) {
 		$("#call_table").prepend(newrow);
-		if (autoplay && (now_playing==null)) {
+		if (autoplay && (now_playing == null)) {
 			var delay = Math.floor(Math.random() * 1000) + 500;
-			setTimeout(play_call,delay,newrow);
+			setTimeout(play_call, delay, newrow);
 		}
-    } else {
+	} else {
 
 		$("#call_table").append(newrow);
-    }	
+	}
 
 }
 
@@ -117,62 +166,15 @@ function filter_calls() {
 	filter_code = code;
 	fetch_calls(0);
 	if (live) {
-		socket.emit('code', { code: filter_code });
+		socket.emit('code', {
+			code: filter_code
+		});
 	}
 }
 
 function add_filters() {
-	var tgs = []
-	var groups = [{
-		name: 'Fire/EMS',
-		code: 'group-fire'
-	}, {
-		name: 'DC Common',
-		code: 'group-common'
-	}, {
-		name: 'Services',
-		code: 'group-services'
-	}];
-	var tags = [{
-		name: 'Emergency Ops',
-		code: 'tag-ops'
-	}, {
-		name: 'EMS-Tac',
-		code: 'tag-ems-tac'
-	}, {
-		name: 'EMS-Talk',
-		code: 'tag-ems-talk'
-	}, {
-		name: 'Fire Dispatch',
-		code: 'tag-fire-dispatch'
-	}, {
-		name: 'Fire-Tac',
-		code: 'tag-fire-tac'
-	}, {
-		name: 'Fire-Talk',
-		code: 'tag-fire-talk'
-	}, {
-		name: 'Hospital',
-		code: 'tag-hospital'
-	}, {
-		name: 'Interop',
-		code: 'tag-interop'
-	}, {
-		name: 'Law Dispatch',
-		code: 'tag-law-dispatch'
-	}, {
-		name: 'Law Tac',
-		code: 'tag-law-tac'
-	}, {
-		name: 'Public Works',
-		code: 'tag-public-works'
-	}, {
-		name: 'Security',
-		code: 'tag-security'
-	}, {
-		name: 'Transportation',
-		code: 'tag-transportation'
-	}];
+
+
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i];
 		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).data('name', group.name).click(filter_calls));
@@ -185,12 +187,12 @@ function add_filters() {
 
 function add_tg_filter() {
 	for (var chan_num in channels) {
-        if (channels.hasOwnProperty(chan_num)) {
-           var tg = channels[chan_num];
-           $("#tg-filter").append($('<li><a href="#">' + tg.desc + '</a></li>').data('code', 'tg-'+chan_num).data('name', tg.desc).click(filter_calls));
+		if (channels.hasOwnProperty(chan_num)) {
+			var tg = channels[chan_num];
+			$("#tg-filter").append($('<li><a href="#">' + tg.desc + '</a></li>').data('code', 'tg-' + chan_num).data('name', tg.desc).click(filter_calls));
 
-        }
-    }
+		}
+	}
 }
 
 function page_click() {
@@ -201,8 +203,8 @@ function page_click() {
 
 function fetch_calls(offset) {
 
-	if (filter_date!="") {
-		var date_string = filter_date.toDateString() + " " + filter_date.toLocaleTimeString();		
+	if (filter_date != "") {
+		var date_string = filter_date.toDateString() + " " + filter_date.toLocaleTimeString();
 	} else {
 		var date_string = null;
 	}
@@ -289,16 +291,16 @@ function fetch_calls(offset) {
 function find_code_name(code) {
 	var i;
 	if (code.substring(0, 3) == 'tg-') {
-    	tg_num = parseInt(code.substring(3));
-    	for (var chan_num in channels) {
-	        if (channels.hasOwnProperty(chan_num)) {
-	           var tg = channels[chan_num];
-	           if (tg.chan_num == tg_num) {
-	           	return tg.desc;
-	           }
-	 
-	        }
-    	}
+		tg_num = parseInt(code.substring(3));
+		for (var chan_num in channels) {
+			if (channels.hasOwnProperty(chan_num)) {
+				var tg = channels[chan_num];
+				if (tg.chan_num == tg_num) {
+					return tg.desc;
+				}
+
+			}
+		}
 	}
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i];
@@ -341,10 +343,12 @@ function socket_connect() {
 			}
 
 		});
-		socket.on('ready', function (data) {
-    		console.log("Ready: " + data);
-    		socket.emit('code', { code: filter_code });
-  		});
+		socket.on('ready', function(data) {
+			console.log("Ready: " + data);
+			socket.emit('code', {
+				code: filter_code
+			});
+		});
 	} else {
 		console.log('func socket_reconnect');
 		socket.socket.reconnect();
@@ -374,7 +378,7 @@ $(document).ready(function() {
 			if (filter_code) {
 				$('#filter-title').html(find_code_name(filter_code));
 			}
-				// if the page got loaded with a filtered date
+			// if the page got loaded with a filtered date
 			if (filter_date) {
 				$('#filter-date').html(filter_date.toDateString());
 			}
@@ -390,10 +394,10 @@ $(document).ready(function() {
 			showMeridian: true
 		}).on('changeDate', function(ev) {
 			socket_disconnect();
-			
-			
+
+
 			$('#filter-date').html(ev.date.toDateString());
-			var userOffset = ev.date.getTimezoneOffset()*60000
+			var userOffset = ev.date.getTimezoneOffset() * 60000
 			filter_date = new Date(ev.date.getTime() + userOffset);
 			fetch_calls(0);
 			live = false;
@@ -406,27 +410,31 @@ $(document).ready(function() {
 		swfPath: "/js",
 		supplied: "wav"
 	});
-	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) { 
+	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
 		call_over(event);
- 	});
-	$('#live-btn').on('click', function (e) {
+	});
+	$('#live-btn').on('click', function(e) {
 		socket_connect();
-     	filter_date = "";
-     	$('#filter-date').html("Live");
-     	fetch_calls(0);
-     	live = true;
+		filter_date = "";
+		$('#filter-date').html("Live");
+		fetch_calls(0);
+		live = true;
 	});
 
-	$('#nav-filter').affix({offset: { top: 0 }})
+	$('#nav-filter').affix({
+		offset: {
+			top: 0
+		}
+	})
 	autoplayOptions = {
 		placement: 'bottom',
 		title: 'Autoplay'
 	};
 	$('#autoplay-btn').tooltip(autoplayOptions);
-	$('#autoplay-btn').on('click', function (e) {
+	$('#autoplay-btn').on('click', function(e) {
 		autoplay = !autoplay;
 		if (autoplay) {
-			$('#autoplay-btn').addClass('active');	
+			$('#autoplay-btn').addClass('active');
 		} else {
 			$('#autoplay-btn').removeClass('active');
 		}
