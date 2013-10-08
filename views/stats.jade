@@ -66,7 +66,7 @@ html
                      .range([0, 20]);
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic)])
-                     .range([padding, h - padding]);
+                     .range([ h - padding, padding]);
           //Define X axis
           var xAxis = d3.svg.axis()
                     .scale(x)
@@ -83,7 +83,7 @@ html
              .append("rect")
              .on("click", clickEvent)
              .attr("x", function(d, i) { return i * ((w - 2*padding) / channel.historic.length) + padding; })
-             .attr("y", function(d) { return h - yScale(d) })
+             .attr("y", function(d) { return yScale(d) })
              .attr("width", w / channel.historic.length - barPadding)
              .attr("height", function(d) { return yScale(d) - padding; })
              .attr("fill", "teal");
