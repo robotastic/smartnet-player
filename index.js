@@ -167,8 +167,10 @@ function build_call_volume() {
         replace: "call_volume"
       }
     }, function(err, collection) {
-      build_stat(collection);
-
+      if (err) console.error(err);
+      if (collection) {
+        build_stat(collection);
+      }
     });
   });
 }
