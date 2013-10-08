@@ -147,7 +147,7 @@ function build_call_volume() {
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     transCollection.mapReduce(map, reduce, {
-      query:{ time: {gte: yesterday}}
+      query:{ time: {$gte: yesterday}}
       out: {
         replace: "call_volume"
       }

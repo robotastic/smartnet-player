@@ -18,4 +18,4 @@ reduce = function(key, values) {
 }
 yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
-db.transmissions.mapReduce(map, reduce, {query:{ time: {gte: yesterday}},out: "call_volume"});
+db.transmissions.mapReduce(map, reduce, {query:{ time: {$gte: yesterday}},out: "call_volume"});
