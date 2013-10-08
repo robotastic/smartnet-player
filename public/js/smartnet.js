@@ -292,15 +292,13 @@ function find_code_name(code) {
 	var i;
 	if (code.substring(0, 3) == 'tg-') {
 		tg_num = parseInt(code.substring(3));
-		for (var chan_num in channels) {
-			if (channels.hasOwnProperty(chan_num)) {
-				var tg = channels[chan_num];
-				if (tg.chan_num == tg_num) {
-					return tg.desc;
-				}
 
-			}
+		if (channels.hasOwnProperty(tg_num)) {
+			var tg = channels[chan_num];
+			return tg.desc;
+
 		}
+
 	}
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i];
