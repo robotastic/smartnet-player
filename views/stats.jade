@@ -63,6 +63,9 @@ html
 
           var yScale = d3.scale.linear()
                      .domain([0, d3.max(channel.historic)])
+                     .rangeRound([ padding, h-padding]);
+          var yAxisScale = d3.scale.linear()
+                     .domain([0, d3.max(channel.historic)])
                      .rangeRound([ h - padding, padding]);
           //Define X axis
           var xAxis = d3.svg.axis()
@@ -71,7 +74,7 @@ html
                     .ticks(6);
           //Define Y axis
           var yAxis = d3.svg.axis()
-                    .scale(yScale)
+                    .scale(yAxisScale)
                     .orient("left")
                   .ticks(5);
           svg.selectAll("rect")
