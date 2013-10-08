@@ -54,7 +54,7 @@ html
         function add_graph(id, channel, t) {
           $(id).data('channel', channel).data('start', t);
 
-          var current = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getUTCHours());
+          var current = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours()+1);
           var start = new Date(current);
           start.setDate(start.getDate() - 1);
           var x = d3.time.scale().domain([start, current]).range([padding, w - padding * 2]);
