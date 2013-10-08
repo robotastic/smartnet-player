@@ -1,8 +1,9 @@
 db = db.getMongo().getDB("scanner"); 
 db.auth("scanner","vcW6rEixic3kdBWj"); 
-var now = new Date();
+
 map = function() {
     //hour = this.time.getHours();
+    var now = new Date();
     var difference = now.getTime() - this.time.getTime();
     var hour =  Math.floor(difference/1000/60/60);
 
