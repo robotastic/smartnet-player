@@ -294,7 +294,7 @@ function find_code_name(code) {
 		tg_num = parseInt(code.substring(3));
 
 		if (channels.hasOwnProperty(tg_num)) {
-			var tg = channels[chan_num];
+			var tg = channels[tg_num];
 			return tg.desc;
 
 		}
