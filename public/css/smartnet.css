@@ -18,9 +18,14 @@ carousel-inner>.item>img {
 }
 .carousel-caption {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  padding: 10px 15px 5px;
+  right: initial;
+  left: 20px;
+  bottom: 20;
+ 
+  color: #999;
+}
+.carousel-caption a{
+  color: #999;
 }
 #jumbotron-about {
   position: relative;
@@ -33,6 +38,7 @@ carousel-inner>.item>img {
   border-color: #666
 }
 .carousel-indicators {
+  position: absolute;
 top: 10px;
 right: 20px;
 left: initial;
@@ -101,6 +107,7 @@ rect:hover {
 }
 #about {
   max-width: 760px;
+  padding-bottom: 100px;
 }
 #graphs {
   max-width: 760px;
