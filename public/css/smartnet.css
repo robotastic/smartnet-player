@@ -18,8 +18,8 @@ carousel-inner>.item>img {
 }
 .carousel-caption {
   position: absolute;
-  right: initial;
-  left: 20px;
+  right: 20px;
+  left: initial;
   bottom: inital;
   top: 10px;
  
@@ -35,7 +35,7 @@ carousel-inner>.item>img {
   padding-bottom: 20px;
   padding-left: 20%;
   padding-right: 20%;
-  padding-top: 20px;
+  padding-top: 10px;
   background-color: #eee;
   font-size: 21px;
   font-weight: 200;

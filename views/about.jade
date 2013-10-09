@@ -40,9 +40,7 @@ html
           .carousel-caption
             | Image <a href='http://www.flickr.com/photos/perspective/'>Elvert Barnes</a>
       #about-carousel-callout
-        h1 Five by Five
-        p This website lets you follow the radio comms of DC's Fire, EMS and City Services. You read what they are up to in the newspaper when something big happens, but they are constantly working, day in and day out, to serve the citizens of DC. 
- 
+        h3 Follow the Radio Comms of DC's Fire, EMS and City Services 
 
     .container(id='about')
       h1 Radio Comms
@@ -71,3 +69,7 @@ html
       h1 Contact
       p I am really interested in making this site useful. Send me ideas, thoughts, or suggestions:
       strong <a href="mailto://lukekb@gmail.com">lukekb@gmail.com</a> - <a href="https://twitter.com/LukeBerndt">@LukeBerndt</a>
+  script.
+    $('.carousel').carousel({
+      "pause": "false"
+    });
