@@ -330,7 +330,7 @@ app.use(express.bodyParser());
 
 app.get('/', function(req, res) {
   var filter_code = "";
-  var filter_date = '""';
+  var filter_date = "''";
   res.render('player', {
     filter_date: filter_date,
     filter_code: filter_code
