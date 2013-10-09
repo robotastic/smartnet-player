@@ -11,6 +11,9 @@ html
         li.active(data-target='#carousel-about', data-slide-to='0')
         li(data-target='#carousel-about', data-slide-to='1')
         li(data-target='#carousel-about', data-slide-to='2')
+        li(data-target='#carousel-about', data-slide-to='3')
+        li(data-target='#carousel-about', data-slide-to='4')
+        li(data-target='#carousel-about', data-slide-to='5')
       .carousel-inner
         .item.active
           img(src='/img/carousel/bossi_truck_cropped.jpg', alt='...')
@@ -36,10 +39,9 @@ html
           img(src='/img/carousel/perspective_amblance_cropped.jpg', alt='...')
           .carousel-caption
             | Image <a href='http://www.flickr.com/photos/perspective/'>Elvert Barnes</a>
-      a.left.carousel-control(href='#carousel-about', data-slide='prev')
-        span.icon-prev
-      a.right.carousel-control(href='#carousel-about', data-slide='next')
-        span.icon-next
+      #about-carousel-callout
+        h1 Five by Five
+        p This website lets you follow the radio comms of DC's Fire, EMS and City Services. You read what they are up to in the newspaper when something big happens, but they are constantly working, day in and day out, to serve the citizens of DC. 
     #jumbotron-about.jumbotron
       .container
         h1 Five by Five

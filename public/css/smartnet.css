@@ -20,12 +20,26 @@ carousel-inner>.item>img {
   position: absolute;
   right: initial;
   left: 20px;
-  bottom: 20;
+  bottom: inital;
+  top: 10px;
  
   color: #999;
 }
 .carousel-caption a{
   color: #999;
+}
+#about-carousel-callout {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  padding-bottom: 20px;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 20px;
+  
+
+  z-index: 10;
+  opacity: .80;
 }
 #jumbotron-about {
   position: relative;
@@ -44,6 +58,10 @@ right: 20px;
 left: initial;
 width: initial;
 }
+.carousel-indicators .active {
+  background-color: #666;
+  }
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
