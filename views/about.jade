@@ -7,14 +7,10 @@ html
     include includes/navbar
     
     #carousel-about.carousel.slide
-    //
-         Indicators 
       ol.carousel-indicators
         li.active(data-target='#carousel-about', data-slide-to='0')
         li(data-target='#carousel-about', data-slide-to='1')
         li(data-target='#carousel-about', data-slide-to='2')
-      //
-         Wrapper for slides 
       .carousel-inner
         .item.active
           img(src='/img/carousel/bossi_truck_cropped.jpg', alt='...')
@@ -24,13 +20,10 @@ html
           img(src='/img/carousel/dcwater_truck_cropped.jpg', alt='...')
         .item
           img(src='/img/carousel/ddot_plow_cropped.jpg', alt='...')
-      //
-         Controls 
       a.left.carousel-control(href='#carousel-about', data-slide='prev')
         span.icon-prev
       a.right.carousel-control(href='#carousel-about', data-slide='next')
         span.icon-next
-    
     .jumbotron
       .container
         h1 Five by Five
