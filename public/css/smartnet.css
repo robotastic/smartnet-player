@@ -4,7 +4,7 @@ body {
 
 //overrides Boostrap.css
 
-.carousel img {
+carousel-inner>.item>img {
   position: absolute;
   top: 0;
   left: 0;
@@ -16,11 +16,33 @@ body {
 .carousel .item {
   height: 500px;
 }
-
+.carousel-caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10px 15px 5px;
+}
+#jumbotron-about {
+  position: relative;
+  width: 100%;
+  margin-top: -50px;
+  z-index: 10;
+  opacity: .80;
+}
+.carousel-indicators li {
+  border-color: #666
+}
+.carousel-indicators {
+top: 10px;
+right: 20px;
+left: initial;
+width: initial;
+}
 .starter-template {
   padding: 40px 15px;
   text-align: center;
 }
+
 
 .now-playing {
 	color: green;
