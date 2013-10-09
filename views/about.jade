@@ -4,47 +4,62 @@ html
 
 
   body
-    .navbar.navbar-inverse.navbar-static-top(id="nav-main" role="navigation")
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='/') DC Scanner
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='/about') About
+    include includes/navbar
     
+    #carousel-about.carousel.slide
+    //
+         Indicators 
+      ol.carousel-indicators
+        li.active(data-target='#carousel-about', data-slide-to='0')
+        li(data-target='#carousel-about', data-slide-to='1')
+        li(data-target='#carousel-about', data-slide-to='2')
+      //
+         Wrapper for slides 
+      .carousel-inner
+        .item.active
+          img(src='/img/carousel/bossi_truck_cropped.jpg', alt='...')
+          .carousel-caption
+            | <a href='http://www.flickr.com/photos/thisisbossi/'>Bossi</a>
+        .item
+          img(src='/img/carousel/dcwater_truck_cropped.jpg', alt='...')
+        .item
+          img(src='/img/carousel/ddot_plow_cropped.jpg', alt='...')
+      //
+         Controls 
+      a.left.carousel-control(href='#carousel-about', data-slide='prev')
+        span.icon-prev
+      a.right.carousel-control(href='#carousel-about', data-slide='next')
+        span.icon-next
+    
+    .jumbotron
+      .container
+        h1 Five by Five
+        p This website lets you follow the radio comms of DC's Fire, EMS and City Services. You read what they are up to in the newspaper when something big happens, but they are constantly working, day in and day out, to serve the citizens of DC. 
+
     .container(id='about')
-      .jumbotron
-        .container
-          h1 Five by Five
-          p This website lets you follow the radio comms of DC's Fire, EMS and city services. You hear what they are up to when something big happens, but they constantly working, day in and day out, to serve the citizens of DC.
-      h1 Radio Comms
-      p This system monitors the radio traffic on the DC Fire/EMS/City Services radio system. The DC Police use a seperate system with encrypted voice channels. The citywide talkgroup is sometimes used to communicate between the systems.
-      p Radio systems uses a fixed set of channels to transmit and recieve communications. Convential radio systems keep the communications of different groups seperate by giving them different radio channels. This means that Fire would always use one radio channel and EMS would also use another. However, this radio system is a Motorola SmartNet II trunking system. Trunking systems are more advanced than convential radio systems. Instead of permentantly setting aside a radio for each group, everyone shares a set of channels and trunking system temporarily asigns a grop a channel when they want to talk. This is means that a lot of different groups can all have their seperate conversations, but only use a few radio channels.
-      p The different groups are given their own talkgroup. Some may even have a couple of a different talkgroups, so they can keep different types of covnerstations seperate. Each talkgroup is represented by a number in the system. Radio Reference is a good way to figure out who is using each talkgroup and what hey are using it for.
-      h2 Interesting Talkgroups
-      .list-group
-        .list-group-item
-          h4.list-group-item-heading DCFD 01 Dispatch
-          p.list-group-item-text This is the Dispatch TG for both Fire and EMS.
-        .list-group-item
-          h4.list-group-item-heading DCFD 02 Main
-          p.list-group-item-text The main tg for coordinating Fire operations.
-      h2 Lingo
-      p There are a couple conventions used on the system. On the Fire and EMS talkgroups, unit are refered to by their type and number. For Fire, the unit types are generally either Engine or Truck, altough there are some special units like the Foam or Tower truck. EMS Units generally seem to be refered to as Medic.
-      h1 Tech
-      p There is a lot going on behind this simple looking website. Here is a high level overview of how it works,  but shot me an email if you want details.
-      p The radio signals are recieved using the HackRF Software Defined Radio (SDR). The SDR recieves a wide swath of radio spectrum and passes it to a computer to process and decode. Using this approach, it is possible to recieve all of the transmission from the radio system and decode them simultaiosly. Without the SDR a seperate radio reciever would be need for each channel.
-      p In a Trunking system, one of the radio channels is set aside for to manage the assignment of radio channels to talkgroups. When someone wants to talk, they send a message on the control channel. The system then assigns them a channel and sends a Channel Grant message on the control channel. This lets the talker know what channel to transmit on and anyone who is a member of the talkgroup know that they should listen to that channel.
-      p In order to follow all of the transmissions, this system constantly listens to and decodes the control channel. When a channel is granted to a talkgroup, the system creates a monitoring process. This process will start to process and decode the part of the radio spectrum for that channel which the SDR is already pulling in.
-      p No message is tranismitted on the control channel when a talkgroup's conversation is over. So instead the monitoring process keeps track of transmissions and if there has been no acitvity for 5 seconds, it ends the recording and uploads to the webserver.
-      p The monitoring and recording is being run off of a laptop in my apartment and uses a crappy antenna. The website is run off a VPS I have running up in the magical cloud.
-      p The webserver is pretty simple. It is written in NodeJs. The audio is stored as WAV files and indexed using MongoDB. The server simply watches for new files being placed in a directory and then moves them and adds them to the DB. Socket.io is used to updated all of the browsers visiting the site that a new transmission has been added.
-      p See - Easy, Peasy!
-      h1 Contact
-      p I am really interested in making this site useful. Send me ideas, thoughts, or suggestions:
-      lukekb@gmail.com - @LukeBerndt
+    h1 Radio Comms
+    p This system monitors the radio traffic on the DC Fire/EMS/City Services radio system. The DC Police use a separate system with encrypted voice channels. The citywide talkgroup is sometimes used to communicate between the systems.
+    p Radio systems uses a fixed set of channels to transmit and receive communications. Conventional radio systems keep the communications of different groups separate by giving them different radio channels. This means that Fire would always use one radio channel and EMS would also use another. However, this radio system is a Motorola SmartNet II trunking system. Trunking systems are more advanced than conventional radio systems. Instead of permanently setting aside a radio for each group, everyone shares a set of channels and trunking system temporarily assigns a group a channel when they want to talk. This is means that a lot of different groups can all have their separate conversations, but only use a few radio channels.
+    p The different groups are given their own talkgroup. Some may even have a couple of a different talkgroups, so they can keep different types of conversations separate. Each talkgroup is represented by a number in the system. Radio Reference is a good way to figure out who is using each talkgroup and what hey are using it for.
+    h2 Interesting Talkgroups
+    .list-group
+      .list-group-item
+        h4.list-group-item-heading DCFD 01 Dispatch
+        p.list-group-item-text This is the Dispatch TG for both Fire and EMS.
+      .list-group-item
+        h4.list-group-item-heading DCFD 02 Main
+        p.list-group-item-text The main tg for coordinating Fire operations.
+    h2 Lingo
+    p There are a couple conventions used on the system. On the Fire and EMS talkgroups, unit are referred to by their type and number. For Fire, the unit types are generally either Engine or Truck, although there are some special units like the Foam or Tower truck. EMS Units generally seem to be referred to as Medic.
+    h1 Tech
+    p There is a lot going on behind this simple looking website. Here is a high level overview of how it works,  but shot me an email if you want details.
+    p The radio signals are received using the HackRF Software Defined Radio (SDR). The SDR receives a wide swath of radio spectrum and passes it to a computer to process and decode. Using this approach, it is possible to receive all of the transmission from the radio system and decode them simultaneously. Without the SDR a separate radio receiver would be need for each channel.
+    p In a Trunking system, one of the radio channels is set aside for to manage the assignment of radio channels to talkgroups. When someone wants to talk, they send a message on the control channel. The system then assigns them a channel and sends a Channel Grant message on the control channel. This lets the talker know what channel to transmit on and anyone who is a member of the talkgroup know that they should listen to that channel.
+    p In order to follow all of the transmissions, this system constantly listens to and decodes the control channel. When a channel is granted to a talkgroup, the system creates a monitoring process. This process will start to process and decode the part of the radio spectrum for that channel which the SDR is already pulling in.
+    p No message is transmitted on the control channel when a talkgroup's conversation is over. So instead the monitoring process keeps track of transmissions and if there has been no activity for 5 seconds, it ends the recording and uploads to the webserver.
+    p The monitoring and recording is being run off of a laptop in my apartment and uses a crappy antenna. The website is run off a VPS I have running up in the magical cloud.
+    p The webserver is pretty simple. It is written in NodeJs. The audio is stored as WAV files and indexed using MongoDB. The server simply watches for new files being placed in a directory and then moves them and adds them to the DB. Socket.io is used to updated all of the browsers visiting the site that a new transmission has been added.
+    strong See - Easy, Peasy!
+    h1 Contact
+    p I am really interested in making this site useful. Send me ideas, thoughts, or suggestions:
+    strong <a href="mailto://lukekb@gmail.com">lukekb@gmail.com</a> - <a href="https://twitter.com/LukeBerndt">@LukeBerndt</a>

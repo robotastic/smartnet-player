@@ -4,18 +4,7 @@ html
     script(type='text/javascript', src="http://d3js.org/d3.v3.min.js")
 
   body
-    .navbar.navbar-inverse.navbar-static-top(id="nav-main" role="navigation")
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='/') DC Scanner
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='/about') About
+    include includes/navbar
     
     .container
       #redirect-form

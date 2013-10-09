@@ -5,18 +5,8 @@ html
 
 
   body
-    .navbar.navbar-inverse.navbar-static-top(id="nav-main")
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='/') DC Scanner
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='/about') About
+    include includes/navbar
+    
     .container
 
       .panel.panel-default
