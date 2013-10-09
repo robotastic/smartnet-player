@@ -56,7 +56,7 @@ html
           
           var start = new Date(current);
           start.setDate(start.getDate() - 1);
-          var x = d3.time.scale().domain([start, current]).range([padding, w - padding]);
+          var x = d3.time.scale().domain([start, current]).range([padding, w]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
 
