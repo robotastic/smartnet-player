@@ -113,7 +113,7 @@ html
         $.getJSON( "/volume", function( data ) {
           var i =0;
           var current = new Date();
-          current.setHours(current.getHours-1);
+          current.setHours(current.getHours() - 1);
           current.setMinutes(0);
           console.log("Start date/time: " + current);
           $.each( data, function( key, val ) {
