@@ -31,7 +31,7 @@ html
 
         var w = 500;
         var h = 125;
-        var barPadding = 3;
+        var barPadding = 1;
         var padding = 30;
 
 
@@ -57,7 +57,7 @@ html
           
           var start = new Date(current);
           start.setDate(start.getDate() - 1);
-          var x = d3.time.scale().domain([start, current]).range([padding, w - padding * 2]);
+          var x = d3.time.scale().domain([start, current]).range([padding, w - padding]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
 
@@ -78,7 +78,7 @@ html
                     .orient("left")
                   .ticks(5);
 
-          var barsWidth = (w - 2*padding);
+          var barsWidth = (w - padding);
           var barWidth =  barsWidth / channel.historic.length;
           
           svg.selectAll("rect")
@@ -86,7 +86,7 @@ html
              .enter()
              .append("rect")
              .on("click", clickEvent)
-             .attr("x", function(d, i) { return (barsWidth - (i *  barWidth)); })
+             .attr("x", function(d, i) { return (barsWidth - ((i + 1) *  barWidth) + padding); })
              .attr("y", function(d) { return h - yScale(d) })
              .attr("width",  barWidth - barPadding)
              .attr("height", function(d) { return  yScale(d) - padding; })
@@ -97,9 +97,8 @@ html
                 
                 back.setHours(start.getHours() - i);
                 back.setMinutes(0);
-                console.log("[ " + channel + " ] \t Date/time: " + back + " \t value: " + d);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
-                var return_string = date_string + " - " +d; 
+                var return_string = date_string + " - " + d + " Calls"; 
                 return return_string; });
           svg.append("g")
               .attr("class", "axis")
@@ -115,7 +114,7 @@ html
           var current = new Date();
           current.setHours(current.getHours() - 1);
           current.setMinutes(0);
-          console.log("Start date/time: " + current);
+          console.log("Stats start date/time: " + current);
           $.each( data, function( key, val ) {
             i++;
             var li = $("<li/>", {class: "list-group-item" });
