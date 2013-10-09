@@ -52,7 +52,7 @@ html
         };
 
         function add_graph(id, channel, current) {
-          
+          $(id).data('channel', channel).data('start', current);
 
           
           var start = new Date(current);
