@@ -42,7 +42,7 @@ html
             var filter_code = 'tg-' + channel.num;
 
 
-            start.setHours(start.getHours() + 1 - i);
+            start.setHours(start.getHours() - i);
 
             var date_string = start.toDateString() + " " + start.toLocaleTimeString();    
   
@@ -86,7 +86,7 @@ html
              .enter()
              .append("rect")
              .on("click", clickEvent)
-             .attr("x", function(d, i) { return (barsWidth - (i *  barWidth)) + padding; })
+             .attr("x", function(d, i) { return (barsWidth - (i *  barWidth)); })
              .attr("y", function(d) { return h - yScale(d) })
              .attr("width",  barWidth - barPadding)
              .attr("height", function(d) { return  yScale(d) - padding; })
@@ -95,7 +95,7 @@ html
              .text(function(d, i) { 
                 var back = new Date();
                 
-                back.setHours(start.getHours() + 1 - i);
+                back.setHours(start.getHours() - i);
 
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " +d; 
