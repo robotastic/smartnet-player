@@ -113,6 +113,7 @@ html
           var current = new Date();
           current.setHours(current.getHours() - 1);
           current.setMinutes(0);
+          current.setSeconds(0);
           console.log("Stats start date/time: " + current);
           $.each( data, function( key, val ) {
             i++;
