@@ -51,10 +51,10 @@ html
             document.forms['redirect'].submit();
         };
 
-        function add_graph(id, channel, t) {
-          $(id).data('channel', channel).data('start', t);
+        function add_graph(id, channel, current) {
+          
 
-          var current = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours()+1);
+          
           var start = new Date(current);
           start.setDate(start.getDate() - 1);
           var x = d3.time.scale().domain([start, current]).range([padding, w - padding * 2]);
@@ -96,7 +96,8 @@ html
                 var back = new Date();
                 
                 back.setHours(start.getHours() - i);
-
+                back.setMinutes(0);
+                console.log("[ " + channel + " ] \t Date/time: " + back + " \t value: " + d);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " +d; 
                 return return_string; });
@@ -111,6 +112,10 @@ html
         }
         $.getJSON( "/volume", function( data ) {
           var i =0;
+          var current = new Date();
+          current.setHours(current.getHours-1);
+          current.setMinutes(0);
+          console.log("Start date/time: " + current);
           $.each( data, function( key, val ) {
             i++;
             var li = $("<li/>", {class: "list-group-item" });
@@ -118,7 +123,7 @@ html
             li.append("<h4/>").text(val.name);
             li.append(div);
             $("#graphs").append(li);
-            add_graph("#graph-"+i, val, new Date());
+            add_graph("#graph-"+i, val, current);
           });
         });
         
