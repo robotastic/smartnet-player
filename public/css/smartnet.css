@@ -36,10 +36,19 @@ carousel-inner>.item>img {
   padding-left: 20%;
   padding-right: 20%;
   padding-top: 20px;
-  
-
+  background-color: #eee;
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 2.1428571435;
   z-index: 10;
   opacity: .80;
+}
+#about-carousel-callout h1 {
+font-size: 63px;
+}
+
+#about-carousel-callout p {
+line-height: 1.4;
 }
 #jumbotron-about {
   position: relative;
