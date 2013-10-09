@@ -92,7 +92,7 @@ function build_stat(collection) {
       var historic = new Array();
       chan_count++;
 
-      for (hour = 0; hour < 25; hour++) {
+      for (hour = 0; hour < 24; hour++) {
 
         historic[hour] = 0;
       }
