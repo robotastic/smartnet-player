@@ -340,8 +340,8 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
   var filter_code = req.body.filter_code;
   if (!filter_code) filter_code = "";
-  var filter_date = req.body.filter_date;
-  if (!filter_date) filter_date = null;
+  var filter_date = "new Date(" + req.body.filter_date + ");";
+  if (!filter_date) filter_date = "";
 
   res.render('player', {
     filter_date: filter_date,
