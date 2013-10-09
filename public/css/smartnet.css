@@ -2,6 +2,21 @@ body {
   //padding-top: 50px;
 }
 
+//overrides Boostrap.css
+
+.carousel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+  max-width: none;
+}
+
+.carousel .item {
+  height: 500px;
+}
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
