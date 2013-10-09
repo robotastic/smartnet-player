@@ -95,9 +95,9 @@ html
              .text(function(d, i) { 
                 var back = new Date();
                 
-                start.setHours(start.getHours() + 1 - i);
+                back.setHours(start.getHours() + 1 - i);
 
-                var date_string = start.toDateString() + " " + start.toLocaleTimeString();
+                var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " +d; 
                 return return_string; });
           svg.append("g")
