@@ -116,22 +116,11 @@ width: initial;
 	padding-right: 10px;
 }
 
-.play-time {
-  width: 40px;
+#call-player {
+  margin-top: 20px;
 }
 
-#duration {
-  float: right;
-}
 
-#current-time {
-  float: left;
-}
-
-#play-progress {
-  width: 80%;
-  float: left;
-}
 
 .graph {
 	clear: both;

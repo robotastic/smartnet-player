@@ -10,10 +10,16 @@ html
 
     .container
 
-      .panel.panel-default
+      .panel.panel-default#call-player
+        .panel-heading
+          .row
+            .col-md-2
+              h3= time
+            .col-xs-6.col-md-4
+              h3= date
         .panel-body
           .row
-            .col-md-6.col-md-offset-2
+            .col-md-8.col-md-offset-2
               .progress 
                 .progress-bar.bar(style="width: 0%;")
           .row
@@ -26,7 +32,7 @@ html
                     span(class="glyphicon glyphicon-play jp-play")
                   button( type="button", class="btn btn-primary navbar-btn")
                     span(class="glyphicon glyphicon-stop jp-stop")
-            .col-md-2.col-md-offset-2
+            .col-md-1.col-md-offset-2
               .pull-right#duration
           .row
             .col-md-2
@@ -38,11 +44,7 @@ html
             .col-md-4
               h3 #{channel.alpha}
               small Talkgroup
-          .row
-            .col-md-2
-              h3= time
-            .col-xs-6.col-md-4
-              h3= date
+
 
 
     #jquery_jplayer_1.jp-jplayer
