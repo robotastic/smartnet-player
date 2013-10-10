@@ -2,9 +2,9 @@ body {
   //padding-top: 50px;
 }
 
-//overrides Boostrap.css
 
-.carousel-inner>.item>img, .carousel-inner>.item>a>img {
+
+.carousel-inner .item img, .carousel-inner .item a img {
   position: absolute;
   top: 0;
   left: 0;
