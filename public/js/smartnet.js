@@ -203,20 +203,22 @@ function page_click() {
 
 function fetch_calls(offset) {
 
+	var url = "/calls";
+
 	if (filter_date != "") {
-		var date_string = filter_date.toDateString() + " " + filter_date.toLocaleTimeString();
-	} else {
-		var date_string = null;
-	}
+		var url = url + "/newer/" + filter_date.getTime();
+	} 
+	if (filter_code != "") {
+		var url = url + "/" + filter_code;
+	} 
+	console.log("Trying to fetch data from this url: " + url);
 	$.ajax({
-		url: "/calls",
+		url: url,
 		type: "POST",
 		dataType: "json",
 		data: JSON.stringify({
 			offset: offset,
-			per_page: per_page,
-			filter_code: filter_code,
-			filter_date: date_string
+			per_page: per_page
 		}),
 		contentType: "application/json",
 		cache: false,

@@ -35,7 +35,7 @@ scanner.open(function(err, scannerDb) {
   scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
   //do the initial build of the stats
   db.collection('call_volume', function(err, collection) {
-    build_stat(collection);    
+    build_stat(collection);
   });
 });
 
@@ -86,59 +86,60 @@ function compile(str, path) {
 
 function build_stat(collection) {
   var chan_count = 0;
-  stats={};
+  stats = {};
   var db_count = 0;
   for (var chan_num in channels) {
-      var historic = new Array();
-      chan_count++;
+    var historic = new Array();
+    chan_count++;
 
-      for (hour = 0; hour < 24; hour++) {
+    for (hour = 0; hour < 24; hour++) {
 
-        historic[hour] = 0;
-      }
-      stats[chan_num] = {
-        name: channels[chan_num].alpha,
-        desc: channels[chan_num].desc,
-        num: chan_num,
-        historic: historic
-      };
-      var query = {
-        "_id.talkgroup": parseInt(chan_num)
-      };
-      collection.find(query).toArray(function(err, results) {
-        db_count++;
-        if (err) console.log(err);
-        if (results && (results.length > 0)) {
-          for (var i = 0; i < results.length; i++) {
-            stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
-          }
-        }
-        if (chan_count == db_count) {
-          for(var chan_num in stats){
-              var chan = stats[chan_num];
-              var erase_me = true;
-              for (var i=0; i<chan.historic.length; i++) {
-                if (chan.historic[i] != 0) {
-                  erase_me = false;
-                  break;
-                }
-              }
-              if (erase_me) {
-                delete stats[chan_num];
-              }
-          }
-
-        }
-      });
-
+      historic[hour] = 0;
     }
+    stats[chan_num] = {
+      name: channels[chan_num].alpha,
+      desc: channels[chan_num].desc,
+      num: chan_num,
+      historic: historic
+    };
+    var query = {
+      "_id.talkgroup": parseInt(chan_num)
+    };
+    collection.find(query).toArray(function(err, results) {
+      db_count++;
+      if (err) console.log(err);
+      if (results && (results.length > 0)) {
+        for (var i = 0; i < results.length; i++) {
+          stats[results[0]._id.talkgroup].historic[results[i]._id.hour] = results[i].value.count;
+        }
+      }
+      if (chan_count == db_count) {
+        for (var chan_num in stats) {
+          var chan = stats[chan_num];
+          var erase_me = true;
+          for (var i = 0; i < chan.historic.length; i++) {
+            if (chan.historic[i] != 0) {
+              erase_me = false;
+              break;
+            }
+          }
+          if (erase_me) {
+            delete stats[chan_num];
+          }
+        }
+
+      }
+    });
+
+  }
 }
+
 function build_call_volume() {
-  
+
   map = function() {
     var now = new Date();
     var difference = now.getTime() - this.time.getTime();
-    var hour =  Math.floor(difference/1000/60/60);
+    var hour = Math.floor(difference / 1000 / 60 / 60);
     emit({
       hour: hour,
       talkgroup: this.talkgroup
@@ -162,7 +163,11 @@ function build_call_volume() {
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     transCollection.mapReduce(map, reduce, {
-      query:{ time: {$gte: yesterday}},
+      query: {
+        time: {
+          $gte: yesterday
+        }
+      },
       out: {
         replace: "call_volume"
       }
@@ -182,7 +187,140 @@ schedule.scheduleJob({
   build_call_volume();
 });
 
-function build_filter(code, start_time) {
+
+
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(express.logger('dev'))
+
+app.use(express.static(__dirname + '/public'))
+app.use(express.bodyParser());
+
+
+
+app.get('/about', function(req, res) {
+  res.render('about', {});
+});
+
+app.get('/media*', function(req, res) {
+  //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
+
+  var file = '/srv/www/robotastic.com' + req.url;
+  var stat = fs.statSync(file);
+
+  //console.log ("File: " + file);
+  if (!stat.isFile()) return;
+
+  var start = 0;
+  var end = 0;
+  var range = req.header('Range');
+  if (range != null) {
+    start = parseInt(range.slice(range.indexOf('bytes=') + 6,
+      range.indexOf('-')));
+    end = parseInt(range.slice(range.indexOf('-') + 1,
+      range.length));
+  }
+  if (isNaN(end) || end == 0) end = stat.size - 1;
+
+  if (start > end) return;
+
+  sys.puts('Browser requested bytes from ' + start + ' to ' +
+    end + ' of file ' + file);
+
+  var date = new Date();
+
+  res.writeHead(206, { // NOTE: a partial http response
+    // 'Date':date.toUTCString(),
+    'Connection': 'close',
+    // 'Cache-Control':'private',
+    // 'Content-Type':'video/webm',
+    // 'Content-Length':end - start,
+    'Content-Range': 'bytes ' + start + '-' + end + '/' + stat.size,
+    // 'Accept-Ranges':'bytes',
+    // 'Server':'CustomStreamer/0.0.1',
+    'Transfer-Encoding': 'chunked'
+  });
+
+  var stream = fs.createReadStream(file, {
+    flags: 'r',
+    start: start,
+    end: end
+  });
+  stream.pipe(res);
+});
+
+app.get('/channels', function(req, res) {
+
+  res.contentType('json');
+  res.send(JSON.stringify({
+    channels: channels
+  }));
+
+
+});
+
+app.get('/call/:id', function(req, res) {
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.findOne({
+        '_id': o_id
+      },
+      function(err, item) {
+        //console.log(util.inspect(item));
+        if (item) {
+          var time = new Date(item.time);
+          var timeString = time.toLocaleTimeString();
+          var dateString = time.toDateString();
+          res.render('call', {
+            item: item,
+            channel: channels[item.talkgroup],
+            time: timeString,
+            date: dateString
+          });
+
+        } else {
+          res.send(404, 'Sorry, we cannot find that!');
+        }
+      });
+  });
+});
+
+function get_calls(filter) {
+  var sort_order = {};
+
+  sort_order['time'] = -1;
+
+  var calls = [];
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.find(filter).count(function(e, count) {
+      transCollection.find(filter, function(err, cursor) {
+        cursor.sort(sort_order).limit(20).each(function(err, item) {
+          if (item) {
+            call = {
+              objectId: item._id,
+              talkgroup: item.talkgroup,
+              filename: item.path + item.name,
+              time: item.time,
+              len: Math.round(item.len) + 's'
+            };
+            calls.push(call);
+          } else {
+            res.contentType('json');
+            res.send(JSON.stringify({
+              calls: calls,
+              count: count
+            }));
+          }
+        });
+      });
+    });
+  });
+
+
+}
+
+function build_filter(code, start_time, direction) {
   var filter = {};
   if (code.substring(0, 3) == 'tg-') {
     tg_num = parseInt(code.substring(3));
@@ -308,9 +446,15 @@ function build_filter(code, start_time) {
   if (start_time) {
     var start = new Date(start_time);
 
-    filter.time = {
-      $gte: start
-    };
+    if (direction == 'newer') {
+      filter.time = {
+        $gte: start
+      };
+    } else {
+      filter.time = {
+        $lte: start
+      };
+    }
 
   }
   filter.len = {
@@ -320,13 +464,49 @@ function build_filter(code, start_time) {
 
 }
 
+app.get('/calls/newer/:time/:filter_code?', function(req, res) {
+  console.log('/calls/newer/:time/:filter_code?');
+  var filter_code = req.params.filter_code; 
+  var start_time = req.params.time;
+  var filter = build_filter(filter_code, start_time, 'newer');
+  var filter = {}
 
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
-app.use(express.logger('dev'))
+  var calls = get_calls(filter);
+  res.contentType('json');
+  res.send(calls);
+});
 
-app.use(express.static(__dirname + '/public'))
-app.use(express.bodyParser());
+app.get('/calls/older/:time/:filter_code?', function(req, res) {
+  console.log('/calls/older/:time/:filter_code?');
+  var filter_code = req.params.filter_code; 
+  var start_time = req.params.time;
+  var filter = build_filter(filter_code, start_time, 'older');
+  var filter = {}
+
+  var calls = get_calls(filter);
+  res.contentType('json');
+  res.send(calls);
+});
+
+app.get('/calls/:filter_code?', function(req, res) {
+  console.log('/calls/:filter_code?');
+  var filter_code = req.params.filter_code; 
+  var filter = build_filter(filter_code, null, null);
+  var filter = {}
+
+  var calls = get_calls(filter);
+  res.contentType('json');
+  res.send(calls);
+});
+
+app.post('/calls', function(req, res) {
+  console.log('/calls');
+  var filter = {}
+
+  var calls = get_calls(filter);
+  res.contentType('json');
+  res.send(calls);
+});
 
 app.get('/', function(req, res) {
   var filter_code = "";
@@ -349,145 +529,13 @@ app.post('/', function(req, res) {
   });
 });
 
-app.get('/about', function(req, res) {
-  res.render('about', {});
-});
-
-app.get('/media*', function(req, res) {
-  //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
-
-  var file = '/srv/www/robotastic.com' + req.url;
-  var stat = fs.statSync(file);
-
-  //console.log ("File: " + file);
-  if (!stat.isFile()) return;
-
-  var start = 0;
-  var end = 0;
-  var range = req.header('Range');
-  if (range != null) {
-    start = parseInt(range.slice(range.indexOf('bytes=') + 6,
-      range.indexOf('-')));
-    end = parseInt(range.slice(range.indexOf('-') + 1,
-      range.length));
-  }
-  if (isNaN(end) || end == 0) end = stat.size - 1;
-
-  if (start > end) return;
-
-  sys.puts('Browser requested bytes from ' + start + ' to ' +
-    end + ' of file ' + file);
-
-  var date = new Date();
-
-  res.writeHead(206, { // NOTE: a partial http response
-    // 'Date':date.toUTCString(),
-    'Connection': 'close',
-    // 'Cache-Control':'private',
-    // 'Content-Type':'video/webm',
-    // 'Content-Length':end - start,
-    'Content-Range': 'bytes ' + start + '-' + end + '/' + stat.size,
-    // 'Accept-Ranges':'bytes',
-    // 'Server':'CustomStreamer/0.0.1',
-    'Transfer-Encoding': 'chunked'
-  });
-
-  var stream = fs.createReadStream(file, {
-    flags: 'r',
-    start: start,
-    end: end
-  });
-  stream.pipe(res);
-});
-
-app.get('/channels', function(req, res) {
-
-  res.contentType('json');
-  res.send(JSON.stringify({
-    channels: channels
-  }));
-
-
-});
-
-app.get('/call/:id', function(req, res) {
-  var objectId = req.params.id;
-  var o_id = new BSON.ObjectID(objectId);
-  db.collection('transmissions', function(err, transCollection) {
-    transCollection.findOne({
-        '_id': o_id
-      },
-      function(err, item) {
-        //console.log(util.inspect(item));
-        if (item) {
-          var time = new Date(item.time);
-          var timeString = time.toLocaleTimeString();
-          var dateString = time.toDateString();
-          res.render('call', {
-            item: item,
-            channel: channels[item.talkgroup],
-            time: timeString,
-            date: dateString
-          });
-
-        } else {
-          res.send(404, 'Sorry, we cannot find that!');
-        }
-      });
-  });
-});
-
-app.post('/calls', function(req, res) {
-
-  var per_page = req.body.per_page;
-  var offset = req.body.offset;
-  var filter_code = req.body.filter_code;
-  var start_time = req.body.filter_date;
-  var filter = build_filter(filter_code, start_time);
-  var sort_order = {};
-
-  if (start_time == null) {
-    sort_order['time'] = -1;
-  } else {
-    sort_order['time'] = 1;
-  }
-  //console.log("Sort Order: " + util.inspect(sort_order) + " start time: " + start_time + " Filter: " + util.inspect(filter));
-
-  calls = [];
-  db.collection('transmissions', function(err, transCollection) {
-    transCollection.find(filter).count(function(e, count) {
-      transCollection.find(filter, function(err, cursor) {
-        cursor.skip(offset * per_page).sort(sort_order).limit(per_page).each(function(err, item) {
-          if (item) {
-            call = {
-              objectId: item._id,
-              talkgroup: item.talkgroup,
-              filename: item.path + item.name,
-              time: item.time,
-              len: Math.round(item.len) + 's'
-            };
-            calls.push(call);
-          } else {
-            res.contentType('json');
-            res.send(JSON.stringify({
-              calls: calls,
-              count: count,
-              offset: offset
-            }));
-          }
-        });
-      });
-    });
-  });
-
-});
 app.get('/stats', function(req, res) {
   res.render('stats', {});
 });
 app.get('/volume', function(req, res) {
 
-          res.contentType('json');
-          res.send(JSON.stringify(stats));
+  res.contentType('json');
+  res.send(JSON.stringify(stats));
 });
 
 function notify_clients(call) {
