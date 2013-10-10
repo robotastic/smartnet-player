@@ -289,7 +289,7 @@ app.get('/call/:id', function(req, res) {
 function get_calls(filter, res) {
   var sort_order = {};
 
-  sort_order['time'] = 1;
+  sort_order['time'] = -1;
 
   var calls = [];
   db.collection('transmissions', function(err, transCollection) {
@@ -468,9 +468,10 @@ function build_filter(code, start_time, direction) {
 }
 
 app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
-  console.log('/calls/newer/:time/:filter_code?*');
+  console.log('/calls/newer/:time/:filter_code?* ' + util.inspect(req.params));
   var filter_code = req.params.filter_code;
   var start_time = req.params.time;
+
   var filter = build_filter(filter_code, start_time, 'newer');
   var filter = {}
 
