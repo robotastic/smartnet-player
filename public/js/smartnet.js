@@ -203,7 +203,7 @@ function page_click() {
 }
 
 function nav_click() {
-	var url = $(this).date('url');
+	var url = $(this).data('url');
 	fetch_calls(url);
 }
 
@@ -241,7 +241,7 @@ function fetch_calls(url) {
 					print_call_row(data.calls[i], data.direction, false);
 				}
 			}
-			var time = new Date(call.time);
+			
 			if (data.direction == 'newer') {
 				var newer_time = new Date(data.call[data.call.length - 1].time);
 				var older_time = new Date(data.call[0].time);
