@@ -501,23 +501,13 @@ app.get('/calls/older/:time/:filter_code?*', function(req, res) {
 app.get('/calls/:filter_code?*', function(req, res) {
   console.log('/calls/:filter_code?*');
   var filter_code = req.params.filter_code;
-  var query = build_filter(filter_code, null, 'newer');
+  var query = build_filter(filter_code, null, 'older');
  
 
 
   get_calls(query, res);
 });
 
-app.post('/calls', function(req, res) {
-  console.log('/calls');
-  var query = {}
-  query['filter'] = {};
-  query['direction'] = 'older';
-  query['sort_order'] = -1;
-
-
-  get_calls(query, res);
-});
 
 app.get('/', function(req, res) {
   var filter_code = "";
