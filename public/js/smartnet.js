@@ -204,7 +204,7 @@ function page_click() {
 
 function nav_click() {
 	var url = $(this).data('url');
-	fetch_calls(url);
+	fetch_calls("/calls" + url);
 }
 
 function fetch_calls(url) {
@@ -250,8 +250,8 @@ function fetch_calls(url) {
 				var newer_time = new Date(data.calls[0].time);
 			}
 
-			var newer_url = '/newer/' + newer_time;
-			var older_url = '/older/' + older_time;
+			var newer_url = '/newer/' + newer_time.getTime();
+			var older_url = '/older/' + older_time.getTime();
 
 			if (filter_code != '') {
 				newer_url = newer_url + "/" + filter_code;
