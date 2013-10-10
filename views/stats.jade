@@ -31,12 +31,8 @@ html
 
 
             start.setHours(start.getHours() - i);
-
-            var date_string = start.toDateString() + " " + start.toLocaleTimeString();    
-  
-            $('#redirect-form').html('<form action="http://robotastic.com/" name="redirect" method="post" style="display:none;"><input type="text" name="filter_code" value="' + filter_code + '" /><input type="text" name="filter_date" value="' + date_string + '" /></form>');
-
-            document.forms['redirect'].submit();
+            window.location.href = '/scanner/newer/' + start.getTime() + '/' + filter_code;
+                
         };
 
         function add_graph(id, channel, current) {

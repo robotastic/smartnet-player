@@ -483,7 +483,7 @@ app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var start_time = parseInt(req.params.time);
 
   var query = build_filter(filter_code, start_time, 'newer');
-  
+
 
   get_calls(query, res);
 });
@@ -502,12 +502,43 @@ app.get('/calls/:filter_code?*', function(req, res) {
   console.log('/calls/:filter_code?*');
   var filter_code = req.params.filter_code;
   var query = build_filter(filter_code, null, 'older');
- 
+
 
 
   get_calls(query, res);
 });
 
+app.get('/scanner/:filter_code?*', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var filter_date = parseInt(req.params.time);
+  if (!filter_code) filter_code = "";
+
+
+  var filter_date = "''";
+
+
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: filter_code
+  });
+});
+
+app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var filter_date = parseInt(req.params.time);
+  if (!filter_code) filter_code = "";
+
+  if (!filter_date) {
+    var filter_date = "''";
+  } else {
+    var filter_date = "new Date(" + filter_date + ")";
+  }
+
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: filter_code
+  });
+});
 
 app.get('/', function(req, res) {
   var filter_code = "";

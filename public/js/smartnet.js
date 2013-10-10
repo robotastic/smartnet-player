@@ -1,6 +1,5 @@
 //var socket = io.connect('http://robotastic.com');
 var channels;
-var current_page;
 var per_page;
 var socket;
 var live = false;
@@ -196,11 +195,7 @@ function add_tg_filter() {
 	}
 }
 
-function page_click() {
-	var page = $(this).data("page");
 
-	fetch_calls();
-}
 
 function nav_click() {
 	var url = $(this).data('url');
@@ -235,6 +230,7 @@ function fetch_calls(url) {
 
 		success: function(data) {
 			var browser_url = url.substring(6);
+			browser_url = '/scanner' + browser_url;
 			window.history.pushState(data, "page 2", browser_url);
 			$("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
@@ -310,7 +306,6 @@ function find_code_name(code) {
 
 function init_table() {
 	per_page = 20;
-	current_page = 1;
 
 	$('#filter-title').html("All");
 	fetch_calls();
