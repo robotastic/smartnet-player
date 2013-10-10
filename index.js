@@ -446,9 +446,10 @@ function build_filter(code, start_time, direction) {
       }
     }
   }
+  console.log("Start Time: " + start_time);
   if (start_time) {
     var start = new Date(start_time);
-
+    console.log("start: " + start);
     if (direction == 'newer') {
       filter.time = {
         $gte: start
