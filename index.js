@@ -465,8 +465,8 @@ function build_filter(code, start_time, direction) {
 
 }
 
-app.get('/calls/newer/:time/:filter_code?', function(req, res) {
-  console.log('/calls/newer/:time/:filter_code?');
+app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
+  console.log('/calls/newer/:time/:filter_code?*');
   var filter_code = req.params.filter_code;
   var start_time = req.params.time;
   var filter = build_filter(filter_code, start_time, 'newer');
@@ -475,8 +475,8 @@ app.get('/calls/newer/:time/:filter_code?', function(req, res) {
   get_calls(filter, res);
 });
 
-app.get('/calls/older/:time/:filter_code?', function(req, res) {
-  console.log('/calls/older/:time/:filter_code?');
+app.get('/calls/older/:time/:filter_code?*', function(req, res) {
+  console.log('/calls/older/:time/:filter_code?*');
   var filter_code = req.params.filter_code;
   var start_time = req.params.time;
   var filter = build_filter(filter_code, start_time, 'older');
@@ -485,8 +485,8 @@ app.get('/calls/older/:time/:filter_code?', function(req, res) {
   get_calls(filter, res);
 });
 
-app.get('/calls/:filter_code?', function(req, res) {
-  console.log('/calls/:filter_code?');
+app.get('/calls/:filter_code?*', function(req, res) {
+  console.log('/calls/:filter_code?*');
   var filter_code = req.params.filter_code;
   var filter = build_filter(filter_code, null, null);
   var filter = {}
