@@ -95,7 +95,7 @@ function call_over(event) {
 }
 
 
-function print_call_row(call, live) {
+function print_call_row(call, direction, live) {
 
 
 
@@ -145,15 +145,16 @@ function print_call_row(call, live) {
 	btngroup.append(linkview);
 	newrow.append(btngroup);
 
-
 	if (live) {
-		$("#call_table").prepend(newrow);
 		if (autoplay && (now_playing == null)) {
 			var delay = Math.floor(Math.random() * 1000) + 500;
 			setTimeout(play_call, delay, newrow);
 		}
-	} else {
+	}
 
+	if (direction == 'newer') {
+		$("#call_table").prepend(newrow);
+	} else {
 		$("#call_table").append(newrow);
 	}
 
@@ -164,7 +165,7 @@ function filter_calls() {
 	var name = $(this).data("name");
 	$('#filter-title').html(name);
 	filter_code = code;
-	fetch_calls(0);
+	fetch_calls();
 	if (live) {
 		socket.emit('code', {
 			code: filter_code
@@ -198,19 +199,26 @@ function add_tg_filter() {
 function page_click() {
 	var page = $(this).data("page");
 
-	fetch_calls(page);
+	fetch_calls();
 }
 
-function fetch_calls(offset) {
+function nav_click() {
+	var url = $(this).date('url');
+	fetch_calls(url);
+}
 
-	var url = "/calls";
+function fetch_calls(url) {
 
-	if (filter_date != "") {
-		var url = url + "/newer/" + filter_date.getTime();
-	} 
-	if (filter_code != "") {
-		var url = url + "/" + filter_code;
-	} 
+	if (!url) {
+		url = "/calls";
+
+		if (filter_date != "") {
+			var url = url + "/newer/" + filter_date.getTime();
+		}
+		if (filter_code != "") {
+			var url = url + "/" + filter_code;
+		}
+	}
 	console.log("Trying to fetch data from this url: " + url);
 	$.ajax({
 		url: url,
@@ -230,54 +238,29 @@ function fetch_calls(offset) {
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
 					console.log(data.calls[i]);
-					print_call_row(data.calls[i], false);
+					print_call_row(data.calls[i], data.direction, false);
 				}
 			}
-			if (typeof data.offset !== "undefined") {
-				current_page = data.offset;
+			var time = new Date(call.time);
+			if (data.direction == 'newer') {
+				var newer_time = new Date(data.call[data.call.length - 1].time);
+				var older_time = new Date(data.call[0].time);
+			} else {
+				var older_time = new Date(data.call[data.call.length - 1].time);
+				var newer_time = new Date(data.call[0].time);
 			}
-			if (typeof data.count !== "undefined") {
-				count = data.count;
-				page = current_page - 2;
-				$("#pages").empty();
-				if (current_page > 1) {
 
-					$("#pages").append($('<li><a href="#">&laquo;</a></li>').data("page", current_page - 1).click(page_click));
-				} else {
+			var newer_url = '/newer/' + newer_time;
+			var older_url = '/older/' + older_time;
 
-					$("#pages").append($('<li class="disabled"><a href="#">&laquo;</a></li>'));
-				}
-				for (var i = 0; i < 5;) {
-					if (page < 1) {
-						page++;
-					} else {
-						if (page == current_page) {
-
-							$("#pages").append($('<li class="active"><a href="#">' + page + '</a></li>').data("page", page).click(page_click));
-						} else {
-							if (((page - 1) * per_page) > count) {
-								break;
-							} else {
-
-								$("#pages").append($('<li><a href="#">' + page + '</a></li>').data("page", page).click(page_click));
-
-							}
-
-						}
-						page++;
-						i++;
-					}
-				}
-				if ((page * per_page) < count) {
-
-					$("#pages").append($('<li><a href="#">&raquo;</a></li>').data("page", page + 1).click(page_click));
-
-				} else {
-
-					$("#pages").append($('<li class="disabled"><a href="#">&raquo;</a></li>'));
-				}
-
+			if (filter_code != '') {
+				newer_url = newer_url + "/" + filter_code;
+				older_url = older_url + "/" + filter_code;
 			}
+
+			$('btn-older').data('url', older_url);
+			$('btn-newer').data('url', newer_url);
+
 		},
 
 		error: function() {
@@ -318,7 +301,7 @@ function init_table() {
 	current_page = 1;
 
 	$('#filter-title').html("All");
-	fetch_calls(0);
+	fetch_calls();
 
 }
 
@@ -331,11 +314,11 @@ function socket_connect() {
 			console.log("Socket.io - Recv: " + data);
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
-					print_call_row(data.calls[i], true);
+					print_call_row(data.calls[i], 'newer', true);
 				}
 			}
 			if (typeof data.talkgroup !== "undefined") {
-				print_call_row(data, true);
+				print_call_row(data, 'newer', true);
 			}
 
 		});
@@ -395,7 +378,7 @@ $(document).ready(function() {
 			$('#filter-date').html(ev.date.toDateString());
 			var userOffset = ev.date.getTimezoneOffset() * 60000
 			filter_date = new Date(ev.date.getTime() + userOffset);
-			fetch_calls(0);
+			fetch_calls();
 			live = false;
 		});
 	});
@@ -413,10 +396,11 @@ $(document).ready(function() {
 		socket_connect();
 		filter_date = "";
 		$('#filter-date').html("Live");
-		fetch_calls(0);
+		fetch_calls();
 		live = true;
 	});
-
+	$('#btn-newer').on('click', nav_click);
+	$('#btn-older').on('click', nav_click);
 	$('#nav-filter').affix({
 		offset: {
 			top: 0
