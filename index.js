@@ -294,6 +294,7 @@ function get_calls(filter) {
   var calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(filter).count(function(e, count) {
+      console.log("Found a total of: " + count + " for filter: " + util.inspect(filter));
       transCollection.find(filter, function(err, cursor) {
         cursor.sort(sort_order).limit(20).each(function(err, item) {
           if (item) {
@@ -503,6 +504,7 @@ app.post('/calls', function(req, res) {
   var filter = {}
 
   var calls = get_calls(filter);
+  console.log(utils.inspect(calls));
   res.contentType('json');
   res.send(calls);
 });
