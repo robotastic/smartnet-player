@@ -306,11 +306,10 @@ function get_calls(filter) {
             };
             calls.push(call);
           } else {
-            res.contentType('json');
-            res.send(JSON.stringify({
+            return JSON.stringify({
               calls: calls,
               count: count
-            }));
+            });
           }
         });
       });
