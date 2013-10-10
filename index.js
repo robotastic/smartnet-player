@@ -474,7 +474,7 @@ app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var start_time = parseInt(req.params.time);
 
   var filter = build_filter(filter_code, start_time, 'newer');
-  var filter = {}
+  
 
   get_calls(filter, res);
 });
@@ -484,7 +484,7 @@ app.get('/calls/older/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var filter = build_filter(filter_code, start_time, 'older');
-  var filter = {}
+
 
   get_calls(filter, res);
 });
