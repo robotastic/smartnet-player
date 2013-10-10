@@ -474,7 +474,7 @@ function build_filter(code, start_time, direction) {
   query['filter'] = filter;
   query['direction'] = direction;
   query['sort_order'] = sort_order;
-  return filter;
+  return query;
 }
 
 app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
