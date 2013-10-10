@@ -214,7 +214,7 @@ function fetch_calls(offset) {
 	console.log("Trying to fetch data from this url: " + url);
 	$.ajax({
 		url: url,
-		type: "POST",
+		type: "GET",
 		dataType: "json",
 		data: JSON.stringify({
 			offset: offset,
