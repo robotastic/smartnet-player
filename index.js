@@ -421,12 +421,13 @@ app.get('/call/:id', function(req, res) {
         //console.log(util.inspect(item));
         if (item) {
           var time = new Date(item.time);
-          var timeString = time.toDateString() + " " + time.toLocaleTimeString();
-
+          var timeString = time.toLocaleTimeString();
+          var dateString = time.toDateString();
           res.render('call', {
             item: item,
             channel: channels[item.talkgroup],
-            time: timeString
+            time: timeString,
+            date: dateString
           });
 
         } else {

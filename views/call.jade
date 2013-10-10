@@ -12,8 +12,9 @@ html
 
       .panel.panel-default
         .panel-heading
-          h2.panel-title #{channel.tag} #{channel.desc}
+          h2 #{channel.tag} #{channel.desc}
           h4= time
+          h4= date
         .panel-body
           | Panel content
           .well.well-lg
@@ -25,7 +26,7 @@ html
                   span(class="glyphicon glyphicon-play jp-play")
                 button( type="button", class="btn btn-primary navbar-btn")
                   span(class="glyphicon glyphicon-stop jp-stop")
-              p(class="navbar-text")
+              p
                 span.jp-time-holder
                   span.jp-current-time 
                   / 
