@@ -2,50 +2,40 @@ doctype 5
 html
   include includes/head
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
+    script(type='text/javascript', src='/js/call.js')
 
 
   body
     include includes/navbar
-    
+
     .container
 
       .panel.panel-default
         .panel-heading
-            h3.panel-title= channel.desc
-            small= time
-          .panel-body
-            | Panel content
-            .well.well-lg
-              #jp_container_1
-                span.btn-group.btn-group-sm
-                  button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-play jp-play")
-                  button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-stop jp-stop")
-                p(class="navbar-text")
-                  span.jp-time-holder
-                    span.jp-current-time 
-                    / 
-                    span.jp-duration
-            h4= channel.group
-            h4= channel.tag
-            p= item.talkgroup
+          h2.panel-title #{channel.tag} #{channel.desc}
+          h4= time
+        .panel-body
+          | Panel content
+          .well.well-lg
+            .progress 
+              .progress-bar.bar(style="width: 0%;")
+            #jp_container_1
+              span.btn-group.btn-group-sm
+                button( type="button", class="btn btn-primary navbar-btn")
+                  span(class="glyphicon glyphicon-play jp-play")
+                button( type="button", class="btn btn-primary navbar-btn")
+                  span(class="glyphicon glyphicon-stop jp-stop")
+              p(class="navbar-text")
+                span.jp-time-holder
+                  span.jp-current-time 
+                  / 
+                  span.jp-duration
+          h4= channel.group
+          h4= channel.tag
+          p= item.talkgroup
 
     #jquery_jplayer_1.jp-jplayer
-    script(type='text/javascript').
+    
       
-      $(document).ready(function() {
-        var local_item =!{JSON.stringify(item)};
-        var filename = '/media' + local_item.path + local_item.name;
-        $("#jquery_jplayer_1").jPlayer({
-            ready: function(event) {
-                $(this).jPlayer("setMedia", {
-                    wav: filename
-                });
-            },
-            swfPath: "/js",
-            supplied: "wav"
-        });
-      });
 
 
