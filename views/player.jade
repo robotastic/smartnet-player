@@ -75,11 +75,11 @@ html
           small
             | -
             span(id="filter-date")
-       .row
+        .row
           .col-xs-6
-            button.btn.pull-left#btn-older Older
+            button.btn.pull-left.older-btn Older
           .col-xs-6
-            button.btn.pull-right#btn-newer Newer   
+            button.btn.pull-right.newer-btn Newer   
       .table-responsive  
         table.table
           thead
@@ -92,6 +92,11 @@ html
               th Length
               th
           tbody#call_table
+      .row
+        .col-xs-6
+          button.btn.pull-left.older-btn Older
+        .col-xs-6
+          button.btn.pull-right.newer-btn Newer 
     #jquery_jplayer_1.jp-jplayer
 
 
