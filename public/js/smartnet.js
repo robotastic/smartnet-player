@@ -243,11 +243,11 @@ function fetch_calls(url) {
 			}
 			
 			if (data.direction == 'newer') {
-				var newer_time = new Date(data.call[data.call.length - 1].time);
-				var older_time = new Date(data.call[0].time);
+				var newer_time = new Date(data.calls[data.calls.length - 1].time);
+				var older_time = new Date(data.calls[0].time);
 			} else {
-				var older_time = new Date(data.call[data.call.length - 1].time);
-				var newer_time = new Date(data.call[0].time);
+				var older_time = new Date(data.calls[data.calls.length - 1].time);
+				var newer_time = new Date(data.calls[0].time);
 			}
 
 			var newer_url = '/newer/' + newer_time;
@@ -258,8 +258,8 @@ function fetch_calls(url) {
 				older_url = older_url + "/" + filter_code;
 			}
 
-			$('btn-older').data('url', older_url);
-			$('btn-newer').data('url', newer_url);
+			$('#btn-older').data('url', older_url);
+			$('#btn-newer').data('url', newer_url);
 
 		},
 
