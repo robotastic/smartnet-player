@@ -286,7 +286,7 @@ app.get('/call/:id', function(req, res) {
   });
 });
 
-function get_calls(filter) {
+function get_calls(filter, res) {
   var sort_order = {};
 
   sort_order['time'] = -1;
@@ -307,10 +307,11 @@ function get_calls(filter) {
             };
             calls.push(call);
           } else {
-            return JSON.stringify({
+            res.contentType('json');
+            res.send(JSON.stringify({
               calls: calls,
               count: count
-            });
+            }));
           }
         });
       });
@@ -466,47 +467,38 @@ function build_filter(code, start_time, direction) {
 
 app.get('/calls/newer/:time/:filter_code?', function(req, res) {
   console.log('/calls/newer/:time/:filter_code?');
-  var filter_code = req.params.filter_code; 
+  var filter_code = req.params.filter_code;
   var start_time = req.params.time;
   var filter = build_filter(filter_code, start_time, 'newer');
   var filter = {}
 
-  var calls = get_calls(filter);
-  res.contentType('json');
-  res.send(calls);
+  get_calls(filter, res);
 });
 
 app.get('/calls/older/:time/:filter_code?', function(req, res) {
   console.log('/calls/older/:time/:filter_code?');
-  var filter_code = req.params.filter_code; 
+  var filter_code = req.params.filter_code;
   var start_time = req.params.time;
   var filter = build_filter(filter_code, start_time, 'older');
   var filter = {}
 
-  var calls = get_calls(filter);
-  res.contentType('json');
-  res.send(calls);
+  get_calls(filter, res);
 });
 
 app.get('/calls/:filter_code?', function(req, res) {
   console.log('/calls/:filter_code?');
-  var filter_code = req.params.filter_code; 
+  var filter_code = req.params.filter_code;
   var filter = build_filter(filter_code, null, null);
   var filter = {}
 
-  var calls = get_calls(filter);
-  res.contentType('json');
-  res.send(calls);
+  get_calls(filter, res);
 });
 
 app.post('/calls', function(req, res) {
   console.log('/calls');
   var filter = {}
 
-  var calls = get_calls(filter);
-  console.log(util.inspect(calls));
-  res.contentType('json');
-  res.send(calls);
+  get_calls(filter, res);
 });
 
 app.get('/', function(req, res) {
