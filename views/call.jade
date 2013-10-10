@@ -13,19 +13,21 @@ html
       .panel.panel-default
         .panel-body
           .row
-            .col-xs-6.col-md-4
+            .col-md-6.col-md-offset-2
+              .progress 
+                .progress-bar.bar(style="width: 0%;")
+          .row
+            .col-md-1.col-md-offset-2
+              .pull-left#current-time
+            .col-md-2.col-md-offset-2
               #jp_container_1
                 span.btn-group.btn-group-sm
                   button( type="button", class="btn btn-primary navbar-btn")
                     span(class="glyphicon glyphicon-play jp-play")
                   button( type="button", class="btn btn-primary navbar-btn")
                     span(class="glyphicon glyphicon-stop jp-stop")
-            .col-xs-12.col-md-8
-              span.play-time#current-time
-              #play-progress
-                .progress 
-                  .progress-bar.bar(style="width: 0%;")
-              span.play-time#duration
+            .col-md-2.col-md-offset-2
+              .pull-right#duration
           .row
             .col-md-2
               h3 #{channel.tag}
