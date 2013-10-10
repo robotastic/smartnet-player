@@ -11,29 +11,35 @@ html
     .container
 
       .panel.panel-default
-        .panel-heading
-          h2 #{channel.tag} #{channel.desc}
-          h4= time
-          h4= date
-        .panel-body
-          | Panel content
-          .well.well-lg
-            .progress 
-              .progress-bar.bar(style="width: 0%;")
+        .row
+          .col-xs-6.col-md-4
+            h3 #{channel.tag}
+            small Type
+          .col-xs-6.col-md-4
+            h3 #{channel.desc}
+            small Description
+          .col-xs-6.col-md-4
+            h3 #{channel.alpha}
+            small Talkgroup
+        .row
+          .col-xs-6.col-md-4
+            h3= time
+          .col-xs-6.col-md-4
+            h3= date
+        .row
+          .col-xs-6.col-md-4
             #jp_container_1
               span.btn-group.btn-group-sm
                 button( type="button", class="btn btn-primary navbar-btn")
                   span(class="glyphicon glyphicon-play jp-play")
                 button( type="button", class="btn btn-primary navbar-btn")
                   span(class="glyphicon glyphicon-stop jp-stop")
-              p
-                span.jp-time-holder
-                  span.jp-current-time 
-                  / 
-                  span.jp-duration
-          h4= channel.group
-          h4= channel.tag
-          p= item.talkgroup
+          .col-xs-12.col-md-8
+            span.play-time#current-time
+            .progress 
+              .progress-bar.bar(style="width: 0%;")
+            span.play-time#duration
+
 
     #jquery_jplayer_1.jp-jplayer
     
@@ -43,6 +49,8 @@ html
           $('.jtimer').text($.jPlayer.convertTime(status.duration - status.currentTime));
           var percent = (status.currentTime / status.duration) * 100;
           $(".bar").css("width", percent + "%");
+          $('#current-time').text(status.currentTime);
+          $('#duration').text(status.duration);
       };
 
 
