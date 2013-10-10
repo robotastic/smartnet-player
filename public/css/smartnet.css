@@ -84,6 +84,9 @@ width: initial;
 	font-weight: bold;
 	color: red;
 }
+.live-call a{
+  color: red;
+}
 .call-link {
 	padding-right: 10px;
 	color: #666;
