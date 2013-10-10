@@ -11,34 +11,36 @@ html
     .container
 
       .panel.panel-default
-        .row
-          .col-xs-6.col-md-4
-            h3 #{channel.tag}
-            small Type
-          .col-xs-6.col-md-4
-            h3 #{channel.desc}
-            small Description
-          .col-xs-6.col-md-4
-            h3 #{channel.alpha}
-            small Talkgroup
-        .row
-          .col-xs-6.col-md-4
-            h3= time
-          .col-xs-6.col-md-4
-            h3= date
-        .row
-          .col-xs-6.col-md-4
-            #jp_container_1
-              span.btn-group.btn-group-sm
-                button( type="button", class="btn btn-primary navbar-btn")
-                  span(class="glyphicon glyphicon-play jp-play")
-                button( type="button", class="btn btn-primary navbar-btn")
-                  span(class="glyphicon glyphicon-stop jp-stop")
-          .col-xs-12.col-md-8
-            span.play-time#current-time
-            .progress 
-              .progress-bar.bar(style="width: 0%;")
-            span.play-time#duration
+        .panel-body
+          .row
+            .col-xs-6.col-md-4
+              #jp_container_1
+                span.btn-group.btn-group-sm
+                  button( type="button", class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-play jp-play")
+                  button( type="button", class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-stop jp-stop")
+            .col-xs-12.col-md-8
+              span.play-time#current-time
+              #play-progress
+                .progress 
+                  .progress-bar.bar(style="width: 0%;")
+              span.play-time#duration
+          .row
+            .col-md-2
+              h3 #{channel.tag}
+              small Type
+            .col-md-6
+              h3 #{channel.desc}
+              small Description
+            .col-md-4
+              h3 #{channel.alpha}
+              small Talkgroup
+          .row
+            .col-md-2
+              h3= time
+            .col-xs-6.col-md-4
+              h3= date
 
 
     #jquery_jplayer_1.jp-jplayer

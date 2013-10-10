@@ -270,7 +270,7 @@ app.get('/call/:id', function(req, res) {
         //console.log(util.inspect(item));
         if (item) {
           var time = new Date(item.time);
-          var timeString = time.toLocaleTimeString();
+          var timeString = time.toLocaleTimeString("en-US");
           var dateString = time.toDateString();
           res.render('call', {
             item: item,
@@ -444,10 +444,9 @@ function build_filter(code, start_time, direction) {
       }
     }
   }
-  console.log("Start Time: " + start_time);
+
   if (start_time) {
     var start = new Date(start_time);
-    console.log("start: " + start);
     if (direction == 'newer') {
       filter.time = {
         $gte: start

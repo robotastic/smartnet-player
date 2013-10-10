@@ -116,6 +116,23 @@ width: initial;
 	padding-right: 10px;
 }
 
+.call-time {
+  width: 40px;
+}
+
+#duration {
+  float: right;
+}
+
+#current-time {
+  float: left;
+}
+
+#play-progress {
+  width: 80%;
+  float: left;
+}
+
 .graph {
 	clear: both;
 }
