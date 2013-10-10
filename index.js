@@ -512,8 +512,8 @@ app.post('/calls', function(req, res) {
   console.log('/calls');
   var query = {}
   query['filter'] = {};
-  query['direction'] = 'newer';
-  query['sort_order'] = 1;
+  query['direction'] = 'older';
+  query['sort_order'] = -1;
 
 
   get_calls(query, res);
