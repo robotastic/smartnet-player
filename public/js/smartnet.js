@@ -59,7 +59,9 @@ var tags = [{
 
 function play_call(row) {
 	var filename = row.data("filename");
-
+	if (now_playing) {
+		now_playing.removeClass("now-playing");
+	}
 	now_playing = row;
 	console.log("trying to play: " + filename);
 	row.removeClass("live-call");
@@ -73,21 +75,12 @@ function call_over(event) {
 	if (now_playing) {
 		now_playing.removeClass("now-playing");
 	}
-	if (autoplay) {
-		if (live) {
+	if (autoplay) {	
 			if (now_playing.prev().length != 0) {
 				play_call(now_playing.prev());
 			} else {
 				now_playing = null;
 			}
-		} else {
-			if (now_playing.next().length != 0) {
-				play_call(now_playing.next());
-			} else {
-				now_playing = null;
-			}
-		}
-
 	} else {
 		now_playing = null;
 	}
