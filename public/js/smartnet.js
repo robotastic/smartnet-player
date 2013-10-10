@@ -216,10 +216,6 @@ function fetch_calls(offset) {
 		url: url,
 		type: "GET",
 		dataType: "json",
-		data: JSON.stringify({
-			offset: offset,
-			per_page: per_page
-		}),
 		contentType: "application/json",
 		cache: false,
 		timeout: 5000,

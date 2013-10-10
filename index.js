@@ -289,7 +289,7 @@ app.get('/call/:id', function(req, res) {
 function get_calls(filter, res) {
   var sort_order = {};
 
-  sort_order['time'] = -1;
+  sort_order['time'] = 1;
 
   var calls = [];
   db.collection('transmissions', function(err, transCollection) {
