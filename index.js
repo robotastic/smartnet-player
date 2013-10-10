@@ -323,125 +323,127 @@ function get_calls(filter, res) {
 
 function build_filter(code, start_time, direction) {
   var filter = {};
-  if (code.substring(0, 3) == 'tg-') {
-    tg_num = parseInt(code.substring(3));
-    filter = {
-      talkgroup: tg_num
-    };
-  } else {
-    switch (code) {
-      case 'group-fire':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'group-common':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'group-services':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-ops':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-ems-tac':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-ems-talk':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-fire-dispatch':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-fire-tac':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-fire-talk':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-hospital':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-interop':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-law-dispatch':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-law-tac':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-public-works':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-security':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
-      case 'tag-transportation':
-        filter = {
-          talkgroup: {
-            $in: talkgroup_filters[code]
-          }
-        };
-        break;
+  if (code) {
+    if (code.substring(0, 3) == 'tg-') {
+      tg_num = parseInt(code.substring(3));
+      filter = {
+        talkgroup: tg_num
+      };
+    } else {
+      switch (code) {
+        case 'group-fire':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'group-common':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'group-services':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-ops':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-ems-tac':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-ems-talk':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-fire-dispatch':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-fire-tac':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-fire-talk':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-hospital':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-interop':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-law-dispatch':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-law-tac':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-public-works':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-security':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+        case 'tag-transportation':
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+          break;
+      }
     }
   }
   if (start_time) {
