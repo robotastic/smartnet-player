@@ -504,7 +504,7 @@ app.post('/calls', function(req, res) {
   var filter = {}
 
   var calls = get_calls(filter);
-  console.log(utils.inspect(calls));
+  console.log(util.inspect(calls));
   res.contentType('json');
   res.send(calls);
 });
