@@ -286,17 +286,14 @@ app.get('/call/:id', function(req, res) {
   });
 });
 
-function get_calls(filter, res) {
-  var sort_order = {};
-
-  sort_order['time'] = 1;
+function get_calls(query, res) {
 
   var calls = [];
   db.collection('transmissions', function(err, transCollection) {
-    transCollection.find(filter).count(function(e, count) {
-      console.log("Found a total of: " + count + " for filter: " + util.inspect(filter));
-      transCollection.find(filter, function(err, cursor) {
-        cursor.sort(sort_order).limit(20).each(function(err, item) {
+    transCollection.find(query.filter).count(function(e, count) {
+      console.log("Found a total of: " + count + " for filter: " + util.inspect(query));
+      transCollection.find(query.filter, function(err, cursor) {
+        cursor.sort(query.sort_order).limit(20).each(function(err, item) {
           if (item) {
             call = {
               objectId: item._id,
@@ -310,7 +307,8 @@ function get_calls(filter, res) {
             res.contentType('json');
             res.send(JSON.stringify({
               calls: calls,
-              count: count
+              count: count,
+              direction: query.direction
             }));
           }
         });
@@ -464,8 +462,19 @@ function build_filter(code, start_time, direction) {
   filter.len = {
     $gte: 1.0
   };
-  return filter;
 
+  var sort_order = {};
+  if (direction == 'newer') {
+    sort_order['time'] = 1;
+  } else {
+    sort_order['time'] = -1;
+  }
+
+  var query = {};
+  query['filter'] = filter;
+  query['direction'] = direction;
+  query['sort_order'] = sort_order;
+  return filter;
 }
 
 app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
@@ -473,36 +482,41 @@ app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
 
-  var filter = build_filter(filter_code, start_time, 'newer');
+  var query = build_filter(filter_code, start_time, 'newer');
   
 
-  get_calls(filter, res);
+  get_calls(query, res);
 });
 
 app.get('/calls/older/:time/:filter_code?*', function(req, res) {
   console.log('/calls/older/:time/:filter_code?*');
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
-  var filter = build_filter(filter_code, start_time, 'older');
+  var query = build_filter(filter_code, start_time, 'older');
 
 
-  get_calls(filter, res);
+  get_calls(query, res);
 });
 
 app.get('/calls/:filter_code?*', function(req, res) {
   console.log('/calls/:filter_code?*');
   var filter_code = req.params.filter_code;
-  var filter = build_filter(filter_code, null, null);
-  var filter = {}
+  var query = build_filter(filter_code, null, 'newer');
+ 
 
-  get_calls(filter, res);
+
+  get_calls(query, res);
 });
 
 app.post('/calls', function(req, res) {
   console.log('/calls');
-  var filter = {}
+  var query = {}
+  query['filter'] = {};
+  query['direction'] = 'newer';
+  query['sort_order'] = 1;
 
-  get_calls(filter, res);
+
+  get_calls(query, res);
 });
 
 app.get('/', function(req, res) {
