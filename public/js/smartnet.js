@@ -59,6 +59,10 @@ var tags = [{
 
 function play_call(row) {
 	var filename = row.data("filename");
+	var ext = filename.split('.').pop();
+	var setMedia = {};
+	setMedia[ext] = "/media" + filename;
+
 	if (now_playing) {
 		now_playing.removeClass("now-playing");
 	}
@@ -66,9 +70,9 @@ function play_call(row) {
 	console.log("trying to play: " + filename);
 	row.removeClass("live-call");
 	row.addClass("now-playing");
-	$("#jquery_jplayer_1").jPlayer("setMedia", {
-		wav: "/media" + filename
-	}).jPlayer("play");
+	
+	$("#jquery_jplayer_1").jPlayer("setMedia", setMedia).jPlayer("play");
+	
 }
 
 function call_over(event) {
@@ -123,10 +127,10 @@ function print_call_row(call, direction, live) {
 	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
 	var btngroup = $('<td/>');
 
-	poptent = "<b>Evntually, you will be able to share calls using Twitter</b>";
+	poptent = "<b>Eventually, you will be able to share calls using Twitter</b>";
 	popoverOptions = {
 		container: 'body',
-		title: 'share',
+		title: 'Share',
 		placement: 'top',
 		html: true,
 		content: poptent,

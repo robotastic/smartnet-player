@@ -590,15 +590,15 @@ function notify_clients(call) {
   }
 }
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
-  //monitor.files['*.mp3'];
-  monitor.files['*.wav'];
+  monitor.files['*.mp3'];
+  //monitor.files['*.wav'];
 
 
   monitor.on("created", function(f, stat) {
-    /*if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.mp3');*/
-    if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.wav');
+    if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.mp3');
+    /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.wav');*/
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
@@ -613,11 +613,11 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
         console.log('Moved: ' + f);
-        var reader = new wav.Reader();
-        var input = fs.createReadStream(target_file);
-        input.pipe(reader);
-        reader.once('format', function() {
-          //probe(target_file, function(err, probeData) {
+        //var reader = new wav.Reader();
+        //var input = fs.createReadStream(target_file);
+        //input.pipe(reader);
+        //reader.once('format', function() {
+        probe(target_file, function(err, probeData) {
 
           transItem = {
             talkgroup: tg,
@@ -625,14 +625,14 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             name: path.basename(f),
             path: local_path,
           };
-          transItem.len = reader.chunkSize / reader.byteRate;
+          //transItem.len = reader.chunkSize / reader.byteRate;
 
-          /*if (err) {
+          if (err) {
             console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
-          }*/
+          }
           db.collection('transmissions', function(err, transCollection) {
             transCollection.insert(transItem, function(err, objects) {
               if (err) console.warn(err.message);
@@ -663,14 +663,15 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             len: Math.round(transItem.len)+'s'
           });*/
         });
-        reader.on('data', function(chunk) {
+
+        /*reader.on('data', function(chunk) {
           //console.log('got %d bytes of data', chunk.length);
         });
         reader.on('end', function() {
           console.log('Finished Reading File');
           input.unpipe(reader);
 
-        });
+        });*/
       });
 
     }
