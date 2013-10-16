@@ -313,7 +313,7 @@ function socket_connect() {
 
 	if (!socket) {
 		console.log('func socket_connect');
-		socket = io.connect('http://robotastic.com');
+		socket = io.connect('http://openmhz.com');
 		socket.on('calls', function(data) {
 			console.log("Socket.io - Recv: " + data);
 			if (typeof data.calls !== "undefined") {

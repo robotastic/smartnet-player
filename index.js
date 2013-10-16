@@ -205,7 +205,7 @@ app.get('/about', function(req, res) {
 app.get('/media*', function(req, res) {
   //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
 
-  var file = '/srv/www/robotastic.com' + req.url;
+  var file = '/srv/www/openmhz.com' + req.url;
   var stat = fs.statSync(file);
 
   //console.log ("File: " + file);
@@ -603,7 +603,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       var result = name.match(regex);
       var tg = parseInt(result[1]);
       var time = new Date(parseInt(result[2]) * 1000);
-      var base_path = '/srv/www/robotastic.com/media';
+      var base_path = '/srv/www/openmhz.com/media';
       var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
       mkdirp.sync(base_path + local_path, function(err) {
         if (err) console.error(err);
