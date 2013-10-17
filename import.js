@@ -88,7 +88,10 @@ function add_file(files, i) {
           input.unpipe(reader);
           add_file(files,i+1);
       });*/
+    } else {
+      add_file(files,i+1);
     }
+
   }
 }
 
