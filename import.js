@@ -29,10 +29,10 @@ function add_file(files, i) {
     console.log("Trying: " +f);
     
 
-    //    if ((path.extname(f) == '.mp3')) {
-    //      var name = path.basename(f, '.mp3');
-    if ((path.extname(f) == '.wav')) {
-      var name = path.basename(f, '.wav');
+    if ((path.extname(f) == '.mp3')) {
+      var name = path.basename(f, '.mp3');
+    //if ((path.extname(f) == '.wav')) {
+    //  var name = path.basename(f, '.wav');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
@@ -50,11 +50,12 @@ function add_file(files, i) {
       fs.renameSync(f, target_file);
       console.log('Moved: ' + f);
 
-      var reader = new wav.Reader();
+      /*var reader = new wav.Reader();
       var input = fs.createReadStream(target_file);
       input.pipe(reader);
       reader.on('format', function() {
-
+      */
+      probe(target_file, function(err, probeData) {
         transItem = {
           talkgroup: tg,
           time: time,
@@ -62,15 +63,23 @@ function add_file(files, i) {
           path: local_path
         };
 
-        transItem.len = reader.chunkSize / reader.byteRate;
+        //transItem.len = reader.chunkSize / reader.byteRate;
+          if (err) {
+            console.log("Error with FFProbe: " + err);
+            transItem.len = 3;
+          } else {
+            transItem.len = probeData.format.duration;
+          }
         
         db.collection('transmissions', function(err, transCollection) {
           transCollection.insert(transItem);
           console.log("Added: " + f);
-
+          add_file(files,i+1);
         });
 
       });
+
+      /*
       reader.on('data', function(chunk) {
         //console.log('got %d bytes of data', chunk.length);
       });
@@ -78,7 +87,7 @@ function add_file(files, i) {
         console.log('end');
           input.unpipe(reader);
           add_file(files,i+1);
-      });
+      });*/
     }
   }
 }
