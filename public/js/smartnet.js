@@ -394,7 +394,8 @@ $(document).ready(function() {
 		},
 		swfPath: "/js/Jplayer.swf",
 		supplied: "mp3",
-		solution: "html,flash"
+		solution: "html,flash",
+		preload: "metadata"
 	});
 	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
 		call_over(event);
