@@ -94,6 +94,12 @@ width: initial;
 .call-play {
 	cursor: pointer;
 }
+.older-btn {
+  cursor: pointer;
+}
+.newer-btn {
+  cursor: pointer;
+}
 #nav-main {
 	margin-bottom: 0px;
 }
