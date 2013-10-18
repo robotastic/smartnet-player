@@ -96,9 +96,17 @@ width: initial;
 }
 .older-btn {
   cursor: pointer;
+  font-size: 12px;
+}
+.older-btn span{
+  margin-right: 5px;
 }
 .newer-btn {
   cursor: pointer;
+  font-size: 12px;
+}
+.newer-btn span{
+  margin-right: 5px;
 }
 #nav-main {
 	margin-bottom: 0px;
@@ -153,4 +161,7 @@ rect:hover {
 }
 #graphs {
   max-width: 760px;
+}
+.footer {
+  margin-top: 10px;
 }
