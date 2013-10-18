@@ -392,9 +392,9 @@ $(document).ready(function() {
 		ready: function() {
 			$(this).jPlayer();
 		},
-		swfPath: "/js",
+		swfPath: "/js/Jplayer.swf",
 		supplied: "mp3,wav",
-		solution: "html,flash"
+		solution: "flash"
 	});
 	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
 		call_over(event);
