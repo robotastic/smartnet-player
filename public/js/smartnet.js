@@ -259,13 +259,13 @@ function fetch_calls(url) {
 			$('.newer-btn').data('url', newer_url);
 			if (data.count <= per_page) {
 				if (data.direction == 'newer') {
-					$('.newer-btn').prop("disabled", true);
+					$('.newer-btn').hide();
 				} else {
-					$('.older-btn').prop("disabled", true);
+					$('.older-btn').hide();
 				}
 			} else {
-				$('.newer-btn').prop("disabled", false);
-				$('.older-btn').prop("disabled", false);
+				$('.newer-btn').show();
+				$('.older-btn').show();
 			}
 
 		},
