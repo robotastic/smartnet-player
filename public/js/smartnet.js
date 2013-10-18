@@ -70,21 +70,21 @@ function play_call(row) {
 	console.log("trying to play: " + filename);
 	row.removeClass("live-call");
 	row.addClass("now-playing");
-	
+
 	$("#jquery_jplayer_1").jPlayer("setMedia", setMedia).jPlayer("play");
-	
+
 }
 
 function call_over(event) {
 	if (now_playing) {
 		now_playing.removeClass("now-playing");
 	}
-	if (autoplay) {	
-			if (now_playing.prev().length != 0) {
-				play_call(now_playing.prev());
-			} else {
-				now_playing = null;
-			}
+	if (autoplay) {
+		if (now_playing.prev().length != 0) {
+			play_call(now_playing.prev());
+		} else {
+			now_playing = null;
+		}
 	} else {
 		now_playing = null;
 	}
@@ -228,7 +228,9 @@ function fetch_calls(url) {
 		success: function(data) {
 			var browser_url = url.substring(6);
 			browser_url = '/scanner' + browser_url;
-			window.history.pushState(data, "page 2", browser_url);
+			if (window.history && history.pushState) {
+				window.history.pushState(data, "page 2", browser_url);
+			}
 			$("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
@@ -236,7 +238,7 @@ function fetch_calls(url) {
 					print_call_row(data.calls[i], data.direction, false);
 				}
 			}
-			
+
 			if (data.direction == 'newer') {
 				var newer_time = new Date(data.calls[data.calls.length - 1].time);
 				var older_time = new Date(data.calls[0].time);
@@ -257,9 +259,9 @@ function fetch_calls(url) {
 			$('.newer-btn').data('url', newer_url);
 			if (data.count <= per_page) {
 				if (data.direction == 'newer') {
-					$('.newer-btn').prop("disabled",true);
+					$('.newer-btn').prop("disabled", true);
 				} else {
-					$('.older-btn').prop("disabled",true);
+					$('.older-btn').prop("disabled", true);
 				}
 			} else {
 				$('.newer-btn').prop("disabled", false);
@@ -392,7 +394,7 @@ $(document).ready(function() {
 		},
 		swfPath: "/js",
 		supplied: "mp3,wav",
-		solution: "html, flash"
+		solution: "flash"
 	});
 	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
 		call_over(event);
