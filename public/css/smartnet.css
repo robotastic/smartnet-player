@@ -165,3 +165,11 @@ rect:hover {
 .footer {
   margin-top: 10px;
 }
+
+#nav-filter .navbar-nav>li>a {
+  padding-top: 25px;
+}
+
+#nav-filter .btn-group {
+  padding-top: 12px;
+}

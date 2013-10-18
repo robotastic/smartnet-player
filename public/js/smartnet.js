@@ -393,7 +393,7 @@ $(document).ready(function() {
 			$(this).jPlayer();
 		},
 		swfPath: "/js/Jplayer.swf",
-		supplied: "mp3,wav",
+		supplied: "mp3",
 		solution: "html,flash"
 	});
 	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
