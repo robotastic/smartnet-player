@@ -57,6 +57,13 @@ var tags = [{
 	code: 'tag-transportation'
 }];
 
+if(typeof console === "undefined") {
+    console = {
+        log: function() { },
+        debug: function() { }
+    };
+}
+
 function play_call(row) {
 	var filename = row.data("filename");
 	var ext = filename.split('.').pop();
