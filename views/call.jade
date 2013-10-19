@@ -55,8 +55,8 @@ html
           $('.jtimer').text($.jPlayer.convertTime(status.duration - status.currentTime));
           var percent = (status.currentTime / status.duration) * 100;
           $(".bar").css("width", percent + "%");
-          $('#current-time').text(round(status.currentTime));
-          $('#duration').text(round(status.duration));
+          $('#current-time').text(Math.round(status.currentTime));
+          $('#duration').text(Math.round(status.duration));
       };
 
 
