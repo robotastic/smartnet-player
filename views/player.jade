@@ -25,7 +25,8 @@ html
                 span.icon-bar
                 span.icon-bar
               span.navbar-brand
-                span(class="glyphicon glyphicon-filter")
+                //span(class="glyphicon glyphicon-filter")
+                i.icon-filter
                 | Filter
             .collapse.navbar-collapse.navbar-filter-collapse
               
@@ -49,19 +50,24 @@ html
               ul.nav.navbar-nav.navbar-left
                 li.btn-group.btn-group-sm(data-toggle="buttons-radio")
                   button(type="button" id="filter-data" class="form_datetime btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-calendar")
+                    //span(class="glyphicon glyphicon-calendar")
+                    i.icon-calendar
                     | Archive
                   button(type="button" id="live-btn" class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-headphones")
+                    //span(class="glyphicon glyphicon-headphones")
+                    i.icon-headphones
                     | Live
               span(id='jp_container_1' class="pull-right")
                 span.btn-group.btn-group-sm
                   button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-play jp-play")
+                    //span(class="glyphicon glyphicon-play jp-play")
+                    i.icon-play.jp-play
                   button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-stop jp-stop")
+                    //span(class="glyphicon glyphicon-stop jp-stop")
+                    i.icon-stop.jp-stop
                   button( type="button", class="btn btn-primary navbar-btn" id="autoplay-btn")
-                    span(class="glyphicon glyphicon-retweet" )
+                    //span(class="glyphicon glyphicon-retweet" )
+                    i.icon-retweet
                 p(class="navbar-text")
                   span.jp-time-holder
                     span.jp-current-time 

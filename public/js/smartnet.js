@@ -110,7 +110,8 @@ function print_call_row(call, direction, live) {
 	}
 
 	var buttoncell = $("<td/>");
-	var playbutton = $('<span class="glyphicon glyphicon-play call-play"></span>');
+	//var playbutton = $('<span class="glyphicon glyphicon-play call-play"></span>');
+	var playbutton = $('<i class="icon-play call-play"></i>');
 	playbutton.click(function() {
 		row = $(this).closest("tr");
 		play_call(row);
@@ -130,8 +131,12 @@ function print_call_row(call, direction, live) {
 	newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 	newrow.append("<td>" + call.len + "</td>");
 	var actioncell = $("<td/>");
-	var callview = $('<a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
-	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
+	/*var callview = $('<a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
+	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');*/
+	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-link call-link"></i></a>');
+	var linkview = $('<i class="icon-cloud-upload"></i>');
+	
+
 	var btngroup = $('<td/>');
 
 	poptent = "<b>Eventually, you will be able to share calls using Twitter</b>";
