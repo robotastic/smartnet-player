@@ -119,14 +119,16 @@ function print_call_row(call, direction, live) {
 
 	buttoncell.append(playbutton);
 	newrow.append(buttoncell);
-	newrow.append("<td>" + call.len + "</td>");
+	
 	if (typeof channels[call.talkgroup] == 'undefined') {
 		newrow.append("<td>" + call.talkgroup + "</td>");
+		newrow.append("<td>" + call.len + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 		newrow.append("<td>Uknown</td>");
 		newrow.append("<td>Uknown</td>");
 	} else {
 		newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
+		newrow.append("<td>" + call.len + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
