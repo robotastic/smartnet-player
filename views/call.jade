@@ -30,10 +30,10 @@ html
                 span.btn-group.btn-group-sm
                   button( type="button", class="btn btn-primary navbar-btn")
                     //span(class="glyphicon glyphicon-play jp-play")
-                    i.icon-play.jp-play
+                    i.icon-play.jp-play.icon-white
                   button( type="button", class="btn btn-primary navbar-btn")
                     //span(class="glyphicon glyphicon-stop jp-stop")
-                    i.icon-stop.jp-stop
+                    i.icon-stop.jp-stop.icon-white
             .col-md-1.col-md-offset-2
               .pull-right#duration
           .row
@@ -71,8 +71,10 @@ html
                     wav: filename
                 });
             },
-            swfPath: "/js",
-            supplied: "wav"
+            swfPath: "/js/Jplayer.swf",
+            supplied: "mp3",
+            solution: "html,flash",
+            preload: "metadata"
         })
         .bind($.jPlayer.event.timeupdate, self.update_timer);
       });
