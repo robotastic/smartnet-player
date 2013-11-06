@@ -29,10 +29,12 @@ html
               #jp_container_1
                 span.btn-group.btn-group-sm
                   button( type="button", class="btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-play jp-play")
+                    span(class="glyphicon glyphicon-play jp-play")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-play.jp-play.icon-white
                   button( type="button", class="btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-stop jp-stop")
+                    span(class="glyphicon glyphicon-stop jp-stop")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-stop.jp-stop.icon-white
             .col-md-1.col-md-offset-2
               .pull-right#duration

@@ -25,7 +25,9 @@ html
                 span.icon-bar
                 span.icon-bar
               span.navbar-brand
-                //span(class="glyphicon glyphicon-filter")
+                // Rest of the world
+                span(class="glyphicon glyphicon-filter")
+                // IE only - because font download gets blocked by security settings
                 i.icon-filter
                 | Filter
             .collapse.navbar-collapse.navbar-filter-collapse
@@ -50,23 +52,28 @@ html
               ul.nav.navbar-nav.navbar-left
                 li.btn-group.btn-group-sm(data-toggle="buttons-radio")
                   button(type="button" id="filter-data" class="form_datetime btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-calendar")
+                    span(class="glyphicon glyphicon-calendar")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-calendar.icon-white
                     | Archive
                   button(type="button" id="live-btn" class="btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-headphones")
+                    span(class="glyphicon glyphicon-headphones")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-headphones.icon-white
                     | Live
               span(id='jp_container_1' class="pull-right")
                 span.btn-group.btn-group-sm
                   button( type="button", class="btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-play jp-play")
+                    span(class="glyphicon glyphicon-play jp-play")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-play.jp-play.icon-white
                   button( type="button", class="btn btn-primary navbar-btn")
-                    //span(class="glyphicon glyphicon-stop jp-stop")
+                    span(class="glyphicon glyphicon-stop jp-stop")
+                    // IE only - because font download gets blocked by security settings
                     i.icon-stop.jp-stop.icon-white
                   button( type="button", class="btn btn-primary navbar-btn" id="autoplay-btn")
-                    //span(class="glyphicon glyphicon-retweet" )
+                    span(class="glyphicon glyphicon-retweet" )
+                    // IE only - because font download gets blocked by security settings
                     i.icon-retweet.icon-white
                 p(class="navbar-text")
                   span.jp-time-holder
