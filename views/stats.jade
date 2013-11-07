@@ -8,17 +8,18 @@ html
     
     .container
       .jumbotron
-        p Each charts shows the number of calls in each Talkgroup over the past 24 hours
+        p Each charts shows the number of calls in a Talkgroup over the past 24 hours
       ul.list-group(id="graphs")
       
       script.
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-
+            , w = parseInt(d3.select('#graphs').style('width'), 10)
+            , w = w - margin.left - margin.right
+            
+            
         
 
-        var w = 500;
+        //var w = 700;
         var h = 125;
         var barPadding = 1;
         var padding = 30;
