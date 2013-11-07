@@ -111,7 +111,7 @@ function print_call_row(call, direction, live) {
 
 	var buttoncell = $("<td/>");
 	//var playbutton = $('<span class="glyphicon glyphicon-play call-play"></span>');
-	var playbutton = $('<i class="icon-play call-play"></i>');
+	var playbutton = $('<i class="icon-play call-play"></i>', '<span class="glyphicon glyphicon-play call-play"></span>');
 	playbutton.click(function() {
 		row = $(this).closest("tr");
 		play_call(row);
@@ -141,8 +141,8 @@ function print_call_row(call, direction, live) {
 	var linkview = $('<span class="glyphicon glyphicon-cloud-upload"></span>');
 	*/
 
-	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a>');
-	var linkview = $('<i class="icon-share-alt"> </i>');
+	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a>', '<a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
+	var linkview = $('<i class="icon-share-alt"> </i>', '<span class="glyphicon glyphicon-cloud-upload"></span>');
 	
 
 	var btngroup = $('<td/>');
