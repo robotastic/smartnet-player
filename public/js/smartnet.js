@@ -396,7 +396,8 @@ $(document).ready(function() {
 			format: "MM dd yyyy - hh:ii",
 			autoclose: true,
 			minuteStep: 10,
-			showMeridian: true
+			showMeridian: true,
+			endDate: new Date()
 		}).on('changeDate', function(ev) {
 			socket_disconnect();
 
