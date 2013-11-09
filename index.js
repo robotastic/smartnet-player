@@ -29,6 +29,7 @@ var channels = {};
 var clients = [];
 var stats = {};
 
+io.set('log level', 1);
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
@@ -292,7 +293,6 @@ function get_calls(query, res) {
   var calls = [];
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(query.filter).count(function(e, count) {
-      console.log("Found a total of: " + count + " for filter: " + util.inspect(query));
       transCollection.find(query.filter, function(err, cursor) {
         cursor.sort(query.sort_order).limit(20).each(function(err, item) {
           if (item) {
@@ -478,7 +478,6 @@ function build_filter(code, start_time, direction) {
 }
 
 app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
-  console.log('/calls/newer/:time/:filter_code?* ' + util.inspect(req.params));
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
 
@@ -489,7 +488,6 @@ app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
 });
 
 app.get('/calls/older/:time/:filter_code?*', function(req, res) {
-  console.log('/calls/older/:time/:filter_code?*');
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var query = build_filter(filter_code, start_time, 'older');
@@ -499,7 +497,6 @@ app.get('/calls/older/:time/:filter_code?*', function(req, res) {
 });
 
 app.get('/calls/:filter_code?*', function(req, res) {
-  console.log('/calls/:filter_code?*');
   var filter_code = req.params.filter_code;
   var query = build_filter(filter_code, null, 'older');
 
@@ -576,14 +573,14 @@ function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
     if (clients[i].code == "") {
-      console.log("Call TG # is set to All");
+      //console.log("Call TG # is set to All");
       clients[i].socket.emit('calls', call);
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
-        console.log("Talkgroup filter found: " + clients[i].code);
+        //console.log("Talkgroup filter found: " + clients[i].code);
 
         if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
-          console.log("Call TG # Found in filer");
+          //console.log("Call TG # Found in filer");
           clients[i].socket.emit('calls', call);
         }
       }
@@ -614,7 +611,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       fs.rename(f, target_file, function(err) {
         if (err)
           throw err;
-        console.log('Moved: ' + f);
+        //console.log('Moved: ' + f);
         //var reader = new wav.Reader();
         //var input = fs.createReadStream(target_file);
         //input.pipe(reader);
@@ -630,7 +627,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           //transItem.len = reader.chunkSize / reader.byteRate;
 
           if (err) {
-            console.log("Error with FFProbe: " + err);
+            //console.log("Error with FFProbe: " + err);
             transItem.len = -1;
           } else {
             transItem.len = probeData.format.duration;
@@ -640,7 +637,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
               if (err) console.warn(err.message);
               var objectId = transItem._id;
 
-              console.log("Added: " + f);
+              //console.log("Added: " + f);
               var call = {
                 objectId: objectId,
                 talkgroup: transItem.talkgroup,
@@ -687,16 +684,16 @@ io.sockets.on('connection', function(socket) {
     socket: socket,
     code: null
   };
-  console.log("Client Joined: " + socket.id);
+  //console.log("Client Joined: " + socket.id);
   clients.push(client);
 
   socket.on('disconnect', function() {
     clients.splice(clients.indexOf(client), 1);
-    console.log(socket.id + ' disconnected');
+    //console.log(socket.id + ' disconnected');
     //remove user from db
   });
   socket.on('code', function(data) {
-    console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
+    //console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
     var index = clients.indexOf(client);
     clients[index].code = data.code;
   });

@@ -74,7 +74,7 @@ function play_call(row) {
 		now_playing.removeClass("now-playing");
 	}
 	now_playing = row;
-	console.log("trying to play: " + filename);
+	//console.log("trying to play: " + filename);
 	row.removeClass("live-call");
 	row.addClass("now-playing");
 
@@ -232,7 +232,7 @@ function fetch_calls(url) {
 			var url = url + "/" + filter_code;
 		}
 	}
-	console.log("Trying to fetch data from this url: " + url);
+	//console.log("Trying to fetch data from this url: " + url);
 	$.ajax({
 		url: url,
 		type: "GET",
@@ -242,7 +242,7 @@ function fetch_calls(url) {
 		timeout: 5000,
 		complete: function() {
 			//called when complete
-			console.log('process complete');
+			//console.log('process complete');
 		},
 
 		success: function(data) {
@@ -254,7 +254,7 @@ function fetch_calls(url) {
 			$("#call_table").empty();
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
-					console.log(data.calls[i]);
+					//console.log(data.calls[i]);
 					print_call_row(data.calls[i], data.direction, false);
 				}
 			}
@@ -291,7 +291,7 @@ function fetch_calls(url) {
 		},
 
 		error: function() {
-			console.log('process error');
+			//console.log('process error');
 		},
 	});
 }
@@ -334,10 +334,10 @@ function init_table() {
 function socket_connect() {
 
 	if (!socket) {
-		console.log('func socket_connect');
+		//console.log('func socket_connect');
 		socket = io.connect('http://openmhz.com');
 		socket.on('calls', function(data) {
-			console.log("Socket.io - Recv: " + data);
+			//console.log("Socket.io - Recv: " + data);
 			if (typeof data.calls !== "undefined") {
 				for (var i = 0; i < data.calls.length; i++) {
 					print_call_row(data.calls[i], 'newer', true);
@@ -349,13 +349,13 @@ function socket_connect() {
 
 		});
 		socket.on('ready', function(data) {
-			console.log("Ready: " + data);
+			//console.log("Ready: " + data);
 			socket.emit('code', {
 				code: filter_code
 			});
 		});
 	} else {
-		console.log('func socket_reconnect');
+		//console.log('func socket_reconnect');
 		socket.socket.reconnect();
 	}
 }
@@ -363,7 +363,7 @@ function socket_connect() {
 
 
 function socket_disconnect() {
-	console.log('func socket_disconnect');
+	//console.log('func socket_disconnect');
 	if (socket) socket.disconnect();
 }
 
