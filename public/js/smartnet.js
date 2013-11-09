@@ -439,7 +439,7 @@ $(document).ready(function() {
 		placement: 'bottom',
 		title: 'Autoplay'
 	};
-	$('#autoplay-btn').tooltip(autoplayOptions);
+	//$('#autoplay-btn').tooltip(autoplayOptions);
 	$('#autoplay-btn').on('click', function(e) {
 		autoplay = !autoplay;
 		if (autoplay) {
