@@ -261,6 +261,34 @@ app.get('/channels', function(req, res) {
 
 });
 
+app.get('/card/:id', function(req, res) {
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.findOne({
+        '_id': o_id
+      },
+      function(err, item) {
+        //console.log(util.inspect(item));
+        if (item) {
+          var time = new Date(item.time);
+          var timeString = time.toLocaleTimeString("en-US");
+          var dateString = time.toDateString();
+          res.render('card', {
+            item: item,
+            channel: channels[item.talkgroup],
+            time: timeString,
+            date: dateString
+          });
+
+        } else {
+          res.send(404, 'Sorry, we cannot find that!');
+        }
+      });
+  });
+});
+
+
 app.get('/call/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
