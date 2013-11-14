@@ -306,7 +306,8 @@ app.get('/call/:id', function(req, res) {
             item: item,
             channel: channels[item.talkgroup],
             time: timeString,
-            date: dateString
+            date: dateString,
+            objectId: objectId
           });
 
         } else {

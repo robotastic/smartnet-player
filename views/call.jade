@@ -1,6 +1,26 @@
 doctype 5
 html
-  include includes/head
+  head
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    link(href='/css/bootstrap.scanner.min.css', rel='stylesheet', media='screen')
+    link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
+    | <!--[if lte IE 9]><link type="text/css" href="/css/ie.css" rel="stylesheet"><![endif]-->
+    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    meta(name="twitter:card" content="player")
+    meta(name="twitter:site" content="@openmhz")
+    meta(name="twitter:title" content="#{channel.alpha} #{time} #{date}")
+    meta(name="twitter:description" content="This is a call from talkgroup #{channel.desc}")
+    meta(name="twitter:image" content="https://example.com/keyframe/a.jpg")
+    meta(name="twitter:player" content="https://openmhz.com/card/#{objectId}")
+    meta(name="twitter:player:width" content="435")
+    meta(name="twitter:player:height" content="251")
+
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
     script(type='text/javascript', src='/js/call.js')
 
