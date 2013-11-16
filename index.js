@@ -622,8 +622,8 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 
   monitor.on("created", function(f, stat) {
-    if ((path.extname(f) == '.mp4') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.mp4');
+    if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.m4a');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
@@ -671,7 +671,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             talkgroup: tg,
             time: time,
             name: path.basename(f),
-            alt_name: path.basename(f, '.mp3') + '.mp4',
+            alt_name: path.basename(f, '.mp3') + '.m4a',
             path: local_path,
           };
           //transItem.len = reader.chunkSize / reader.byteRate;
