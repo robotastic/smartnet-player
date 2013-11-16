@@ -635,7 +635,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
       });
-    });
+    }
     if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.mp3');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
