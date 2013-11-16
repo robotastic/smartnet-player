@@ -623,6 +623,10 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
   monitor.on("created", function(f, stat) {
     if ((path.extname(f) == '.mpa') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.mpa');
+      var regex = /([0-9]*)-([0-9]*)/
+      var result = name.match(regex);
+      var tg = parseInt(result[1]);
       var time = new Date(parseInt(result[2]) * 1000);
 
       var base_path = '/srv/www/openmhz.com/public/media';
