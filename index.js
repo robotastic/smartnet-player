@@ -622,6 +622,20 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 
   monitor.on("created", function(f, stat) {
+    if ((path.extname(f) == '.mpa') && (monitor.files[f] === undefined)) {
+      var time = new Date(parseInt(result[2]) * 1000);
+
+      var base_path = '/srv/www/openmhz.com/public/media';
+      var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
+      mkdirp.sync(base_path + local_path, function(err) {
+        if (err) console.error(err);
+      });
+      var target_file = base_path + local_path + path.basename(f);
+      fs.rename(f, target_file, function(err) {
+        if (err)
+          throw err;
+      });
+    });
     if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.mp3');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
@@ -637,6 +651,8 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err) console.error(err);
       });
       var target_file = base_path + local_path + path.basename(f);
+
+
       fs.rename(f, target_file, function(err) {
         if (err)
           throw err;
@@ -651,6 +667,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             talkgroup: tg,
             time: time,
             name: path.basename(f),
+            alt_name: path.basename(f, '.mp3') + '.mpa',
             path: local_path,
           };
           //transItem.len = reader.chunkSize / reader.byteRate;
@@ -671,6 +688,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 objectId: objectId,
                 talkgroup: transItem.talkgroup,
                 filename: transItem.path + transItem.name,
+                alt_name: transItem.path + transItem.alt_name,
                 time: transItem.time,
                 len: Math.round(transItem.len) + 's'
               };

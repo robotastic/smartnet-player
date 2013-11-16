@@ -1,91 +1,72 @@
 doctype 5
 html
   head
-    meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
-    meta(name="twitter:card" content="player")
-    meta(name="twitter:site" content="@openmhz")
-    meta(name="twitter:title" content="#{channel.alpha} #{time} #{date}")
-    meta(name="twitter:description" content="This is a call from talkgroup #{channel.desc}")
-    link(href='/css/bootstrap.scanner.min.css', rel='stylesheet', media='screen')
-    link(type='text/css', href='/css/smartnet.css', rel='stylesheet')
-    | <!--[if lte IE 9]><link type="text/css" href="/css/ie.css" rel="stylesheet"><![endif]-->
+    link(type='text/css', href='/skins/blue.monday/jplayer.blue.monday.css', rel='stylesheet')
     script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(type='text/javascript', src='/js/bootstrap.min.js')
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
-    script(type='text/javascript', src='/js/call.js')
-
 
   body
-    .container
-
-      .panel.panel-default#call-player
-        .panel-heading
-          .row
-            .col-md-2
-              h3= time
-            .col-xs-6.col-md-4
-              h3= date
-        .panel-body
-          .row
-            .col-md-8.col-md-offset-2
-              .progress 
-                .progress-bar.bar(style="width: 0%;")
-          .row
-            .col-md-1.col-md-offset-2
-              .pull-left#current-time
-            .col-md-2.col-md-offset-2
-              #jp_container_1
-                span.btn-group.btn-group-sm
-                  button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-play jp-play")
-                  button( type="button", class="btn btn-primary navbar-btn")
-                    span(class="glyphicon glyphicon-stop jp-stop")
-            .col-md-1.col-md-offset-2
-              .pull-right#duration
-          .row
-            .col-md-2
-              h3 #{channel.tag}
-              small Type
-            .col-md-6
-              h3 #{channel.desc}
-              small Description
-            .col-md-4
-              h3 #{channel.alpha}
-              small Talkgroup
-
-
 
     #jquery_jplayer_1.jp-jplayer
+      #jp_container_1.jp-audio
+          .jp-type-single
+            .jp-gui.jp-interface
+              ul.jp-controls
+                li
+                  a.jp-play(href='javascript:;', tabindex='1') play
+                li
+                  a.jp-pause(href='javascript:;', tabindex='1') pause
+                li
+                  a.jp-stop(href='javascript:;', tabindex='1') stop
+                li
+                  a.jp-mute(href='javascript:;', tabindex='1', title='mute') mute
+                li
+                  a.jp-unmute(href='javascript:;', tabindex='1', title='unmute') unmute
+                li
+                  a.jp-volume-max(href='javascript:;', tabindex='1', title='max volume') max volume
+              .jp-progress
+                .jp-seek-bar
+                  .jp-play-bar
+              .jp-volume-bar
+                .jp-volume-bar-value
+              .jp-time-holder
+                .jp-current-time
+                .jp-duration
+                ul.jp-toggles
+                  li
+                    a.jp-repeat(href='javascript:;', tabindex='1', title='repeat') repeat
+                  li
+                    a.jp-repeat-off(href='javascript:;', tabindex='1', title='repeat off') repeat off
+            .jp-title
+              ul
+                li #{channel.tag} #{channel.desc}
+            .jp-no-solution
+              span Update Required
+              | To play the media you will need to either update your browser to a recent version or update your
+              a(href='http://get.adobe.com/flashplayer/', target='_blank') Flash plugin
+              | .
+
     
     script.
-      self.update_timer = function (event) {
-          var status = event.jPlayer.status;
-          $('.jtimer').text($.jPlayer.convertTime(status.duration - status.currentTime));
-          var percent = (status.currentTime / status.duration) * 100;
-          $(".bar").css("width", percent + "%");
-          $('#current-time').text(Math.round(status.currentTime));
-          $('#duration').text(Math.round(status.duration));
-      };
-
-
-      $(document).ready(function() {
+      $(document).ready(function(){
         var local_item =!{JSON.stringify(item)};
         var filename = '/media' + local_item.path + local_item.name;
         $("#jquery_jplayer_1").jPlayer({
-            ready: function(event) {
-                $(this).jPlayer("setMedia", {
-                    mp3: filename
-                });
-            },
-            swfPath: "/js/Jplayer.swf",
-            supplied: "mp3",
-            solution: "html,flash",
-            preload: "metadata"
-        })
-        .bind($.jPlayer.event.timeupdate, self.update_timer);
+          ready: function (event) {
+            $(this).jPlayer("setMedia", {
+              mp3: filename
+            });
+          },
+          swfPath: "/js/Jplayer.swf",
+          supplied: "mp3",
+          solution: "html,flash",
+          preload: "metadata",
+          wmode: "window",
+          smoothPlayBar: true,
+          keyEnabled: true
+        });
       });
+
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
