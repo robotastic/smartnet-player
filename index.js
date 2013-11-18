@@ -330,6 +330,7 @@ function get_calls(query, res) {
               talkgroup: item.talkgroup,
               filename: item.path + item.name,
               time: item.time,
+              freq: item.freq,
               len: Math.round(item.len) + 's'
             };
             calls.push(call);
