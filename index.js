@@ -688,7 +688,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 objectId: objectId,
                 talkgroup: transItem.talkgroup,
                 filename: transItem.path + transItem.name,
-                alt_name: transItem.path + transItem.alt_name,
+                //alt_name: transItem.path + transItem.alt_name,
                 time: transItem.time,
                 len: Math.round(transItem.len) + 's'
               };
