@@ -644,10 +644,11 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       var name = path.basename(f, '.m4a');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.wav');*/
-      var regex = /([0-9]*)-([0-9]*)/
+      var regex = /([0-9]*)-([0-9]*)_([0-9.]*)/
       var result = name.match(regex);
       var tg = parseInt(result[1]);
       var time = new Date(parseInt(result[2]) * 1000);
+      var freq = parseFloat(result[3]);
       //var base_path = '/srv/www/openmhz.com/media';
       var base_path = '/srv/www/openmhz.com/public/media';
       var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
@@ -667,8 +668,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             talkgroup: tg,
             time: time,
             name: path.basename(f),
+            freq: freq,
             //alt_name: path.basename(f, '.mp3') + '.m4a',
-            path: local_path,
+            path: local_path
           };
           //transItem.len = reader.chunkSize / reader.byteRate;
 
@@ -689,6 +691,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 talkgroup: transItem.talkgroup,
                 filename: transItem.path + transItem.name,
                 //alt_name: transItem.path + transItem.alt_name,
+                freq: transItem.freq,
                 time: transItem.time,
                 len: Math.round(transItem.len) + 's'
               };
