@@ -617,12 +617,12 @@ function notify_clients(call) {
   }
 }
 watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
-  monitor.files['*.mp3'];
+  monitor.files['*.m4a'];
   //monitor.files['*.wav'];
 
 
   monitor.on("created", function(f, stat) {
-    if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
+    /*if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.m4a');
       var regex = /([0-9]*)-([0-9]*)/
       var result = name.match(regex);
@@ -639,9 +639,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         if (err)
           throw err;
       });
-    }
-    if ((path.extname(f) == '.mp3') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.mp3');
+    }*/
+    if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
+      var name = path.basename(f, '.m4a');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.wav');*/
       var regex = /([0-9]*)-([0-9]*)/
@@ -660,18 +660,14 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       fs.rename(f, target_file, function(err) {
         if (err)
           throw err;
-        //console.log('Moved: ' + f);
-        //var reader = new wav.Reader();
-        //var input = fs.createReadStream(target_file);
-        //input.pipe(reader);
-        //reader.once('format', function() {
+
         probe(target_file, function(err, probeData) {
 
           transItem = {
             talkgroup: tg,
             time: time,
             name: path.basename(f),
-            alt_name: path.basename(f, '.mp3') + '.m4a',
+            //alt_name: path.basename(f, '.mp3') + '.m4a',
             path: local_path,
           };
           //transItem.len = reader.chunkSize / reader.byteRate;
@@ -704,24 +700,8 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             });
           });
 
-
-          /*
-          io.sockets.emit('calls', {
-            talkgroup: transItem.talkgroup,
-            filename: transItem.path + transItem.name,
-            time: transItem.time,
-            len: Math.round(transItem.len)+'s'
-          });*/
         });
 
-        /*reader.on('data', function(chunk) {
-          //console.log('got %d bytes of data', chunk.length);
-        });
-        reader.on('end', function() {
-          console.log('Finished Reading File');
-          input.unpipe(reader);
-
-        });*/
       });
 
     }

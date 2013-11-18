@@ -18,7 +18,7 @@ html
     meta(name="twitter:description" content="This is a call from talkgroup #{channel.desc}")
     meta(name="twitter:image" content="https://openmhz.com/img/player.png")
     meta(name="twitter:player" content="https://openmhz.com/card/#{objectId}")
-    meta(name="twitter:player:stream" content="http://openmhz.com/media#{item.path}#{item.alt_name}")
+    meta(name="twitter:player:stream" content="http://openmhz.com/media#{item.path}#{item.name}")
     meta(name="twitter:player:stream:content_type" content="audio/mp4")
     meta(name="twitter:player:width" content="422")
     meta(name="twitter:player:height" content="114")
@@ -92,11 +92,11 @@ html
         $("#jquery_jplayer_1").jPlayer({
             ready: function(event) {
                 $(this).jPlayer("setMedia", {
-                    mp3: filename
+                    m4a: filename
                 });
             },
             swfPath: "/js/Jplayer.swf",
-            supplied: "mp3",
+            supplied: "m4a",
             solution: "html,flash",
             preload: "metadata"
         })

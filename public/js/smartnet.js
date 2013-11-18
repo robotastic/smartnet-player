@@ -414,7 +414,7 @@ $(document).ready(function() {
 			$(this).jPlayer();
 		},
 		swfPath: "/js/Jplayer.swf",
-		supplied: "mp3",
+		supplied: "m4a",
 		solution: "html,flash",
 		preload: "metadata"
 	});
