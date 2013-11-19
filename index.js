@@ -293,7 +293,10 @@ app.get('/star/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
-    transCollection.findAndModify({'_id': o_id}, {$inc: {stars: 1}}, function(err, object) {
+    transCollection.findAndModify({
+    query: {'_id': o_id}, 
+    update: {$inc: {stars: 1}}, 
+    function(err, object) {
 
       if (err){
       console.warn(err.message); // returns error if no matching object found
@@ -303,7 +306,8 @@ app.get('/star/:id', function(req, res) {
               stars: object.stars
             }));  
       }
-    });
+    }
+  });
   });
 });
 
