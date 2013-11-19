@@ -295,7 +295,7 @@ app.get('/star/:id', function(req, res) {
   db.collection('transmissions', function(err, transCollection) {
     transCollection.findAndModify({
     query: {'_id': o_id}, 
-    update: {$inc: {stars: 1}}, 
+    update: {$inc: {stars: 1}}}, 
     function(err, object) {
 
       if (err){
@@ -306,7 +306,7 @@ app.get('/star/:id', function(req, res) {
               stars: object.stars
             }));  
       }
-    }
+    
   });
   });
 });
