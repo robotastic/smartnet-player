@@ -293,7 +293,7 @@ app.get('/star/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
-    collection.findAndModify({'_id': o_id}, {$inc: {stars: 1}}, function(err, object) {
+    transCollection.findAndModify({'_id': o_id}, {$inc: {stars: 1}}, function(err, object) {
 
       if (err){
       console.warn(err.message); // returns error if no matching object found
