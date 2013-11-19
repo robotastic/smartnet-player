@@ -289,6 +289,26 @@ app.get('/card/:id', function(req, res) {
 });
 
 
+app.get('/star/:id', function(req, res) {
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  db.collection('transmissions', function(err, transCollection) {
+    collection.findAndModify({'_id': o_id}, {$inc: {stars: 1}}, function(err, object) {
+
+      if (err){
+      console.warn(err.message); // returns error if no matching object found
+      }else{
+            res.contentType('json');
+            res.send(JSON.stringify({
+              stars: object.stars
+            }));  
+      }
+    });
+  });
+});
+
+
+
 app.get('/call/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
@@ -331,6 +351,7 @@ function get_calls(query, res) {
               filename: item.path + item.name,
               time: item.time,
               freq: item.freq,
+              stars: item.stars,
               len: Math.round(item.len) + 's'
             };
             calls.push(call);
@@ -670,7 +691,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             time: time,
             name: path.basename(f),
             freq: freq,
-            //alt_name: path.basename(f, '.mp3') + '.m4a',
+            stars: 0,
             path: local_path
           };
           //transItem.len = reader.chunkSize / reader.byteRate;
@@ -691,7 +712,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 objectId: objectId,
                 talkgroup: transItem.talkgroup,
                 filename: transItem.path + transItem.name,
-                //alt_name: transItem.path + transItem.alt_name,
+                stars: transItem.stars,
                 freq: transItem.freq,
                 time: transItem.time,
                 len: Math.round(transItem.len) + 's'
