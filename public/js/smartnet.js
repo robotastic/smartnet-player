@@ -84,8 +84,8 @@ function star_call(row) {
 			$(".star-count", row).text(data.stars);
 			$(".star-button", row).unbind( "click" );
 			if (data.stars==1) {
-				$(".icon-star-button", row).removeClass('.icon-star-empty').addClass('.icon-star');
-				$(".glyphicon-star-button", row).removeClass('.glyphicon-star-empty').addClass('.glyphicon-star');
+				$(".icon-star-button", row).removeClass('icon-star-empty').addClass('icon-star');
+				$(".glyphicon-star-button", row).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
 			}
 		},
 
