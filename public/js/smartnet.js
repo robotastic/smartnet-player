@@ -184,12 +184,12 @@ function print_call_row(call, direction, live) {
 	var starbutton = $('<i class="icon-star-empty icon-star-button"> </i><span class="glyphicon glyphicon-star-empty glyphicon-star-button"></span>');
 	var	starcount = $('<span class="star-count"></span>');
 	starbutton.mouseenter(function() { 
-		$( this ).find( ".icon-star-button" ).removeClass('icon-star-empty').addClass('icon-star');
-		$( this ).find(".glyphicon-star-button").removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+		$( this ).removeClass('icon-star-empty').addClass('icon-star');
+		$( this ).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
 	});
 	starbutton.mouseleave(function() { 
-		$( this ).find( ".icon-star-button" ).removeClass('icon-star').addClass('icon-star-empty');
-		$( this ).find(".glyphicon-star-button").removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+		$( this ).removeClass('icon-star').addClass('icon-star-empty');
+		$( this ).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
 	});
 	} else {
 	var starbutton = $('<i class="icon-star icon-star-button"> </i><span class="glyphicon glyphicon-star glyphicon-star-button"></span>');
