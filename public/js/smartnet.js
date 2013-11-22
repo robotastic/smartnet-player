@@ -86,6 +86,8 @@ function star_call(row) {
 			if (data.stars==1) {
 				$(".icon-star-button", row).removeClass('icon-star-empty').addClass('icon-star');
 				$(".glyphicon-star-button", row).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+				$(".star-button", row).unbind( "mouseenter" );
+				$(".star-button", row).unbind( "mouseleave" );
 			}
 		},
 
@@ -181,6 +183,14 @@ function print_call_row(call, direction, live) {
 	if (call.stars == 0 ) {
 	var starbutton = $('<i class="icon-star-empty icon-star-button"> </i><span class="glyphicon glyphicon-star-empty glyphicon-star-button"></span>');
 	var	starcount = $('<span class="star-count"></span>');
+	starbutton.mouseenter(function() { 
+		$( this ).find( ".icon-star-button" ).removeClass('icon-star-empty').addClass('icon-star');
+		$( this ).find(".glyphicon-star-button").removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+	});
+	starbutton.mouseleave(function() { 
+		$( this ).find( ".icon-star-button" ).removeClass('icon-star').addClass('icon-star-empty');
+		$( this ).find(".glyphicon-star-button").removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+	});
 	} else {
 	var starbutton = $('<i class="icon-star icon-star-button"> </i><span class="glyphicon glyphicon-star glyphicon-star-button"></span>');
 	var	starcount = $('<span class="star-count">' + call.stars + '</span>');
