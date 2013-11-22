@@ -64,6 +64,34 @@ if(typeof console === "undefined") {
     };
 }
 
+function star_call(row) {
+	var objectId = row.data("objectId");
+	var url = "/star/" + objectId;
+
+	$.ajax({
+		url: url,
+		type: "GET",
+		dataType: "json",
+		contentType: "application/json",
+		cache: false,
+		timeout: 5000,
+		complete: function() {
+			//called when complete
+			//console.log('process complete');
+		},
+
+		success: function(data) {
+			$(".star-count", row).text(data.stars);
+			$(".star-button", row).unbind( "click" );
+		},
+
+		error: function() {
+			//console.log('process error');
+		},
+	});
+}
+
+
 function play_call(row) {
 	var filename = row.data("filename");
 	var ext = filename.split('.').pop();
@@ -81,6 +109,7 @@ function play_call(row) {
 	$("#jquery_jplayer_1").jPlayer("setMedia", setMedia).jPlayer("play");
 
 }
+
 
 function call_over(event) {
 	if (now_playing) {
@@ -103,7 +132,7 @@ function print_call_row(call, direction, live) {
 
 
 	var time = new Date(call.time);
-	var newrow = $("<tr/>").data('filename', call.filename);
+	var newrow = $("<tr/>").data('filename', call.filename).data('objectId', call.objectId);
 
 	if (live) {
 		newrow.addClass("live-call");
@@ -145,7 +174,11 @@ function print_call_row(call, direction, live) {
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
-	
+	var starbutton = $('<i class="icon-star-alt star-button"> </i><span class="glyphicon glyphicon-star star-button"></span><span class="star-count">' + call.stars + '</span>');
+	starbutton.click(function() {
+		row = $(this).closest("tr");
+		star_call(row);
+	});
 
 	var btngroup = $('<td/>');
 
@@ -158,10 +191,13 @@ function print_call_row(call, direction, live) {
 		content: poptent,
 		trigger: 'hover'
 	};
+
 	linkview.popover(popoverOptions);
 	btngroup.append(callview);
 	btngroup.append(linkview);
+	btngroup.append(starbutton);
 	newrow.append(btngroup);
+	
 
 	if (live) {
 		if (autoplay && (now_playing == null)) {
