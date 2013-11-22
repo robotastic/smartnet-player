@@ -83,6 +83,10 @@ function star_call(row) {
 		success: function(data) {
 			$(".star-count", row).text(data.stars);
 			$(".star-button", row).unbind( "click" );
+			if (data.stars==1) {
+				$(".icon-star-button", row).removeClass('.icon-star-empty').addClass('.icon-star');
+				$(".glyphicon-star-button", row).removeClass('.glyphicon-star-empty').addClass('.glyphicon-star');
+			}
 		},
 
 		error: function() {
@@ -174,7 +178,13 @@ function print_call_row(call, direction, live) {
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
-	var starbutton = $('<i class="icon-star-alt star-button"> </i><span class="glyphicon glyphicon-star star-button"></span><span class="star-count">' + call.stars + '</span>');
+	if (calls.stars == 0 ) {
+	var starbutton = $('<i class="icon-star-empty icon-star-button"> </i><span class="glyphicon glyphicon-star-empty glyphicon-star-button"></span>';
+	var	starcount = $('<span class="star-count"></span>');
+	} else {
+	var starbutton = $('<i class="icon-star icon-star-button"> </i><span class="glyphicon glyphicon-star glyphicon-star-button"></span>';
+	var	starcount = $('<span class="star-count">' + call.stars + '</span>');
+	}
 	starbutton.click(function() {
 		row = $(this).closest("tr");
 		star_call(row);
@@ -196,6 +206,7 @@ function print_call_row(call, direction, live) {
 	btngroup.append(callview);
 	btngroup.append(linkview);
 	btngroup.append(starbutton);
+	btngroup.append(starcount);
 	newrow.append(btngroup);
 	
 

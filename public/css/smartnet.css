@@ -212,4 +212,7 @@ a.dropdown-toggle::after {
   z-index: 1001;
   display: none;
 }
-
+.star-count {
+  font-size: 12px;
+  padding-left: 5px;
+}
