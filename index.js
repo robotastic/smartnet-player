@@ -294,7 +294,7 @@ app.get('/star/:id', function(req, res) {
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
     transCollection.findAndModify({'_id': o_id}, [],
-     {$inc: {stars: 1}}, {new: false, upsert:true},
+     {$inc: {stars: 1}}, {new: false},
     function(err, object) {
 
       if (err){
