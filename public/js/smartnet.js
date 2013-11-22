@@ -178,7 +178,7 @@ function print_call_row(call, direction, live) {
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
-	if (calls.stars == 0 ) {
+	if (call.stars == 0 ) {
 	var starbutton = $('<i class="icon-star-empty icon-star-button"> </i><span class="glyphicon glyphicon-star-empty glyphicon-star-button"></span>');
 	var	starcount = $('<span class="star-count"></span>');
 	} else {
