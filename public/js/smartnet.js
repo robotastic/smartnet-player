@@ -3,6 +3,7 @@ var channels;
 var per_page;
 var socket;
 var live = false;
+var star = false;
 var now_playing = null;
 var autoplay = false;
 
@@ -478,11 +479,22 @@ $(document).ready(function() {
 		call_over(event);
 	});
 	$('#live-btn').on('click', function(e) {
-		socket_connect();
-		filter_date = "";
-		$('#filter-date').html("Live");
+		live = !live;
+		if (live) {
+			socket_connect();
+			filter_date = "";
+			$('#filter-date').html("Live");
+			fetch_calls();
+		} else {
+			socket_disconnect();
+			filter_date = "";
+			$('#filter-date').html("");
+			fetch_calls();
+		}
+	});
+	$('#star-btn').on('click', function(e) {
+		star = !star;
 		fetch_calls();
-		live = true;
 	});
 	$('.newer-btn').on('click', nav_click);
 	$('.older-btn').on('click', nav_click);

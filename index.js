@@ -374,7 +374,7 @@ function get_calls(query, res) {
 
 }
 
-function build_filter(code, start_time, direction) {
+function build_filter(code, start_time, direction, stars) {
   var filter = {};
   if (code) {
     if (code.substring(0, 3) == 'tg-') {
@@ -517,6 +517,9 @@ function build_filter(code, start_time, direction) {
     $gte: 1.0
   };
 
+  if (stars) {
+    filter.stars = { $gte: 0};
+  }
   var sort_order = {};
   if (direction == 'newer') {
     sort_order['time'] = 1;
@@ -528,15 +531,14 @@ function build_filter(code, start_time, direction) {
   query['filter'] = filter;
   query['direction'] = direction;
   query['sort_order'] = sort_order;
+
   return query;
 }
 
 app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
-
-  var query = build_filter(filter_code, start_time, 'newer');
-
+  var query = build_filter(filter_code, start_time, 'newer', false);
 
   get_calls(query, res);
 });
@@ -544,20 +546,41 @@ app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
 app.get('/calls/older/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
-  var query = build_filter(filter_code, start_time, 'older');
-
+  var query = build_filter(filter_code, start_time, 'older', false);
 
   get_calls(query, res);
 });
 
 app.get('/calls/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
-  var query = build_filter(filter_code, null, 'older');
-
-
+  var query = build_filter(filter_code, null, 'older', false);
 
   get_calls(query, res);
 });
+
+app.get('/stars/newer/:time/:filter_code?*', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var start_time = parseInt(req.params.time);
+  var query = build_filter(filter_code, start_time, 'newer', true);
+
+  get_calls(query, res);
+});
+
+app.get('/stars/older/:time/:filter_code?*', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var start_time = parseInt(req.params.time);
+  var query = build_filter(filter_code, start_time, 'older', true);
+
+  get_calls(query, res);
+});
+
+app.get('/stars/:filter_code?*', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var query = build_filter(filter_code, null, 'older', true);
+
+  get_calls(query, res);
+});
+
 
 
 app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
