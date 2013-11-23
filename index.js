@@ -518,7 +518,7 @@ function build_filter(code, start_time, direction, stars) {
   };
 
   if (stars) {
-    filter.stars = { $gte: 0};
+    filter.stars = { $gt: 0};
   }
   var sort_order = {};
   if (direction == 'newer') {
