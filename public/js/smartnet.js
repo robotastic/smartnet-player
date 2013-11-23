@@ -493,7 +493,6 @@ $(document).ready(function() {
 			socket_disconnect();
 			filter_date = "";
 			$('#filter-date').html("");
-			fetch_calls();
 			$('#live-btn').removeClass('active');
 		}
 	});
