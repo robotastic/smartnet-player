@@ -488,16 +488,23 @@ $(document).ready(function() {
 			filter_date = "";
 			$('#filter-date').html("Live");
 			fetch_calls();
+			$('#live-btn').addClass('active');
 		} else {
 			socket_disconnect();
 			filter_date = "";
 			$('#filter-date').html("");
 			fetch_calls();
+			$('#live-btn').removeClass('active');
 		}
 	});
 	$('#star-btn').on('click', function(e) {
 		star = !star;
 		fetch_calls();
+		if (star) {
+			$('#star-btn').addClass('active');
+		} else {
+			$('#star-btn').removeClass('active');
+		}
 	});
 	$('.newer-btn').on('click', nav_click);
 	$('.older-btn').on('click', nav_click);
