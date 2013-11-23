@@ -280,8 +280,11 @@ function nav_click() {
 function fetch_calls(url) {
 
 	if (!url) {
-		url = "/calls";
-
+		if (star) {
+			url = "/stars";
+		} else {
+			url = "/calls";
+		}
 		if (filter_date != "") {
 			var url = url + "/newer/" + filter_date.getTime();
 		}
