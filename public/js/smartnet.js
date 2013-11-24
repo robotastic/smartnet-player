@@ -160,6 +160,7 @@ function print_call_row(call, direction, live) {
 		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + " - " + time.toLocaleDateString()  + "</td>");
 		newrow.append("<td>" + call.freq + "</td>");
+		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>Uknown</td>");
 		newrow.append("<td>Uknown</td>");
 	} else {
@@ -167,6 +168,7 @@ function print_call_row(call, direction, live) {
 		newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + " - " + time.toLocaleDateString()  +"</td>");
 		newrow.append("<td>" + call.freq + "</td>");
+		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
 	}
