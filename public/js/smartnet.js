@@ -477,8 +477,8 @@ $(document).ready(function() {
 		},
 		swfPath: "/js/Jplayer.swf",
 		supplied: "m4a",
-		solution: "html,flash",
-		preload: "metadata"
+		solution: "html,flash" //,
+		//preload: "metadata"
 	});
 	$("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) {
 		call_over(event);

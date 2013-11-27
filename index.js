@@ -20,6 +20,8 @@ var BSON = mongo.BSONPure;
 var Db = mongo.Db,
   Connection = require('mongodb').Connection,
   Server = require('mongodb').Server;
+var passport = require('passport'),
+  TwitterStrategy = require('passport-twitter').Strategy;
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
