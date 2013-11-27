@@ -616,6 +616,15 @@ app.get('/scanner/:filter_code?*', function(req, res) {
   });
 });
 
+app.get('/beta', function(req, res) {
+  var filter_code = "";
+  var filter_date = "''";
+  res.render('beta', {
+    filter_date: filter_date,
+    filter_code: filter_code
+  });
+});
+
 app.get('/', function(req, res) {
   var filter_code = "";
   var filter_date = "''";

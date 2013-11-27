@@ -1,0 +1,142 @@
+doctype 5
+html
+  include includes/head
+    link(type='text/css', href='/css/datetimepicker.css', rel='stylesheet')
+    script(type='text/javascript', src='/js/bootstrap-datetimepicker.min.js')
+    script(type='text/javascript', src='/js/smartnet.js')
+    script(type='text/javascript', src="/socket.io/socket.io.js")
+    script(type='text/javascript', src='/js/jquery.jplayer.min.js')
+
+  body
+    script.
+      var filter_code = "#{filter_code}";
+      var filter_date = #{filter_date}; 
+
+    include includes/navbar
+
+    div(id="nav-filter")
+      div(class="navbar navbar-static navbar-inverse" )
+        .navbar-inner
+          .container
+            .navbar-header
+              button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-filter-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              span.navbar-brand
+                // Rest of the world
+                span(class="glyphicon glyphicon-filter")
+                // IE only - because font download gets blocked by security settings
+                i.icon-filter
+                | Filter
+            .collapse.navbar-collapse.navbar-filter-collapse
+              
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Groups
+                      b.caret
+                    ul.dropdown-menu(id="group-filter")
+                li.dropdown
+                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Tags
+                      b.caret
+                    ul.dropdown-menu(id="tag-filter")
+                li.dropdown(data-container="body")
+                  a.dropdown-toggle(href='#', data-toggle='dropdown', data-container="body" )
+                      | Talkgroups
+                      b.caret
+                    ul.dropdown-menu(id="tg-filter", data-container="body")
+
+              ul.nav.navbar-nav.navbar-left
+                li.btn-group.btn-group-sm(data-toggle="buttons-radio")
+                  button(type="button" id="filter-data" class="form_datetime btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-calendar")
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-calendar.icon-white
+                    | Archive
+                  button(type="button" id="live-btn" class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-headphones")
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-headphones.icon-white
+                    | Live
+                  button(type="button" id="star-btn" class="btn btn-primary navbar-btn")
+                    span(class="glyphicon glyphicon-star")
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-star.icon-white
+              span(id='jp_container_1' class="pull-right")
+                span.btn-group.btn-group-sm
+                  button( type="button", class="btn btn-primary navbar-btn jp-play")
+                    span(class="glyphicon glyphicon-play")
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-play.jp-play.icon-white
+                  button( type="button", class="btn btn-primary navbar-btn jp-stop")
+                    span(class="glyphicon glyphicon-stop ")
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-stop.jp-stop.icon-white
+                  button( type="button", class="btn btn-primary navbar-btn" id="autoplay-btn")
+                    span(class="glyphicon glyphicon-retweet" )
+                    // IE only - because font download gets blocked by security settings
+                    i.icon-retweet.icon-white
+                p(class="navbar-text")
+                  span.jp-time-holder
+                    span.jp-current-time 
+                    / 
+                    span.jp-duration
+      
+    .container
+      .page-header
+        h1
+          span(id="filter-title")
+          small
+            | -
+            span(id="filter-date")
+        .row
+          .col-xs-6
+            span.pull-left.older-btn
+              span.glyphicon.glyphicon-arrow-left
+              span Older
+          .col-xs-6
+            span.pull-right.newer-btn
+              span Newer
+              span.glyphicon.glyphicon-arrow-right  
+               
+      .table-responsive  
+        table.table
+          thead
+            tr
+              th 
+              th
+              th Alpha
+              th 
+              th Chan
+              th Num
+              th Talkgroup
+              th Group
+              
+
+              th
+          tbody#call_table
+      .row
+        .col-xs-6
+          span.pull-left.older-btn
+            span.glyphicon.glyphicon-arrow-left
+            span Older
+        .col-xs-6
+          span.pull-right.newer-btn
+            span Newer
+            span.glyphicon.glyphicon-arrow-right
+            
+    #jquery_jplayer_1.jp-jplayer
+    .footer
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-45563211-1', 'openmhz.com');
+      ga('send', 'pageview');
+
+
