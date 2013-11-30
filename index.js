@@ -246,10 +246,12 @@ passport.use(new TwitterStrategy({
 ));
 
 app.get('/account', ensureAuthenticated, function(req, res){
+  console.log(req);
   res.render('account', { user: req.user });
 });
 
 app.get('/login', function(req, res){
+  console.log(req);
   res.render('login', { user: req.user });
 });
 
@@ -273,7 +275,8 @@ app.get('/auth/twitter',
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/account');
+    console.log(req);
+    res.redirect('/');
   });
 
 app.get('/logout', function(req, res){
@@ -288,6 +291,7 @@ app.get('/logout', function(req, res){
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
+  console.log(req);
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login')
 }
