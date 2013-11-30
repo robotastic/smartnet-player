@@ -42,6 +42,8 @@ scanner.open(function(err, scannerDb) {
   });
 });
 
+
+
 var talkgroup_filters = {};
 talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
 
@@ -184,6 +186,105 @@ function build_call_volume() {
 }
 
 
+
+
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(express.logger('dev'))
+
+
+  app.use(express.cookieParser());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+
+
+
+  app.use(express.cookieSession({ secret: 'keyboard cat' }));
+  // Initialize Passport!  Also use passport.session() middleware, to support
+  // persistent login sessions (recommended).
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(app.router);
+app.use(express.static(__dirname + '/public'));
+
+
+
+
+// Use the TwitterStrategy within Passport.
+//   Strategies in passport require a `verify` function, which accept
+//   credentials (in this case, a token, tokenSecret, and Twitter profile), and
+//   invoke a callback with a user object.
+passport.use(new TwitterStrategy({
+    consumerKey: twitterConsumerKey, 
+    consumerSecret: twitterConsumerSecret, 
+    callbackURL: "http://openmhz.com/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's Twitter profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Twitter account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
+
+app.get('/account', ensureAuthenticated, function(req, res){
+  res.render('account', { user: req.user });
+});
+
+app.get('/login', function(req, res){
+  res.render('login', { user: req.user });
+});
+
+// GET /auth/twitter
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Twitter authentication will involve redirecting
+//   the user to twitter.com.  After authorization, the Twitter will redirect
+//   the user back to this application at /auth/twitter/callback
+app.get('/auth/twitter',
+  passport.authenticate('twitter'),
+  function(req, res){
+    // The request will be redirected to Twitter for authentication, so this
+    // function will not be called.
+  });
+
+// GET /auth/twitter/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/twitter/callback', 
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/account');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
+
+
+
+
+
+
+
 schedule.scheduleJob({
   minute: 0
 }, function() {
@@ -191,68 +292,10 @@ schedule.scheduleJob({
 });
 
 
-
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
-app.use(express.logger('dev'))
-
-app.use(express.static(__dirname + '/public'))
-app.use(express.bodyParser());
-
-
-
 app.get('/about', function(req, res) {
   res.render('about', {});
 });
 
-/*
-app.get('/media*', function(req, res) {
-  //sys.puts(util.inspect(req.headers, showHidden=false, depth=0));
-
-  var file = '/srv/www/openmhz.com' + req.url;
-  var stat = fs.statSync(file);
-
-  //console.log ("File: " + file);
-  if (!stat.isFile()) return;
-
-  var start = 0;
-  var end = 0;
-  var range = req.header('Range');
-  if (range != null) {
-    start = parseInt(range.slice(range.indexOf('bytes=') + 6,
-      range.indexOf('-')));
-    end = parseInt(range.slice(range.indexOf('-') + 1,
-      range.length));
-  }
-  if (isNaN(end) || end == 0) end = stat.size - 1;
-
-  if (start > end) return;
-
-  sys.puts('Browser requested bytes from ' + start + ' to ' +
-    end + ' of file ' + file);
-
-  var date = new Date();
-
-  res.writeHead(206, { // NOTE: a partial http response
-    // 'Date':date.toUTCString(),
-    'Connection': 'close',
-    // 'Cache-Control':'private',
-    // 'Content-Type':'video/webm',
-    // 'Content-Length':end - start,
-    'Content-Range': 'bytes ' + start + '-' + end + '/' + stat.size,
-    // 'Accept-Ranges':'bytes',
-    // 'Server':'CustomStreamer/0.0.1',
-    'Transfer-Encoding': 'chunked'
-  });
-
-  var stream = fs.createReadStream(file, {
-    flags: 'r',
-    start: start,
-    end: end
-  });
-  stream.pipe(res);
-});
-*/
 app.get('/channels', function(req, res) {
 
   res.contentType('json');
@@ -681,24 +724,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 
   monitor.on("created", function(f, stat) {
-    /*if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
-      var name = path.basename(f, '.m4a');
-      var regex = /([0-9]*)-([0-9]*)/
-      var result = name.match(regex);
-      var tg = parseInt(result[1]);
-      var time = new Date(parseInt(result[2]) * 1000);
 
-      var base_path = '/srv/www/openmhz.com/public/media';
-      var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
-      mkdirp.sync(base_path + local_path, function(err) {
-        if (err) console.error(err);
-      });
-      var target_file = base_path + local_path + path.basename(f);
-      fs.rename(f, target_file, function(err) {
-        if (err)
-          throw err;
-      });
-    }*/
     if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.m4a');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
