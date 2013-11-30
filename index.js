@@ -198,8 +198,8 @@ app.use(express.logger('dev'))
   app.use(express.methodOverride());
 
 
-
-  app.use(express.cookieSession({ secret: 'keyboard cat' }));
+  app.use(express.session({ secret: 'keyboard cat' }));
+  //app.use(express.cookieSession({ secret: 'keyboard cat' }));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
   app.use(passport.initialize());
@@ -292,7 +292,7 @@ app.get('/logout', function(req, res){
 //   login page.
 function ensureAuthenticated(req, res, next) {
   console.log(req);
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated()) { console.log("Success!";return next(); }
   res.redirect('/login')
 }
 
