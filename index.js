@@ -292,7 +292,7 @@ app.get('/logout', function(req, res){
 //   login page.
 function ensureAuthenticated(req, res, next) {
   console.log(req);
-  if (req.isAuthenticated()) { console.log("Success!";return next(); }
+  if (req.isAuthenticated()) { console.log("Success!");return next(); }
   res.redirect('/login')
 }
 
