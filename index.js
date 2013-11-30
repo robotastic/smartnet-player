@@ -215,8 +215,8 @@ app.use(express.static(__dirname + '/public'));
 //   credentials (in this case, a token, tokenSecret, and Twitter profile), and
 //   invoke a callback with a user object.
 passport.use(new TwitterStrategy({
-    consumerKey: twitterConsumerKey, 
-    consumerSecret: twitterConsumerSecret, 
+    consumerKey: config.twitterConsumerKey, 
+    consumerSecret: config.twitterConsumerSecret, 
     callbackURL: "http://openmhz.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
