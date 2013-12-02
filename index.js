@@ -246,7 +246,7 @@ passport.use(new TwitterStrategy({
 ));
 
 app.get('/account', ensureAuthenticated, function(req, res){
-  console.log(req);
+  //console.log(req);
   res.render('account', { user: req.user });
 });
 
@@ -291,7 +291,7 @@ app.get('/logout', function(req, res){
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  console.log(req);
+  //console.log(req);
   if (req.isAuthenticated()) { console.log("Success!");return next(); }
   res.redirect('/login')
 }
