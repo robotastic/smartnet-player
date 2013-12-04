@@ -14,8 +14,9 @@ html
     meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     meta(name="twitter:card" content="player")
     meta(name="twitter:site" content="@openmhz")
-    meta(name="twitter:title" content="#{channel.alpha} #{time} #{date}")
-    meta(name="twitter:description" content="This is a call from talkgroup #{channel.desc}")
+    if channel
+      meta(name="twitter:title" content="#{channel.alpha} #{time} #{date}")
+      meta(name="twitter:description" content="This is a call from talkgroup #{channel.desc}")
     meta(name="twitter:image" content="https://openmhz.com/img/player.png")
     meta(name="twitter:player" content="https://openmhz.com/card/#{objectId}")
     meta(name="twitter:player:stream" content="http://openmhz.com/media#{item.path}#{item.name}")
@@ -60,16 +61,17 @@ html
                     i.icon-stop.jp-stop.icon-white
             .col-md-1.col-md-offset-2
               .pull-right#duration
-          .row
-            .col-md-2
-              h3 #{channel.tag}
-              small Type
-            .col-md-6
-              h3 #{channel.desc}
-              small Description
-            .col-md-4
-              h3 #{channel.alpha}
-              small Talkgroup
+          if channel
+            .row
+              .col-md-2
+                h3 #{channel.tag}
+                small Type
+              .col-md-6
+                h3 #{channel.desc}
+                small Description
+              .col-md-4
+                h3 #{channel.alpha}
+                small Talkgroup
 
 
 

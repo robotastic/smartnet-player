@@ -390,6 +390,7 @@ app.get('/call/:id', function(req, res) {
           res.render('call', {
             item: item,
             channel: channels[item.talkgroup],
+            talkgroup: item.talkgroup,
             time: timeString,
             date: dateString,
             objectId: objectId
