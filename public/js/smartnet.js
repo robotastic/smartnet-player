@@ -196,6 +196,10 @@ function print_call_row(call, direction, live) {
 		var starbutton = $('<span class="glyphicon glyphicon-star star-button"></span>');
 		var	starcount = $('<span class="star-count">' + call.stars + '</span>');
 	}
+	downloadview.click(function() {
+		row = $(this).closest("tr");
+		star_call(row);
+	});
 	starbutton.click(function() {
 		row = $(this).closest("tr");
 		star_call(row);
@@ -216,6 +220,8 @@ function print_call_row(call, direction, live) {
 	linkview.popover(popoverOptions);
 	btngroup.append(callview);
 	btngroup.append(linkview);
+	btngroup.append(downloadview);
+
 	btngroup.append(starbutton);
 	btngroup.append(starcount);
 	newrow.append(btngroup);
