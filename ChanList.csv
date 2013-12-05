@@ -81,6 +81,7 @@ Num,Hex,Mode,Alpha,Description,Tag,Group
 34320,861,D,StEliz Ops 1,St. Elizabeth's Hospital - Ops 1,Public Works,Services
 34352,863,D,StEliz Sec,St. Elizabeth's Hospital - Security,Security,Services
 34384,865,D,StEliz Ops 2,St. Elizabeth's Hospital - Ops 2,Public Works,Services
+34368,864,D,StEliz Mnt,St. Elizabeth's Hospital - Maintenance,Public Works,Services
 34416,867,D,DC DHS Ops,Department of Human Services Ops,Public Works,Services
 34448,869,D,DC Health,Department of Health,Public Works,Services
 34480,86b,D,DC Med Exam,Office of the Chief Medical Examiner (OCME),Public Works,Services
@@ -103,6 +104,7 @@ Num,Hex,Mode,Alpha,Description,Tag,Group
 35536,8ad,D,DC-09 EMA1,Emergency Management Agency 1,Interop,DC Common
 35568,8af,D,DC-10 EMA2,Emergency Management Agency 2,Interop,DC Common
 35600,8b1,D,DC TraffMgmt,Traffic Management Center (TMC),Public Works,Services
+35632,8b3,D,DC Streetcar Streetcar Testing,Transportation,Services 
 35664,8b5,D,DC Paratrans,Paratransit,Transportation,Services
 36880,901,D,DC Hosp Roll,Hospital Roll Call,Hospital,Services
 37040,90b,D,DC MotorPool,Motor Pool,Public Works,Services
@@ -122,3 +124,4 @@ Num,Hex,Mode,Alpha,Description,Tag,Group
 59968,ea4,D,DC-06 MA2,Mutual Aid 2 (also DC Interop 1),Interop,DC Common
 59984,ea5,D,MPD MA3,Mutual Aid 3,Interop,Police
 60000,ea6,D,MPD MA4,Mutual Aid 4,Interop,Police
+

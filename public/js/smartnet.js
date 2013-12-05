@@ -182,7 +182,7 @@ function print_call_row(call, direction, live) {
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
 	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
-	var downloadview = $('<a href="http://openmhz.com/media' + call.filename +'"><span class="glyphicon glyphicon-download download-link"></span></a>');
+	var downloadview = $('<a href="http://openmhz.com/media' + call.filename +'"><span class="glyphicon glyphicon-download-alt download-link"></span></a>');
 	if (call.stars == 0 ) {
 		var starbutton = $('<span class="glyphicon glyphicon-star-empty star-button"></span>');
 		var	starcount = $('<span class="star-count"></span>');
@@ -196,7 +196,7 @@ function print_call_row(call, direction, live) {
 		var starbutton = $('<span class="glyphicon glyphicon-star star-button"></span>');
 		var	starcount = $('<span class="star-count">' + call.stars + '</span>');
 	}
-	downloadview.click(function() {
+	downloadview.mousedown(function() {
 		row = $(this).closest("tr");
 		star_call(row);
 	});
