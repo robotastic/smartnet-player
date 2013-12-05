@@ -91,6 +91,11 @@ width: initial;
 	padding-right: 10px;
 	color: #666;
 }
+.download-link {
+  padding-left: 10px;
+  color: #666;
+}
+
 .call-play {
 	cursor: pointer;
 }
