@@ -138,7 +138,7 @@ function print_call_row(call, direction, live) {
 
 
 	var time = new Date(call.time);
-	var newrow = $("<tr/>").data('filename', call.filename).data('objectId', call.objectId);
+	var newrow = $("<tr class='call-row'/>").data('filename', call.filename).data('objectId', call.objectId);
 
 	if (live) {
 		newrow.addClass("live-call");
