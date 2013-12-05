@@ -220,7 +220,7 @@ function print_call_row(call, direction, live) {
 	linkview.popover(popoverOptions);
 	btngroup.append(callview);
 	btngroup.append(linkview);
-	//btngroup.append(downloadview);
+	btngroup.append(downloadview);
 
 	btngroup.append(starbutton);
 	btngroup.append(starcount);
