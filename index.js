@@ -276,6 +276,13 @@ app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     console.log(req);
+      db.collection('users', function(err, transCollection) {
+        var user = req.user;
+        transCollection.update({_id: user.id}, {$set: { userName: user.userName, displayName: user.displayName}}, {upsert: true }, function(err, objects) {
+          if (err) console.warn(err.message);
+
+        });
+      });
     res.redirect('/');
   });
 
