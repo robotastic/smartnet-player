@@ -216,11 +216,29 @@ app.use(express.static(__dirname + '/public'));
 //   have a database of user records, the complete Twitter profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+    db.collection('users', function(err, usersCollection) {
+    usersCollection.findOne({
+        '_id': id
+      },
+      function(err, item) {
+        //console.log(util.inspect(item));
+        if (item) {
+          console.log("User deserialized: " + item);
+          done(null, item);
+
+        } else {
+          console.log("User not deserialized");
+         done(null, null);
+
+        }
+      });
+  });
+
+  
 });
 
 // Use the TwitterStrategy within Passport.
@@ -235,7 +253,7 @@ passport.use(new TwitterStrategy({
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      console.log(profile);
+      //console.log(profile);
       // To keep the example simple, the user's Twitter profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Twitter account with a user record in your database,
@@ -251,7 +269,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
 });
 
 app.get('/login', function(req, res){
-  console.log(req);
+  //console.log(req);
   res.render('login', { user: req.user });
 });
 
@@ -278,7 +296,7 @@ app.get('/auth/twitter/callback',
     
       db.collection('users', function(err, transCollection) {
         var user = req.user;
-        console.log(user);
+        //console.log(user);
         transCollection.update({_id: user.id}, {$set: user}, {upsert: true }, function(err, objects) {
           if (err) console.warn(err.message);
 
