@@ -306,7 +306,7 @@ app.get('/auth/twitter/callback',
 
         });
       });
-    res.redirect('/');
+    res.redirect('/beta');
   });
 
 app.get('/logout', function(req, res){
