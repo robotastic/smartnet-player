@@ -198,7 +198,11 @@ app.use(express.logger('dev'))
   app.use(express.methodOverride());
 
 
-  app.use(express.session({ secret: 'keyboard cat' }));
+  app.use(express.session({ secret: 'keyboard cat',
+            cookie : {
+              maxAge: 3600000 // see below
+            } 
+          }));
   //app.use(express.cookieSession({ secret: 'keyboard cat' }));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
@@ -708,9 +712,11 @@ app.get('/scanner/:filter_code?*', function(req, res) {
 app.get('/beta', function(req, res) {
   var filter_code = "";
   var filter_date = "''";
+  var user = req.user;
   res.render('beta', {
     filter_date: filter_date,
-    filter_code: filter_code
+    filter_code: filter_code,
+    user: user
   });
 });
 

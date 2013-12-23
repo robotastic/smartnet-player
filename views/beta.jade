@@ -130,6 +130,9 @@ html
             
     #jquery_jplayer_1.jp-jplayer
     .footer
+    if user
+      nav(class="navbar navbar-default navbar-fixed-bottom", role="navigation" id="user_bar")
+        img(src="#{user.photos[0].value}", class="img-circle pull-right")
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
