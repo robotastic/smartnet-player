@@ -249,7 +249,7 @@ passport.deserializeUser(function(id, done) {
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a token, tokenSecret, and Twitter profile), and
 //   invoke a callback with a user object.
-passport.use(new TwitterStrategy({
+twitterAuthn = new TwitterStrategy({
     consumerKey: config.twitterConsumerKey, 
     consumerSecret: config.twitterConsumerSecret, 
     callbackURL: "http://openmhz.com/auth/twitter/callback"
@@ -267,7 +267,9 @@ passport.use(new TwitterStrategy({
       return done(null, profile);
     });
   }
-));
+);
+
+passport.use(twitterAuthn);
 
 app.get('/account', ensureAuthenticated, function(req, res){
   //console.log(req);
@@ -276,7 +278,7 @@ app.get('/account', ensureAuthenticated, function(req, res){
 
 app.get('/tweet', ensureAuthenticated, function(req, res){
   user = req.user;
-  tw._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": "How to Tweet & Direct Message using NodeJS http://blog.coolaj86.com/articles/how-to-tweet-from-nodejs.html via @coolaj86" }, "application/json",  
+  twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": "How to Tweet & Direct Message using NodeJS http://blog.coolaj86.com/articles/how-to-tweet-from-nodejs.html via @coolaj86" }, "application/json",  
                           function (error, data, res) { 
                               if (error) {          
                                   console.error(error)                 
