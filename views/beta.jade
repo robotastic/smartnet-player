@@ -12,6 +12,14 @@ html
       var filter_code = "#{filter_code}";
       var filter_date = #{filter_date}; 
 
+    div(id='myModal', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#myModalLabel.modal-title Tweet Call
+          .modal-body
+            Filler text
 
     include includes/navbar
 
@@ -85,14 +93,7 @@ html
                     span.jp-current-time 
                     / 
                     span.jp-duration
-    #myModal.modal.fade(tabindex='-1', role='dialog')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#myModalLabel.modal-title Tweet Call
-          .modal-body
-            Filler text  
+  
     .container
       .page-header
         h1
