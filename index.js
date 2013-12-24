@@ -257,6 +257,8 @@ passport.use(new TwitterStrategy({
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
+      profile.token = token;
+      profile.tokenSecret = tokenSecret;
       //console.log(profile);
       // To keep the example simple, the user's Twitter profile is returned to
       // represent the logged-in user.  In a typical application, you would want
@@ -270,6 +272,19 @@ passport.use(new TwitterStrategy({
 app.get('/account', ensureAuthenticated, function(req, res){
   //console.log(req);
   res.render('account', { user: req.user });
+});
+
+app.get('/tweet', ensureAuthenticated, function(req, res){
+  user = req.user;
+  tw._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": "How to Tweet & Direct Message using NodeJS http://blog.coolaj86.com/articles/how-to-tweet-from-nodejs.html via @coolaj86" }, "application/json",  
+                          function (error, data, res) { 
+                              if (error) {          
+                                  console.error(error)                 
+                              } else {              
+                                  console.log('tweet sent') 
+                              }                     
+                          }                         
+  );
 });
 
 app.get('/login', function(req, res){
