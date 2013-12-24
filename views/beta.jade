@@ -12,6 +12,15 @@ html
       var filter_code = "#{filter_code}";
       var filter_date = #{filter_date}; 
 
+
+    #myModal.modal.fade(tabindex='-1', role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#myModalLabel.modal-title Tweet Call
+          .modal-body
+            Filler text
     include includes/navbar
 
     div(id="nav-filter")
@@ -136,14 +145,7 @@ html
         img(src="#{user.photos[0].value}", class="img-circle pull-right")
       else
         span.glyphicon.glyphicon-user.pull-right  
-    #myModal.modal.fade(tabindex='-1', role='dialog')
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#myModalLabel.modal-title Tweet Call
-          .modal-body
-            Filler text
+
     a(data-toggle="modal",data-target="#myModal", href="/tweet")
       Click me      
     script.
