@@ -13,12 +13,13 @@ html
       var filter_date = #{filter_date}; 
 
     div(id='myModal', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
-      .modal-dialog
-        .modal-content
-          .modal-header
+      div(class='modal-dialog')
+        div(class='modal-content')
+          div(class='modal-header')
             button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#myModalLabel.modal-title Tweet Call
-          .modal-body
+            h4(id='myModalLabel', class='modal-title') 
+              Tweet Call
+          div(class='modal-body')
             Filler text
 
     include includes/navbar
