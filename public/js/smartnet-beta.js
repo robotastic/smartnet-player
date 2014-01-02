@@ -222,7 +222,9 @@ function print_call_row(call, direction, live) {
 		$('#myModal').modal({
   			keyboard: false
 		});
-		$('#modal-tweet').val('http://openmhz.com/call/'+ + call.objectId);
+		var row = $(this).closest("tr");
+		var objectId = row.data("objectId");
+		$('#modal-tweet').val('http://openmhz.com/call/'+ objectId);
 	});
 	btngroup.append(callview);
 	btngroup.append(linkview);
