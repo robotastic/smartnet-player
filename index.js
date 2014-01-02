@@ -276,17 +276,21 @@ app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
 });
 
-app.get('/tweet', ensureAuthenticated, function(req, res){
-  user = req.user;
-  twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": "How to Tweet & Direct Message using NodeJS http://blog.coolaj86.com/articles/how-to-tweet-from-nodejs.html via @coolaj86" }, "application/json",  
+app.post('/tweet', ensureAuthenticated, function(req, res){
+  var user = req.user;
+  var tweet = req.body.tweet;
+  twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": tweet }, "application/json",  
                           function (error, data, res) { 
                               if (error) {          
-                                  console.error(error)                 
-                              } else {              
-                                  console.log('tweet sent') 
+                                  //console.error(error);
+                                  res.end(error);                 
+                              } else {  
+                                  res.end(tweet);            
+                                  //console.log('tweet sent') 
                               }                     
                           }                         
   );
+
 });
 
 app.get('/login', function(req, res){

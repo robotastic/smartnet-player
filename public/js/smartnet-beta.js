@@ -181,7 +181,7 @@ function print_call_row(call, direction, live) {
 	*/
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
-	var linkview = $('<a data-toggle="modal" data-target="#myModal"><i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span></a>');
+	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
 	var downloadview = $('<a href="http://openmhz.com/media' + call.filename +'"><span class="glyphicon glyphicon-download-alt download-link"></span></a>');
 	if (call.stars == 0 ) {
 		var starbutton = $('<span class="glyphicon glyphicon-star-empty star-button"></span>');
@@ -218,6 +218,12 @@ function print_call_row(call, direction, live) {
 	};
 
 	//linkview.popover(popoverOptions);
+	linkview.click(function() {
+		$('#myModal').modal({
+  			keyboard: false
+		});
+		$('#modal-tweet').val('http://openmhz.com/call/'+ + call.objectId);
+	});
 	btngroup.append(callview);
 	btngroup.append(linkview);
 	btngroup.append(downloadview);
