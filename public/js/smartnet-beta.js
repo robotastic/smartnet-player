@@ -72,7 +72,7 @@ $.ajax({
 		dataType: "json",
 		contentType: "application/json",
 		cache: false,
-		data: {tweet: tweet},
+		data: {tweet: "'" + tweet + "'"},
 		timeout: 5000,
 		complete: function() {
 			//called when complete
