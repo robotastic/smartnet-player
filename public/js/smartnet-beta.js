@@ -569,7 +569,7 @@ $(document).ready(function() {
 		$('#autoplay-btn').blur();
 	});
 	$('#modal-tweet-btn').on('click', function(e) {
-		tweet_call($('modal-tweet').val());
+		tweet_call($('#modal-tweet').val());
 		$('#myModal').modal('hide');
 	});
 

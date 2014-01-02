@@ -208,7 +208,7 @@ app.use(express.logger('dev'))
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-  //app.use(app.router);
+  app.use(app.router);
 app.use(express.static(__dirname + '/public'));
 
 
