@@ -67,7 +67,7 @@ if(typeof console === "undefined") {
 
 function tweet_call(tweet) {
 $.ajax({
-		url: url,
+		url: "/tweet",
 		type: "POST",
 		dataType: "json",
 		contentType: "application/json",
