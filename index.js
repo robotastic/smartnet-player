@@ -208,7 +208,7 @@ app.use(express.logger('dev'))
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(app.router);
+  app.use(express.router);
 app.use(express.static(__dirname + '/public'));
 
 
@@ -282,11 +282,11 @@ app.post('/tweet', ensureAuthenticated, function(req, res){
   twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": tweet }, "application/json",  
                           function (error, data, res) { 
                               if (error) {          
-                                  //console.error(error);
+                                  console.error(error);
                                   res.end(error);                 
                               } else {  
                                   res.end(tweet);            
-                                  //console.log('tweet sent') 
+                                  console.log('tweet sent') 
                               }                     
                           }                         
   );
