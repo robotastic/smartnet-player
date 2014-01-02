@@ -65,6 +65,31 @@ if(typeof console === "undefined") {
     };
 }
 
+function tweet_call(tweet) {
+$.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json",
+		cache: false,
+		data: {tweet: tweet},
+		timeout: 5000,
+		complete: function() {
+			//called when complete
+			//console.log('process complete');
+		},
+
+		success: function(data) {
+			
+		},
+
+		error: function() {
+			//console.log('process error');
+		},
+	});
+
+}
+
 function star_call(row) {
 	var objectId = row.data("objectId");
 	var url = "/star/" + objectId;
@@ -542,6 +567,10 @@ $(document).ready(function() {
 			$('#autoplay-btn').removeClass('active');
 		}
 		$('#autoplay-btn').blur();
+	});
+	$('#modal-tweet-btn').on('click' function(e) {
+		tweet_call($('modal-tweet').val());
+		$('#myModal').modal('hide');
 	});
 
 });
