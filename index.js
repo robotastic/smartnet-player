@@ -280,7 +280,7 @@ app.post('/tweet', ensureAuthenticated, function(req, res){
   var user = req.user;
   var tweet = req.body.tweet;
   twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": tweet }, "application/json",  
-                          function (error, data, res) { 
+                          function (error, data, twit_res) { 
                               if (error) {          
                                   console.error(error);
                                   res.send(error);                 
