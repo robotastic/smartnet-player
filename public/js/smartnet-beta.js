@@ -71,7 +71,6 @@ $.ajax({
 		url: "/tweet",
 		type: "POST",
 		dataType: "json",
-		contentType: "application/json",
 		cache: false,
 		data: data,
 		timeout: 5000,
