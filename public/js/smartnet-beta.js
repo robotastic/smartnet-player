@@ -66,13 +66,14 @@ if(typeof console === "undefined") {
 }
 
 function tweet_call(tweet) {
+	var data = {tweet: tweet};
 $.ajax({
 		url: "/tweet",
 		type: "POST",
 		dataType: "json",
 		contentType: "application/json",
 		cache: false,
-		data: {tweet: '"' + tweet + '"'},
+		data: data,
 		timeout: 5000,
 		complete: function() {
 			//called when complete
