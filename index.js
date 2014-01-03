@@ -283,10 +283,10 @@ app.post('/tweet', ensureAuthenticated, function(req, res){
                           function (error, data, res) { 
                               if (error) {          
                                   console.error(error);
-                                  res.end(error);                 
+                                  res.send(error);                 
                               } else {  
-                                  res.end(tweet);            
-                                  console.log('tweet sent') 
+                                  res.send(tweet);            
+                                  console.log("Sent: " + tweet); 
                               }                     
                           }                         
   );
