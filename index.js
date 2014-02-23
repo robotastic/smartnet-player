@@ -330,6 +330,14 @@ app.get('/auth/twitter/callback',
     res.redirect('/success');
   });
 
+app.get('/success', function(req, res) {
+
+  var user = req.user;
+  res.render('success', {
+    user: user
+  });
+});
+
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
