@@ -1,0 +1,10 @@
+doctype 5
+html
+  head
+    title Example
+  body
+    if (user)
+      script.
+        var user = #{user};
+        window.opener.twitter_success(user);
+        window.closer();

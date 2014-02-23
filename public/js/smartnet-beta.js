@@ -65,6 +65,11 @@ if(typeof console === "undefined") {
     };
 }
 
+function twitter_success(user) {
+alert(user);
+
+}
+
 function tweet_call(tweet) {
 	var data = {tweet: tweet};
 $.ajax({
@@ -573,7 +578,7 @@ $(document).ready(function() {
 		$('#myModal').modal('hide');
 	});
 	$('#user-login-btn').on('click', function(e) {
-		window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=350,height=250");
+		window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=600,height=400");
 	});
 
 });
