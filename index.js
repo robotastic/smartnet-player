@@ -334,7 +334,7 @@ app.get('/success', function(req, res) {
 
   var user = req.user;
   res.render('success', {
-    user: user
+    user: JSON.stringify(user)
   });
 });
 
