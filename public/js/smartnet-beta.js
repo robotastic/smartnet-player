@@ -572,5 +572,8 @@ $(document).ready(function() {
 		tweet_call($('#modal-tweet').val());
 		$('#myModal').modal('hide');
 	});
+	$('#user-login-btn').on('click', function(e) {
+		window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=350,height=250");
+	});
 
 });
