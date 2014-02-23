@@ -327,7 +327,7 @@ app.get('/auth/twitter/callback',
 
         });
       });
-    res.redirect('/beta');
+    res.redirect('/success');
   });
 
 app.get('/logout', function(req, res){
