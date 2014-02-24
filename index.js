@@ -220,6 +220,7 @@ app.use(express.static(__dirname + '/public'));
 //   have a database of user records, the complete Twitter profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
+  console.log("Serializer user: " + user.id );
   done(null, user.id);
 });
 
@@ -229,7 +230,7 @@ passport.deserializeUser(function(id, done) {
         '_id': id
       },
       function(err, item) {
-        //console.log(util.inspect(item));
+        console.log("Deserialize user: " + util.inspect(item));
         if (item) {
           console.log("User deserialized: " + item);
           done(null, item);

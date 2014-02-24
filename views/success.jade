@@ -5,6 +5,9 @@ html
   body
     if (user)
       script.
-        var user = #{user};
+        var user = { photo: #{ user.photos[0].value},
+          id: #{user.username},
+          username: #{user.displayName} 
+          };
         window.opener.twitter_success(user);
         window.closer();
