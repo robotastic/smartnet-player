@@ -66,7 +66,7 @@ if(typeof console === "undefined") {
 }
 
 function twitter_success(user) {
-	$('#user-bar').html('<img src="' + user.photos[0].value + '" class="img-circle, pull-right">');
+	$('#user-bar').html('<img src="' + user.photos[0].value + '" class="img-circle pull-right">');
 }
 
 function tweet_call(tweet) {
