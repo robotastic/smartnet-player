@@ -5,9 +5,6 @@ html
   body
     if (user)
       script.
-        var user = { photo: #{ user.photos[0].value},
-          id: #{user.username},
-          username: #{user.displayName} 
-          };
+        var user = !{JSON.stringify(user)};
         window.opener.twitter_success(user);
         window.closer();
