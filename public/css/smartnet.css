@@ -234,5 +234,10 @@ a.dropdown-toggle::after {
 }
 
 #user-bar {
-  padding-right: 20px;
+  padding-right: 40px;
+  padding-top: 20px;
+  background-color: rgba(102, 102, 102, 0.25);
+  width: 150px;
+  left: inherit;
+  border-top-left-radius: 5px;
 }

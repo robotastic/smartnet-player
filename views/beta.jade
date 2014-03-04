@@ -148,8 +148,10 @@ html
 
     nav(class="navbar navbar-fixed-bottom", role="navigation" id="user-bar")
       if user
+        a(href='/login') Log In
         img(src="#{user.photos[0].value}", class="img-circle pull-right")
       else
+        a(href='/logout') Logout
         span.glyphicon.glyphicon-user.pull-right#user-login-btn  
 
       
