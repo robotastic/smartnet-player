@@ -252,15 +252,15 @@ a.dropdown-toggle::after {
   padding-top: 15px;
 }
 
-#tweet-modal {
+#tmodal-tweet {
   top: 100px;
 }
 
-#tweet-modal .modal-header {
+#modal-tweet .modal-header {
   background-color: ##55acee;
   color: white;
 }
 
-#tweet-modal .close {
+#modal-tweet .close {
   color: white;
 }
