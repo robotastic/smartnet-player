@@ -151,10 +151,8 @@ html
         .user-login-link
           a(href='/logout') Logout
         img(src="#{user.photos[0].value}", class="img-circle pull-right")
-      else
-        .user-login-link
-          a(href='/login') Log In        
-        img(src="/img/twitter_logo_small.png", class="pull-right")
+      else      
+        img(src="/img/twitter_logo_small.png", class="pull-right user-login-btn")
 
       
     script.
