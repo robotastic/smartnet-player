@@ -248,7 +248,7 @@ function print_call_row(call, direction, live) {
 
 	//linkview.popover(popoverOptions);
 	linkview.click(function() {
-		$('#myModal').modal({
+		$('#modal-tweet').modal({
   			keyboard: false
 		});
 		var row = $(this).closest("tr");
