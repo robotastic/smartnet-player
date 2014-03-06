@@ -253,7 +253,7 @@ function print_call_row(call, direction, live) {
 		});
 		var row = $(this).closest("tr");
 		var objectId = row.data("objectId");
-		$('#modal-tweet').val('http://openmhz.com/call/'+ objectId);
+		$('#modal-tweet-url').val('http://openmhz.com/call/'+ objectId);
 	});
 	btngroup.append(callview);
 	btngroup.append(linkview);

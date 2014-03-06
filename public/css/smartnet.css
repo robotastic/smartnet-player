@@ -251,3 +251,16 @@ a.dropdown-toggle::after {
 #user-login-btn {
   padding-top: 15px;
 }
+
+#tweet-modal {
+  top: 100px;
+}
+
+#tweet-modal .modal-header {
+  background-color: ##55acee;
+  color: white;
+}
+
+#tweet-modal .close {
+  color: white;
+}
