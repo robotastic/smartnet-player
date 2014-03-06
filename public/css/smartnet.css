@@ -234,10 +234,16 @@ a.dropdown-toggle::after {
 }
 
 #user-bar {
-  padding-right: 40px;
+  padding-right: 5px;
   padding-top: 20px;
+  padding-left: 20px;
   background-color: rgba(102, 102, 102, 0.25);
   width: 150px;
   left: inherit;
   border-top-left-radius: 5px;
+}
+
+#user-login-link {
+  padding-top: 15px;
+  float: left;
 }
