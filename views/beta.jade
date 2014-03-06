@@ -12,15 +12,15 @@ html
       var filter_code = "#{filter_code}";
       var filter_date = #{filter_date}; 
 
-    div(id='tweet-modal', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
+    div(id='modal-tweet', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
       div(class='modal-dialog')
         div(class='modal-content')
           div(class='modal-header')
             button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4(id='myModalLabel', class='modal-title') 
+            h4(id='modal-tweet-label', class='modal-title') 
               Tweet Call
           div(class='modal-body')
-            textarea(cols='40', rows='8', id='modal-tweet')
+            textarea(cols='40', rows='8', id='modal-tweet-text')
             div#modal-tweet-url
             button(id='modal-tweet-btn') Tweet
 

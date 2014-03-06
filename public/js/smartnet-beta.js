@@ -573,8 +573,8 @@ $(document).ready(function() {
 		$('#autoplay-btn').blur();
 	});
 	$('#modal-tweet-btn').on('click', function(e) {
-		tweet_call($('#modal-tweet').val());
-		$('#myModal').modal('hide');
+		tweet_call($('#modal-tweet-text').val());
+		$('#modal-tweet').modal('hide');
 	});
 	$('#user-login-btn').on('click', function(e) {
 		window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=600,height=400");
