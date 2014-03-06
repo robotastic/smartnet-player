@@ -247,3 +247,7 @@ a.dropdown-toggle::after {
   padding-top: 15px;
   float: left;
 }
+
+#user-login-btn {
+  padding-top: 15px;
+}
