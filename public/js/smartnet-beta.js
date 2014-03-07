@@ -65,6 +65,13 @@ if(typeof console === "undefined") {
     };
 }
 
+
+function tweet_char_count() {
+    // 140 is the max message length
+    var remaining = 118 - jQuery('.message').val().length;
+    $('#modal-tweet-char-left').text(remaining + ' chars left');
+}
+
 function twitter_success(user) {
 	$('#user-bar').html('<div class="user-login-link"><a href="/logout">Log Out</a></div><img src="' + user.photos[0].value + '" class="img-circle pull-right">');
 }
@@ -253,8 +260,12 @@ function print_call_row(call, direction, live) {
 		});
 		var row = $(this).closest("tr");
 		var objectId = row.data("objectId");
-		$('#modal-tweet-url').text('http://openmhz.com/call/'+ objectId);
+		$('#modal-tweet-url').text('+ http://openmhz.com/call/'+ objectId);
 	});
+
+
+
+
 	btngroup.append(callview);
 	btngroup.append(linkview);
 	btngroup.append(downloadview);
@@ -572,8 +583,13 @@ $(document).ready(function() {
 		}
 		$('#autoplay-btn').blur();
 	});
+
+	$('#modal-tweet-text').change(tweet_char_count);
+    $('#modal-tweet-text').keyup(tweet_char_count);
+
 	$('#modal-tweet-btn').on('click', function(e) {
 		tweet_call($('#modal-tweet-text').val());
+		$('#modal-tweet-text').val('');
 		$('#modal-tweet').modal('hide');
 	});
 	$('#user-login-btn').on('click', function(e) {

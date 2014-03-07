@@ -17,10 +17,12 @@ html
         div(class='modal-content')
           div(class='modal-header')
             button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4(id='modal-tweet-label', class='modal-title') 
-              Tweet Call
+            h4(id='modal-tweet-label', class='modal-title') Tweet Call
           div(class='modal-body')
-            textarea(cols='40', rows='8', id='modal-tweet-text')
+            div#modal-tweet-text-container
+              textarea(cols='40', rows='8', id='modal-tweet-text')
+            div#modal-tweet-description Tweet out a link to this call 
+            div#modal-tweet-char-left
             div#modal-tweet-url
             button(id='modal-tweet-btn') Tweet
 

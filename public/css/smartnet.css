@@ -252,8 +252,24 @@ a.dropdown-toggle::after {
   padding-top: 15px;
 }
 
-#tmodal-tweet {
+#modal-tweet {
   top: 100px;
+}
+
+#modal-tweet-text-container {
+  float: left;
+
+}
+
+#modal-tweet-char-left {
+  float: right;
+  width: 100px;
+  margin-top: 20px;
+}
+
+#modal-tweet-description {
+  float: right;
+  width: 150px;
 }
 
 #modal-tweet .modal-header {
@@ -264,3 +280,11 @@ a.dropdown-toggle::after {
 #modal-tweet .close {
   color: white;
 }
+
+#modal-tweet-url {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #999;
+  clear: both;
+}
+
