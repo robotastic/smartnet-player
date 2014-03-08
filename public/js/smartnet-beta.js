@@ -68,7 +68,7 @@ if(typeof console === "undefined") {
 
 function tweet_char_count() {
     // 140 is the max message length
-    var remaining = 118 - jQuery('.message').val().length;
+    var remaining = 118 - $('#modal-tweet-text').val().length;
     $('#modal-tweet-char-left').text(remaining + ' chars left');
 }
 
