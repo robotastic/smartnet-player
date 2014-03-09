@@ -753,9 +753,11 @@ app.get('/beta', function(req, res) {
 app.get('/', function(req, res) {
   var filter_code = "";
   var filter_date = "''";
+  var user = req.user;
   res.render('player', {
     filter_date: filter_date,
-    filter_code: filter_code
+    filter_code: filter_code,
+    user: user
   });
 });
 

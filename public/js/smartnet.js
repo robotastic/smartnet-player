@@ -72,8 +72,14 @@ function tweet_char_count() {
     $('#modal-tweet-char-left').text(remaining + ' chars left');
 }
 
-function twitter_success(user) {
-	$('#user-bar').html('<div class="user-login-link"><a href="/logout">Log Out</a></div><img src="' + user.photos[0].value + '" class="img-circle pull-right">');
+function twitter_success(user_login) {
+	$('#user-bar').html('<div class="user-login-link"><a href="/logout">Log Out</a></div><img src="' + user_login.photos[0].value + '" class="img-circle pull-right">');
+	user = {
+		displayName: user_login.displayName,
+		id: user_login.id,
+		photo: user_login.photos[0].value,
+		userName: user_login.userName
+	}
 }
 
 function tweet_call(tweet) {
@@ -217,7 +223,7 @@ function print_call_row(call, direction, live) {
 	*/
 
 	var callview = $('<a href="/call/' + call.objectId + '"><i class="icon-file call-link"> </i></a><a href="/call/' + call.objectId + '"><span class="glyphicon glyphicon-link call-link"></span></a>');
-	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-cloud-upload"></span>');
+	var linkview = $('<i class="icon-share-alt"> </i><span class="glyphicon glyphicon-bullhorn"></span>');
 	var downloadview = $('<a href="http://openmhz.com/media' + call.filename +'"><span class="glyphicon glyphicon-download-alt download-link"></span></a>');
 	if (call.stars == 0 ) {
 		var starbutton = $('<span class="glyphicon glyphicon-star-empty star-button"></span>');
@@ -243,7 +249,10 @@ function print_call_row(call, direction, live) {
 
 	var btngroup = $('<td/>');
 
-	poptent = "<b>Eventually, you will be able to share calls using Twitter</b>";
+	poptent = "Share Call on Twitter.";
+	if (!user) {
+		poptent = poptent + " You need to Authenticate first.";
+	}
 	popoverOptions = {
 		container: 'body',
 		title: 'Share',
@@ -253,14 +262,18 @@ function print_call_row(call, direction, live) {
 		trigger: 'hover'
 	};
 
-	//linkview.popover(popoverOptions);
+	linkview.popover(popoverOptions);
 	linkview.click(function() {
-		$('#modal-tweet').modal({
-  			keyboard: false
-		});
-		var row = $(this).closest("tr");
-		var objectId = row.data("objectId");
-		$('#modal-tweet-url').text('+ http://openmhz.com/call/'+ objectId);
+		if (!user) {
+			window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=600,height=400");
+		} else {
+			$('#modal-tweet').modal({
+	  			keyboard: false
+			});
+			var row = $(this).closest("tr");
+			var objectId = row.data("objectId");
+			$('#modal-tweet-url').text('+ http://openmhz.com/call/'+ objectId);
+		}
 	});
 
 
