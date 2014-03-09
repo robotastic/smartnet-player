@@ -78,7 +78,7 @@ function twitter_success(user_login) {
 		displayName: user_login.displayName,
 		id: user_login.id,
 		photo: user_login.photos[0].value,
-		userName: user_login.userName
+		username: user_login.username
 	}
 }
 
