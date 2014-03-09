@@ -230,9 +230,9 @@ passport.deserializeUser(function(id, done) {
         '_id': id
       },
       function(err, item) {
-        console.log("Deserialize user: " + user.id);
+        console.log("Deserialize user: " + item.id);
         if (item) {
-          console.log("User deserialized: " + user.id);
+          console.log("User deserialized: " + item.id);
           done(null, item);
 
         } else {
@@ -711,7 +711,7 @@ app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
   var filter_date = parseInt(req.params.time);
   var user = req.user;
 
-  
+
   if (!filter_code) filter_code = "";
 
   if (!filter_date) {
