@@ -249,13 +249,13 @@ function print_call_row(call, direction, live) {
 
 	var btngroup = $('<td/>');
 
-	poptent = "Share Call on Twitter.";
+	poptent = "Share Call on Twitter";
 	if (!user) {
-		poptent = poptent + " You need to Authenticate first.";
+		poptent = poptent + ". You need to Authenticate first.";
 	}
 	popoverOptions = {
 		container: 'body',
-		title: 'Share',
+		title: 'Tweet',
 		placement: 'top',
 		html: true,
 		content: poptent,
