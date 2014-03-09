@@ -709,6 +709,8 @@ app.get('/stars/:filter_code?*', function(req, res) {
 app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
+  var user = req.user;
+  
   if (!filter_code) filter_code = "";
 
   if (!filter_date) {
@@ -719,7 +721,8 @@ app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
 
   res.render('player', {
     filter_date: filter_date,
-    filter_code: filter_code
+    filter_code: filter_code,
+    user: user
   });
 });
 
@@ -727,6 +730,8 @@ app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
 app.get('/scanner/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
+  var user = req.user;
+
   if (!filter_code) filter_code = "";
 
 
@@ -735,10 +740,12 @@ app.get('/scanner/:filter_code?*', function(req, res) {
 
   res.render('player', {
     filter_date: filter_date,
-    filter_code: filter_code
+    filter_code: filter_code,
+    user: user
   });
 });
 
+/*
 app.get('/beta', function(req, res) {
   var filter_code = "";
   var filter_date = "''";
@@ -748,7 +755,7 @@ app.get('/beta', function(req, res) {
     filter_code: filter_code,
     user: user
   });
-});
+});*/
 
 app.get('/', function(req, res) {
   var filter_code = "";
@@ -766,10 +773,11 @@ app.post('/', function(req, res) {
   if (!filter_code) filter_code = "";
   var filter_date = "new Date('" + req.body.filter_date + "');";
   if (!filter_date) filter_date = "\'\'";
-
+  var user = req.user;
   res.render('player', {
     filter_date: filter_date,
-    filter_code: filter_code
+    filter_code: filter_code,
+    user: user
   });
 });
 
