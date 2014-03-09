@@ -14,10 +14,10 @@ html
         var filter_code = "#{filter_code}";
         var filter_date = #{filter_date};
         var user = {
-          displayName: #{user.displayName},
+          displayName: "#{user.displayName}",
           id: #{user.id},
-          photo: #{user.photos[0].value},
-          username: #{user.username}
+          photo: "#{user.photos[0].value}",
+          username: "#{user.username}"
         } 
     else
       script.
