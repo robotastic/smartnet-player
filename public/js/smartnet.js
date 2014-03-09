@@ -65,6 +65,42 @@ if(typeof console === "undefined") {
     };
 }
 
+
+function tweet_char_count() {
+    // 140 is the max message length
+    var remaining = 118 - $('#modal-tweet-text').val().length;
+    $('#modal-tweet-char-left').text(remaining + ' chars left');
+}
+
+function twitter_success(user) {
+	$('#user-bar').html('<div class="user-login-link"><a href="/logout">Log Out</a></div><img src="' + user.photos[0].value + '" class="img-circle pull-right">');
+}
+
+function tweet_call(tweet) {
+	var data = {tweet: tweet};
+$.ajax({
+		url: "/tweet",
+		type: "POST",
+		dataType: "json",
+		cache: false,
+		data: data,
+		timeout: 5000,
+		complete: function() {
+			//called when complete
+			//console.log('process complete');
+		},
+
+		success: function(data) {
+			
+		},
+
+		error: function() {
+			//console.log('process error');
+		},
+	});
+
+}
+
 function star_call(row) {
 	var objectId = row.data("objectId");
 	var url = "/star/" + objectId;
@@ -217,7 +253,19 @@ function print_call_row(call, direction, live) {
 		trigger: 'hover'
 	};
 
-	linkview.popover(popoverOptions);
+	//linkview.popover(popoverOptions);
+	linkview.click(function() {
+		$('#modal-tweet').modal({
+  			keyboard: false
+		});
+		var row = $(this).closest("tr");
+		var objectId = row.data("objectId");
+		$('#modal-tweet-url').text('+ http://openmhz.com/call/'+ objectId);
+	});
+
+
+
+
 	btngroup.append(callview);
 	btngroup.append(linkview);
 	btngroup.append(downloadview);
@@ -534,6 +582,18 @@ $(document).ready(function() {
 			$('#autoplay-btn').removeClass('active');
 		}
 		$('#autoplay-btn').blur();
+	});
+
+	$('#modal-tweet-text').change(tweet_char_count);
+    $('#modal-tweet-text').keyup(tweet_char_count);
+
+	$('#modal-tweet-btn').on('click', function(e) {
+		tweet_call($('#modal-tweet-text').val());
+		$('#modal-tweet-text').val('');
+		$('#modal-tweet').modal('hide');
+	});
+	$('#user-login-btn').on('click', function(e) {
+		window.open("/auth/twitter", "twitterAuthWindow", "menubar=0,resizable=0,location,width=600,height=400");
 	});
 
 });

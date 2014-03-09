@@ -12,6 +12,20 @@ html
       var filter_code = "#{filter_code}";
       var filter_date = #{filter_date}; 
 
+    div(id='modal-tweet', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
+      div(class='modal-dialog')
+        div(class='modal-content')
+          div(class='modal-header')
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4(id='modal-tweet-label', class='modal-title') Tweet Call
+          div(class='modal-body')
+            div#modal-tweet-text-container
+              textarea(cols='40', rows='8', id='modal-tweet-text')
+            div#modal-tweet-description Tweet out a link to this call 
+            div#modal-tweet-char-left
+            div#modal-tweet-url
+            button(id='modal-tweet-btn') Tweet
+
     include includes/navbar
 
     div(id="nav-filter")
@@ -84,7 +98,7 @@ html
                     span.jp-current-time 
                     / 
                     span.jp-duration
-      
+  
     .container
       .page-header
         h1
@@ -130,6 +144,19 @@ html
             
     #jquery_jplayer_1.jp-jplayer
     .footer
+    
+
+
+
+    nav(class="navbar navbar-fixed-bottom", role="navigation" id="user-bar")
+      if user
+        .user-login-link
+          a(href='/logout') Logout
+        img(src="#{user.photos[0].value}", class="img-circle pull-right")
+      else      
+        img(src="/img/twitter_logo_small.png", id="user-login-btn", class="pull-right")
+
+      
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
