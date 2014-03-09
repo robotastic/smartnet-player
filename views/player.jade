@@ -8,17 +8,21 @@ html
     script(type='text/javascript', src='/js/jquery.jplayer.min.js')
 
   body
-    script.
-      var filter_code = "#{filter_code}";
-      var filter_date = #{filter_date};
-      if user
+    
+    if user
+      script.
+        var filter_code = "#{filter_code}";
+        var filter_date = #{filter_date};
         var user = {
           displayName: #{user.displayName},
           id: #{user.id},
           photo: #{user.photos[0].value},
           userName: #{user.userName}
         } 
-      else
+    else
+      script.
+        var filter_code = "#{filter_code}";
+        var filter_date = #{filter_date};
         var user = null;
 
     div(id='modal-tweet', class='modal fade', tabindex='-1', z-index='9998', role='dialog')
