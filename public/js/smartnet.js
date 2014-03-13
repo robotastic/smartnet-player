@@ -68,7 +68,7 @@ if(typeof console === "undefined") {
 
 function tweet_char_count() {
     // 140 is the max message length
-    var remaining = 118 - $('#modal-tweet-text').val().length;
+    var remaining = 117 - $('#modal-tweet-text').val().length;
     $('#modal-tweet-char-left').text(remaining + ' chars left');
 }
 
@@ -273,6 +273,7 @@ function print_call_row(call, direction, live) {
 			var row = $(this).closest("tr");
 			var objectId = row.data("objectId");
 			$('#modal-tweet-url').text('+ http://openmhz.com/call/'+ objectId);
+			$('#modal-tweet-text-url').val('http://openmhz.com/call/'+ objectId);
 		}
 	});
 
@@ -601,7 +602,8 @@ $(document).ready(function() {
     $('#modal-tweet-text').keyup(tweet_char_count);
 
 	$('#modal-tweet-btn').on('click', function(e) {
-		tweet_call($('#modal-tweet-text').val());
+		var tweet = $('#modal-tweet-text').val() + ' ' + $('#modal-tweet-text-url').val();
+		tweet_call(tweet);
 		$('#modal-tweet-text').val('');
 		$('#modal-tweet').modal('hide');
 	});
