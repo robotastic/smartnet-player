@@ -822,67 +822,68 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       var name = path.basename(f, '.wav');*/
       var regex = /([0-9]*)-([0-9]*)_([0-9.]*)/
       var result = name.match(regex);
-      var tg = parseInt(result[1]);
-      var time = new Date(parseInt(result[2]) * 1000);
-      var freq = parseFloat(result[3]);
-      //var base_path = '/srv/www/openmhz.com/media';
-      var base_path = '/srv/www/openmhz.com/public/media';
-      var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
-      mkdirp.sync(base_path + local_path, function(err) {
-        if (err) console.error(err);
-      });
-      var target_file = base_path + local_path + path.basename(f);
+      if (result) {
+        var tg = parseInt(result[1]);
+        var time = new Date(parseInt(result[2]) * 1000);
+        var freq = parseFloat(result[3]);
+        //var base_path = '/srv/www/openmhz.com/media';
+        var base_path = '/srv/www/openmhz.com/public/media';
+        var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
+        mkdirp.sync(base_path + local_path, function(err) {
+          if (err) console.error(err);
+        });
+        var target_file = base_path + local_path + path.basename(f);
 
 
-      fs.rename(f, target_file, function(err) {
-        if (err)
-          throw err;
+        fs.rename(f, target_file, function(err) {
+          if (err)
+            throw err;
 
-        probe(target_file, function(err, probeData) {
+          probe(target_file, function(err, probeData) {
 
-          transItem = {
-            talkgroup: tg,
-            time: time,
-            name: path.basename(f),
-            freq: freq,
-            stars: 0,
-            path: local_path
-          };
-          //transItem.len = reader.chunkSize / reader.byteRate;
+            transItem = {
+              talkgroup: tg,
+              time: time,
+              name: path.basename(f),
+              freq: freq,
+              stars: 0,
+              path: local_path
+            };
+            //transItem.len = reader.chunkSize / reader.byteRate;
 
-          if (err) {
-            //console.log("Error with FFProbe: " + err);
-            transItem.len = -1;
-          } else {
-            transItem.len = probeData.format.duration;
-          }
-          db.collection('transmissions', function(err, transCollection) {
-            transCollection.insert(transItem, function(err, objects) {
-              if (err) console.warn(err.message);
-              var objectId = transItem._id;
+            if (err) {
+              //console.log("Error with FFProbe: " + err);
+              transItem.len = -1;
+            } else {
+              transItem.len = probeData.format.duration;
+            }
+            db.collection('transmissions', function(err, transCollection) {
+              transCollection.insert(transItem, function(err, objects) {
+                if (err) console.warn(err.message);
+                var objectId = transItem._id;
 
-              //console.log("Added: " + f);
-              var call = {
-                objectId: objectId,
-                talkgroup: transItem.talkgroup,
-                filename: transItem.path + transItem.name,
-                stars: transItem.stars,
-                freq: transItem.freq,
-                time: transItem.time,
-                len: Math.round(transItem.len) + 's'
-              };
+                //console.log("Added: " + f);
+                var call = {
+                  objectId: objectId,
+                  talkgroup: transItem.talkgroup,
+                  filename: transItem.path + transItem.name,
+                  stars: transItem.stars,
+                  freq: transItem.freq,
+                  time: transItem.time,
+                  len: Math.round(transItem.len) + 's'
+                };
 
-              // we only want to notify clients if the clip is longer than 1 second.
-              if (transItem.len >= 1) {
-                notify_clients(call);
-              }
+                // we only want to notify clients if the clip is longer than 1 second.
+                if (transItem.len >= 1) {
+                  notify_clients(call);
+                }
+              });
             });
+
           });
 
         });
-
-      });
-
+      }
     }
   });
 });
