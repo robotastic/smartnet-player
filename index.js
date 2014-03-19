@@ -822,6 +822,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
       var name = path.basename(f, '.wav');*/
       var regex = /([0-9]*)-([0-9]*)_([0-9.]*)/
       var result = name.match(regex);
+      console.log(name);
       console.log(util.inspect(result));
       //if (result!=null) 
       {
