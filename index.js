@@ -24,6 +24,8 @@ var passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy;
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
@@ -197,22 +199,23 @@ app.set('view engine', 'jade')
 app.use(logger());
 
   //app.use(express.cookieParser());
-  app.use(cookieParser('keyboard cat'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-
-
-  app.use(express.session({ secret: 'keyboard cat',
+  app.use(cookieParser());
+  //app.use(express.bodyParser());
+  app.use(bodyParser());
+  //app.use(express.methodOverride());
+  app.use(require('method-override')())
+  app.use(session({ secret: 'keyboard dog', key: 'sid', cookie: { secure: true , maxAge: 3600000}}));
+ /* app.use(express.session({ secret: 'keyboard cat',
             cookie : {
               maxAge: 3600000 // see below
             } 
-          }));
+          }));*/
   //app.use(express.cookieSession({ secret: 'keyboard cat' }));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(app.router);
+
 app.use(express.static(__dirname + '/public'));
 
 
