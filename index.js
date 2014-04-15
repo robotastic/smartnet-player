@@ -905,16 +905,16 @@ io.sockets.on('connection', function(socket) {
     socket: socket,
     code: null
   };
-  //console.log("Client Joined: " + socket.id);
+  console.log("Socket.IO - Client Joined: " + socket.id);
   clients.push(client);
 
   socket.on('disconnect', function() {
     clients.splice(clients.indexOf(client), 1);
-    //console.log(socket.id + ' disconnected');
+    console.log("Socket.IO - " + socket.id + ' disconnected');
     //remove user from db
   });
   socket.on('code', function(data) {
-    //console.log("Filter-Code: " + data + " Socket ID: " + socket.id);
+    console.log("Socket.IO - Filter-Code: " + data + " Socket ID: " + socket.id);
     var index = clients.indexOf(client);
     clients[index].code = data.code;
   });
