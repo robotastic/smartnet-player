@@ -48,7 +48,7 @@ scanner.open(function(err, scannerDb) {
 });
 
 
-
+var numResults = 50;
 var talkgroup_filters = {};
 talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
 
@@ -476,7 +476,7 @@ function get_calls(query, res) {
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(query.filter).count(function(e, count) {
       transCollection.find(query.filter, function(err, cursor) {
-        cursor.sort(query.sort_order).limit(20).each(function(err, item) {
+        cursor.sort(query.sort_order).limit(numResults).each(function(err, item) {
           if (item) {
             call = {
               objectId: item._id,
@@ -914,7 +914,7 @@ io.sockets.on('connection', function(socket) {
     //remove user from db
   });
   socket.on('code', function(data) {
-    console.log("Socket.IO - Filter-Code: " + data + " Socket ID: " + socket.id);
+    console.log("Socket.IO - Filter-Code: " + util.inspect(data) + " Socket ID: " + socket.id);
     var index = clients.indexOf(client);
     clients[index].code = data.code;
   });
