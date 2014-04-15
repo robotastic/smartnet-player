@@ -22,6 +22,9 @@ var Db = mongo.Db,
   Server = require('mongodb').Server;
 var passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy;
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
@@ -190,10 +193,11 @@ function build_call_volume() {
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
-app.use(express.logger('dev'))
+//app.use(express.logger('dev'))
+app.use(logger());
 
-
-  app.use(express.cookieParser());
+  //app.use(express.cookieParser());
+  app.use(cookieParser('keyboard cat'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 
