@@ -26,7 +26,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var router = express.Router();
+
 
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
@@ -280,12 +280,12 @@ twitterAuthn = new TwitterStrategy({
 
 passport.use(twitterAuthn);
 
-router.get('/account', ensureAuthenticated, function(req, res){
+app.get('/account', ensureAuthenticated, function(req, res){
   //console.log(req);
   res.render('account', { user: req.user });
 });
 
-router.post('/tweet', ensureAuthenticated, function(req, res){
+app.post('/tweet', ensureAuthenticated, function(req, res){
   var user = req.user;
   var tweet = req.body.tweet;
   twitterAuthn._oauth.post("https://api.twitter.com/1.1/statuses/update.json", user.token, user.tokenSecret, {"status": tweet }, "application/json",  
@@ -302,7 +302,7 @@ router.post('/tweet', ensureAuthenticated, function(req, res){
 
 });
 
-router.get('/login', function(req, res){
+app.get('/login', function(req, res){
   //console.log(req);
   res.render('login', { user: req.user });
 });
@@ -312,7 +312,7 @@ router.get('/login', function(req, res){
 //   request.  The first step in Twitter authentication will involve redirecting
 //   the user to twitter.com.  After authorization, the Twitter will redirect
 //   the user back to this application at /auth/twitter/callback
-router.get('/auth/twitter',
+app.get('/auth/twitter',
   passport.authenticate('twitter'),
   function(req, res){
     // The request will be redirected to Twitter for authentication, so this
@@ -324,7 +324,7 @@ router.get('/auth/twitter',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-router.get('/auth/twitter/callback', 
+app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     
@@ -339,7 +339,7 @@ router.get('/auth/twitter/callback',
     res.redirect('/success');
   });
 
-router.get('/success', function(req, res) {
+app.get('/success', function(req, res) {
 
   var user = req.user;
   res.render('success', {
@@ -347,7 +347,7 @@ router.get('/success', function(req, res) {
   });
 });
 
-router.get('/logout', function(req, res){
+app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
@@ -376,16 +376,12 @@ schedule.scheduleJob({
   build_call_volume();
 });
 
-router.use(function(req, res, next) {
-  console.log('%s %s %s', req.method, req.url, req.path);
-  next();
-});
 
-router.get('/about', function(req, res) {
+app.get('/about', function(req, res) {
   res.render('about', {});
 });
 
-router.get('/channels', function(req, res) {
+app.get('/channels', function(req, res) {
 
   res.contentType('json');
   res.send(JSON.stringify({
@@ -395,7 +391,7 @@ router.get('/channels', function(req, res) {
 
 });
 
-router.get('/card/:id', function(req, res) {
+app.get('/card/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
@@ -423,7 +419,7 @@ router.get('/card/:id', function(req, res) {
 });
 
 
-router.get('/star/:id', function(req, res) {
+app.get('/star/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
@@ -446,7 +442,7 @@ router.get('/star/:id', function(req, res) {
 
 
 
-router.get('/call/:id', function(req, res) {
+app.get('/call/:id', function(req, res) {
   var objectId = req.params.id;
   var o_id = new BSON.ObjectID(objectId);
   db.collection('transmissions', function(err, transCollection) {
@@ -669,13 +665,8 @@ function build_filter(code, start_time, direction, stars) {
 
   return query;
 }
-router.param('time', function(req, res, next, num) {
-  // sample user, would actually fetch from DB, etc...
-  console.log("Num = " + num);
-  req.params.time = num;
-  next();
-});
-router.get('/calls/newer/:time/:filter_code?*', function(req, res) {
+
+app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var query = build_filter(filter_code, start_time, 'newer', false);
@@ -683,7 +674,16 @@ router.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   get_calls(query, res);
 });
 
-router.get('/calls/older/:time/:filter_code?*', function(req, res) {
+app.get('/calls/older/:time', function(req, res) {
+
+  var start_time = parseInt(req.params.time);
+  console.log("time: " + start_time );
+  console.log(util.inspect(req.params));
+  var query = build_filter(filter_code, start_time, 'older', false);
+
+  get_calls(query, res);
+});
+app.get('/calls/older/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time + " Filter code: " + filter_code);
@@ -693,14 +693,14 @@ router.get('/calls/older/:time/:filter_code?*', function(req, res) {
   get_calls(query, res);
 });
 
-router.get('/calls/:filter_code?*', function(req, res) {
+app.get('/calls/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var query = build_filter(filter_code, null, 'older', false);
 
   get_calls(query, res);
 });
 
-router.get('/stars/newer/:time/:filter_code?*', function(req, res) {
+app.get('/stars/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var query = build_filter(filter_code, start_time, 'newer', true);
@@ -708,7 +708,7 @@ router.get('/stars/newer/:time/:filter_code?*', function(req, res) {
   get_calls(query, res);
 });
 
-router.get('/stars/older/:time/:filter_code?*', function(req, res) {
+app.get('/stars/older/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var query = build_filter(filter_code, start_time, 'older', true);
@@ -716,7 +716,7 @@ router.get('/stars/older/:time/:filter_code?*', function(req, res) {
   get_calls(query, res);
 });
 
-router.get('/stars/:filter_code?*', function(req, res) {
+app.get('/stars/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var query = build_filter(filter_code, null, 'older', true);
 
@@ -725,7 +725,7 @@ router.get('/stars/:filter_code?*', function(req, res) {
 
 
 
-router.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
+app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
   var user = req.user;
@@ -747,7 +747,7 @@ router.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
 });
 
 
-router.get('/scanner/:filter_code?*', function(req, res) {
+app.get('/scanner/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
   var user = req.user;
@@ -766,7 +766,7 @@ router.get('/scanner/:filter_code?*', function(req, res) {
 });
 
 /*
-router.get('/beta', function(req, res) {
+app.get('/beta', function(req, res) {
   var filter_code = "";
   var filter_date = "''";
   var user = req.user;
@@ -777,7 +777,7 @@ router.get('/beta', function(req, res) {
   });
 });*/
 
-router.get('/', function(req, res) {
+app.get('/', function(req, res) {
   var filter_code = "";
   var filter_date = "''";
   var user = req.user;
@@ -788,7 +788,7 @@ router.get('/', function(req, res) {
   });
 });
 
-router.post('/', function(req, res) {
+app.post('/', function(req, res) {
   var filter_code = req.body.filter_code;
   if (!filter_code) filter_code = "";
   var filter_date = "new Date('" + req.body.filter_date + "');";
@@ -801,10 +801,10 @@ router.post('/', function(req, res) {
   });
 });
 
-router.get('/stats', function(req, res) {
+app.get('/stats', function(req, res) {
   res.render('stats', {});
 });
-router.get('/volume', function(req, res) {
+app.get('/volume', function(req, res) {
 
   res.contentType('json');
   res.send(JSON.stringify(stats));
@@ -928,9 +928,8 @@ io.sockets.on('connection', function(socket) {
   socket.on('code', function(data) {
     console.log("Socket.IO - Filter-Code: " + util.inspect(data) + " Socket ID: " + socket.id);
     var index = clients.indexOf(client);
-    clients[index].code = data;
+    clients[index].code = data.code;
   });
   socket.emit('ready', {});
 });
-app.use('/', router);
 server.listen(3004);
