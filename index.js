@@ -376,6 +376,10 @@ schedule.scheduleJob({
   build_call_volume();
 });
 
+router.use(function(req, res, next) {
+  console.log('%s %s %s', req.method, req.url, req.path);
+  next();
+});
 
 router.get('/about', function(req, res) {
   res.render('about', {});
