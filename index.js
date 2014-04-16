@@ -216,7 +216,7 @@ app.use(logger());
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-app.use('/', router);
+
 app.use(express.static(__dirname + '/public'));
 
 
@@ -921,4 +921,5 @@ io.sockets.on('connection', function(socket) {
   });
   socket.emit('ready', {});
 });
+app.use('/', router);
 server.listen(3004);
