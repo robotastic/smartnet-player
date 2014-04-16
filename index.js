@@ -666,7 +666,14 @@ function build_filter(code, start_time, direction, stars) {
   return query;
 }
 
-app.get('/calls/newer/:time/:filter_code?*', function(req, res) {
+app.get('/calls/newer/:time', function(req, res) {
+  var start_time = parseInt(req.params.time);
+  var query = build_filter(null, start_time, 'newer', false);
+
+  get_calls(query, res);
+});
+
+app.get('/calls/newer/:time/:filter_code', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   var query = build_filter(filter_code, start_time, 'newer', false);
@@ -679,11 +686,11 @@ app.get('/calls/older/:time', function(req, res) {
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time );
   console.log(util.inspect(req.params));
-  var query = build_filter(filter_code, start_time, 'older', false);
+  var query = build_filter(null, start_time, 'older', false);
 
   get_calls(query, res);
 });
-app.get('/calls/older/:time/:filter_code?*', function(req, res) {
+app.get('/calls/older/:time/:filter_code', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time + " Filter code: " + filter_code);
@@ -693,7 +700,14 @@ app.get('/calls/older/:time/:filter_code?*', function(req, res) {
   get_calls(query, res);
 });
 
-app.get('/calls/:filter_code?*', function(req, res) {
+app.get('/calls', function(req, res) {
+  var filter_code = req.params.filter_code;
+  var query = build_filter(null, null, 'older', false);
+
+  get_calls(query, res);
+});
+
+app.get('/calls/:filter_code', function(req, res) {
   var filter_code = req.params.filter_code;
   var query = build_filter(filter_code, null, 'older', false);
 
@@ -725,7 +739,29 @@ app.get('/stars/:filter_code?*', function(req, res) {
 
 
 
-app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
+app.get('/scanner/newer/:time', function(req, res) {
+
+  var filter_date = parseInt(req.params.time);
+  var user = req.user;
+
+
+
+
+  if (!filter_date) {
+    var filter_date = "''";
+  } else {
+    var filter_date = "new Date(" + filter_date + ")";
+  }
+
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: "",
+    user: user
+  });
+});
+
+
+app.get('/scanner/newer/:time/:filter_code', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
   var user = req.user;
@@ -747,7 +783,25 @@ app.get('/scanner/newer/:time/:filter_code?*', function(req, res) {
 });
 
 
-app.get('/scanner/:filter_code?*', function(req, res) {
+app.get('/scanner', function(req, res) {
+
+  var filter_date = parseInt(req.params.time);
+  var user = req.user;
+
+
+
+
+  var filter_date = "''";
+
+
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: "",
+    user: user
+  });
+});
+
+app.get('/scanner/:filter_code', function(req, res) {
   var filter_code = req.params.filter_code;
   var filter_date = parseInt(req.params.time);
   var user = req.user;
