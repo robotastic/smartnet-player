@@ -669,7 +669,7 @@ function build_filter(code, start_time, direction, stars) {
 
   return query;
 }
-
+app.param('time', /^\d+$/);
 router.get('/calls/newer/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
