@@ -671,6 +671,7 @@ function build_filter(code, start_time, direction, stars) {
 }
 router.param('time', function(req, res, next, num) {
   // sample user, would actually fetch from DB, etc...
+  console.log("Num = " + num);
   req.params.time = num;
   next();
 });
@@ -686,7 +687,7 @@ router.get('/calls/older/:time/:filter_code?*', function(req, res) {
   var filter_code = req.params.filter_code;
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time + " Filter code: " + filter_code);
-  console.log(util.inspect(req));
+  console.log(util.inspect(req.params));
   var query = build_filter(filter_code, start_time, 'older', false);
 
   get_calls(query, res);
