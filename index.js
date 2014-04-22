@@ -635,11 +635,11 @@ function build_filter(code, start_time, direction, stars) {
     var start = new Date(start_time);
     if (direction == 'newer') {
       filter.time = {
-        $gte: start
+        $gt: start
       };
     } else {
       filter.time = {
-        $lte: start
+        $lt: start
       };
     }
 
