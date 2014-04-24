@@ -486,7 +486,7 @@ function get_calls(query, res) {
               time: item.time,
               freq: item.freq,
               stars: item.stars,
-              len: Math.round(item.len) + 's'
+              len: Math.round(item.len)
             };
             calls.push(call);
           } else {
