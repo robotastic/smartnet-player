@@ -21,20 +21,14 @@ var tags = [{
 	name: 'Emergency Ops',
 	code: 'tag-ops'
 }, {
-	name: 'EMS-Tac',
-	code: 'tag-ems-tac'
-}, {
-	name: 'EMS-Talk',
-	code: 'tag-ems-talk'
+	name: 'EMS',
+	code: 'tag-ems'
 }, {
 	name: 'Fire Dispatch',
 	code: 'tag-fire-dispatch'
 }, {
-	name: 'Fire-Tac',
-	code: 'tag-fire-tac'
-}, {
-	name: 'Fire-Talk',
-	code: 'tag-fire-talk'
+	name: 'Fire',
+	code: 'tag-fire'
 }, {
 	name: 'Hospital',
 	code: 'tag-hospital'
@@ -45,14 +39,26 @@ var tags = [{
 	name: 'Law Dispatch',
 	code: 'tag-law-dispatch'
 }, {
-	name: 'Law Tac',
-	code: 'tag-law-tac'
-}, {
 	name: 'Public Works',
 	code: 'tag-public-works'
 }, {
+	name: 'Public Health',
+	code: 'tag-public-health'
+}, {
+	name: 'Parks',
+	code: 'tag-parks'
+}, {
+	name: 'Water',
+	code: 'tag-water'
+}, {
+	name: 'Paratransit',
+	code: 'tag-paratransit'
+}, {
 	name: 'Security',
 	code: 'tag-security'
+}, {
+	name: 'St. Elizabeth',
+	code: 'tag-st-e'
 }, {
 	name: 'Transportation',
 	code: 'tag-transportation'
