@@ -887,7 +887,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                   stars: transItem.stars,
                   freq: transItem.freq,
                   time: transItem.time,
-                  len: Math.round(transItem.len) + 's'
+                  len: Math.round(transItem.len)
                 };
 
                 // we only want to notify clients if the clip is longer than 1 second.
