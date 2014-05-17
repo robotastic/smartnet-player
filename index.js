@@ -805,7 +805,7 @@ app.get('/volume', function(req, res) {
   res.send(JSON.stringify(stats));
 });
 app.get('/clients', function(req, res) {
-  res.render('clients', clients);
+  res.render('clients', {clients: clients});
 });
 
 function notify_clients(call) {
