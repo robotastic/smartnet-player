@@ -7,10 +7,10 @@ html
     
     
       - each client in clients
-        p= clients.id
+        p= client.id
         ul
-          li= 'Code: ' + clients.code
-          li= client.socket.handshake.address.address + ':' + client.socket.handshake.address.port
+          li= 'Code: ' + client.code
+          li= client.socket.handshake.headers['x-forwarded-for']
 
       
     script.
