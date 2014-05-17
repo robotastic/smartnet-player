@@ -811,7 +811,7 @@ app.get('/clients', function(req, res) {
 function notify_clients(call) {
 
   for (var i = 0; i < clients.length; i++) {
-    console.log(util.inspect(clients[i].socket));
+    //console.log(util.inspect(clients[i].socket));
     if (clients[i].code == "") {
       //console.log("Call TG # is set to All");
       clients[i].socket.emit('calls', call);
