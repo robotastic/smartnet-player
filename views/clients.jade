@@ -5,16 +5,13 @@ html
 
   body
     
-    ul
+    
       - each client in clients
         p= clients.id
-        p= clients.code
-        - each val, key in client
-          - if(client.hasOwnProperty(key))
-            li= key + ": " + val  
-        - each val, key in client.socket
-          - if(client.socket.hasOwnProperty(key))
-            li= key + ": " + val  
+        ul
+          li= 'Code: ' + clients.code
+          li= client.socket.
+
       
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
