@@ -10,7 +10,7 @@ html
         p= clients.id
         ul
           li= 'Code: ' + clients.code
-          li= client.socket.
+          li= client.socket.handshake.address.address + ':' + client.socket.handshake.address.port
 
       
     script.
