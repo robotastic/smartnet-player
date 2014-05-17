@@ -804,6 +804,9 @@ app.get('/volume', function(req, res) {
   res.contentType('json');
   res.send(JSON.stringify(stats));
 });
+app.get('/clients', function(req, res) {
+  res.render('clients', clients);
+});
 
 function notify_clients(call) {
 
