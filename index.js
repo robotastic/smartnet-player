@@ -909,7 +909,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
-
+io.set('close timeout', 200);
+io.set('heartbeat timeout', 200);
+io.set('heartbeat interval', 90);
 io.sockets.on('connection', function(socket) {
   var client = {
     id: socket.id,
