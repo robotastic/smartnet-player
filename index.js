@@ -464,6 +464,7 @@ app.get('/call/:id', function(req, res) {
           var time = new Date(item.time);
           var timeString = time.toLocaleTimeString("en-US");
           var dateString = time.toDateString();
+
           res.render('call', {
             item: item,
             channel: channels[item.talkgroup],
@@ -471,7 +472,12 @@ app.get('/call/:id', function(req, res) {
             time: timeString,
             date: dateString,
             objectId: objectId,
-            meta: item.meta
+            srcList: item.srcList,
+            audioErrors: item.audioErrors,
+            headerErrors: item.headerErrors,
+            headerCritErrors: item.headerCritErrors,
+            samples: item.samples,
+            recNum: item.recNum
           });
 
         } else {
@@ -859,7 +865,21 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         fs.readFile(json_file, 'utf8', function (err, data) {
           if (err) {
             console.log('Error: ' + err);
-            return;
+                var srcList = [];
+                var headerCriticalErrors = 0;
+                var headerErrors = 0;
+                var audioErrors = 0;
+                var symbCount = 0;
+                var srcList = 0;
+                var recNum = 0;            
+          } else {
+                var srcList = data.srcList;
+                var headerCriticalErrors = data.headerCriticalErrors;
+                var headerErrors = data.headerErrors;
+                var audioErrors = data.audioErrors;
+                var symbCount = data.symbCount;
+                var srcList = data.srcList;
+                var recNum = data.num;
           }
          
           data = JSON.parse(data);
@@ -876,7 +896,13 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 freq: freq,
                 stars: 0,
                 path: local_path,
-                meta: data
+                srcList: srcList,
+                headerCriticalErrors: headerCriticalErrors,
+                headerErrors: headerErrors,
+                audioErrors: audioErrors,
+                symbCount: symbCount,
+                srcList: srcList,
+                recNum: recNum
               };
               //transItem.len = reader.chunkSize / reader.byteRate;
 
