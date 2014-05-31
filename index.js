@@ -472,6 +472,7 @@ app.get('/call/:id', function(req, res) {
             time: timeString,
             date: dateString,
             objectId: objectId,
+            freq: item.freq,
             srcList: item.srcList,
             audioErrors: item.audioErrors,
             headerErrors: item.headerErrors,

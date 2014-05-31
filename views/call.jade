@@ -72,13 +72,36 @@ html
               .col-md-4
                 h3 #{channel.alpha}
                 small Talkgroup
-
+          if audioErrors
+            .row
+              .col-md-2
+                h4 #{audioErrors}
+                small Audio Errors
+              .col-md-2
+                h3 #{headerErrors}
+                small Header Errors
+              .col-md-2
+                h3 #{headerCritErrors}
+                small Critical Header Errors
+              .col-md-2
+                h3 #{samples}
+                small Samples
+              .col-md-2
+                h3 #{recNum}
+                small Number of Recorders
+              .col-md-2
+                h3 #{freq}
+                small Frequency
+          if srcList
+            .row
+              -for(var src in srcList)
+                .col-md-2
+                  h4 #{src}
+                  small Source
 
 
     #jquery_jplayer_1.jp-jplayer
     
-    -for(var prop in meta)
-      p #{prop}: #{meta[prop]}
 
     script.
       self.update_timer = function (event) {
