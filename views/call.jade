@@ -77,6 +77,9 @@ html
 
     #jquery_jplayer_1.jp-jplayer
     
+    -for(var prop in meta)
+      p #{prop}: #{meta[prop]}
+
     script.
       self.update_timer = function (event) {
           var status = event.jPlayer.status;

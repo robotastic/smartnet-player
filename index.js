@@ -470,7 +470,8 @@ app.get('/call/:id', function(req, res) {
             talkgroup: item.talkgroup,
             time: timeString,
             date: dateString,
-            objectId: objectId
+            objectId: objectId,
+            meta: meta
           });
 
         } else {
@@ -854,55 +855,61 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           if (err) console.error(err);
         });
         var target_file = base_path + local_path + path.basename(f);
+        var json_file = path.dirname(f) + "/" + name + ".json";
+        fs.readFile(json_file, 'utf8', function (err, data) {
+          if (err) {
+            console.log('Error: ' + err);
+            return;
+          }
+         
+          data = JSON.parse(data);
+          fs.rename(f, target_file, function(err) {
+            if (err)
+              throw err;
 
+            probe(target_file, function(err, probeData) {
 
-        fs.rename(f, target_file, function(err) {
-          if (err)
-            throw err;
+              transItem = {
+                talkgroup: tg,
+                time: time,
+                name: path.basename(f),
+                freq: freq,
+                stars: 0,
+                path: local_path,
+                meta: data
+              };
+              //transItem.len = reader.chunkSize / reader.byteRate;
 
-          probe(target_file, function(err, probeData) {
+              if (err) {
+                //console.log("Error with FFProbe: " + err);
+                transItem.len = -1;
+              } else {
+                transItem.len = probeData.format.duration;
+              }
+              db.collection('transmissions', function(err, transCollection) {
+                transCollection.insert(transItem, function(err, objects) {
+                  if (err) console.warn(err.message);
+                  var objectId = transItem._id;
 
-            transItem = {
-              talkgroup: tg,
-              time: time,
-              name: path.basename(f),
-              freq: freq,
-              stars: 0,
-              path: local_path
-            };
-            //transItem.len = reader.chunkSize / reader.byteRate;
+                  //console.log("Added: " + f);
+                  var call = {
+                    objectId: objectId,
+                    talkgroup: transItem.talkgroup,
+                    filename: transItem.path + transItem.name,
+                    stars: transItem.stars,
+                    freq: transItem.freq,
+                    time: transItem.time,
+                    len: Math.round(transItem.len)
+                  };
 
-            if (err) {
-              //console.log("Error with FFProbe: " + err);
-              transItem.len = -1;
-            } else {
-              transItem.len = probeData.format.duration;
-            }
-            db.collection('transmissions', function(err, transCollection) {
-              transCollection.insert(transItem, function(err, objects) {
-                if (err) console.warn(err.message);
-                var objectId = transItem._id;
-
-                //console.log("Added: " + f);
-                var call = {
-                  objectId: objectId,
-                  talkgroup: transItem.talkgroup,
-                  filename: transItem.path + transItem.name,
-                  stars: transItem.stars,
-                  freq: transItem.freq,
-                  time: transItem.time,
-                  len: Math.round(transItem.len)
-                };
-
-                // we only want to notify clients if the clip is longer than 1 second.
-                if (transItem.len >= 1) {
-                  notify_clients(call);
-                }
+                  // we only want to notify clients if the clip is longer than 1 second.
+                  if (transItem.len >= 1) {
+                    notify_clients(call);
+                  }
+                });
               });
-            });
-
+           });
           });
-
         });
       }
     }
