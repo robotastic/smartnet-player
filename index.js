@@ -874,6 +874,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 var srcList = 0;
                 var recNum = 0;            
           } else {
+                 data = JSON.parse(data);
                 var srcList = data.srcList;
                 var headerCriticalErrors = data.headerCriticalErrors;
                 var headerErrors = data.headerErrors;
@@ -883,7 +884,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 var recNum = data.num;
           }
          
-          data = JSON.parse(data);
+          
           fs.rename(f, target_file, function(err) {
             if (err)
               throw err;
