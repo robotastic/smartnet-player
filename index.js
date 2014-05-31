@@ -530,6 +530,11 @@ function build_filter(code, start_time, direction, stars) {
       filter = {
         talkgroup: tg_num
       };
+    } else if (code.substring(0, 4) == 'src-') {
+      src_num = parseInt(code.substring(4));
+      filter = {
+        srcList: { $in: [src_num] }
+      };
     } else {
       switch (code) {
         case 'group-fire':
