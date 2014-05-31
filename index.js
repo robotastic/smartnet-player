@@ -476,8 +476,8 @@ app.get('/call/:id', function(req, res) {
             srcList: item.srcList,
             audioErrors: item.audioErrors,
             headerErrors: item.headerErrors,
-            headerCritErrors: item.headerCritErrors,
-            samples: item.samples,
+            headerCriticalErrors: item.headerCriticalErrors,
+            symbCount: item.symbCount,
             recNum: item.recNum
           });
 
