@@ -471,7 +471,7 @@ app.get('/call/:id', function(req, res) {
             time: timeString,
             date: dateString,
             objectId: objectId,
-            meta: meta
+            meta: item.meta
           });
 
         } else {
