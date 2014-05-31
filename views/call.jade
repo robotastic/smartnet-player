@@ -75,16 +75,16 @@ html
           if audioErrors
             .row
               .col-md-2
-                h4 #{audioErrors}
+                h3 #{audioErrors}
                 small Audio Errors
               .col-md-2
                 h3 #{headerErrors}
                 small Header Errors
               .col-md-2
-                h3 #{headerCritErrors}
+                h3 #{headerCriticalErrors}
                 small Critical Header Errors
               .col-md-2
-                h3 #{samples}
+                h3 #{symCount}
                 small Samples
               .col-md-2
                 h3 #{recNum}
@@ -96,7 +96,7 @@ html
             .row
               -for(var src in srcList)
                 .col-md-2
-                  h4 #{src}
+                  h4 #{srcList[src]}
                   small Source
 
 
