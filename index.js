@@ -491,7 +491,7 @@ app.get('/call/:id', function(req, res) {
 function get_calls(query, res) {
 
   var calls = [];
-  util.inspect(query);
+  console.log(util.inspect(query));
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(query.filter).count(function(e, count) {
       transCollection.find(query.filter, function(err, cursor) {
