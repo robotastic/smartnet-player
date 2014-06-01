@@ -96,7 +96,8 @@ html
             .row
               -for(var src in srcList)
                 .col-md-2
-                  h4 #{srcList[src]}
+                  h4 
+                    a(href='http://openmhz.com/scanner/src-'+#{srcList[src]})#{srcList[src]}
                   small Source
 
 
