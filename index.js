@@ -200,7 +200,73 @@ function build_call_volume() {
   });
 }
 
+function build_source_list() {
+  map = function() {
+    if (this.srcList) {
+    for (var idx = 0; idx < this.srcList.length; idx++) {
+        var key = this.srcList[idx];
+        var value = {};
+        value[this.talkgroup] = 1;
 
+        emit(key, value);
+    }
+    }
+}
+finalize = function(key, values) {
+    var count=0;
+    for(var k in values)
+    {
+        count += values[k];
+    }
+
+    values['total'] = count;
+    return values;
+}
+
+reduce = function(key, values) {
+    var talkgroups = {};
+
+
+
+    values.forEach(function(v) {
+        for(var k in v) { // iterate colors                                                                                                                                       
+            if(!talkgroups[k]) // init missing counter                                                                                                                            
+            {
+                talkgroups[k] = 0;
+            }
+            talkgroups[k] += v[k];
+
+        }
+
+    });
+
+
+
+    return talkgroups;
+}
+
+
+  db.collection('transmissions', function(err, transCollection) {
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    transCollection.mapReduce(map, reduce, {
+      query: {
+        time: {
+          $gte: yesterday
+        }
+      },
+      out: {
+        replace: "source_list"
+      },
+      finalize: finalize
+    }, function(err, collection) {
+      if (err) console.error(err);
+      if (collection) {
+        //build_stat(collection);
+      }
+    });
+  });
+}
 
 
 app.set('views', __dirname + '/views')
@@ -383,6 +449,13 @@ schedule.scheduleJob({
   minute: 0
 }, function() {
   build_call_volume();
+});
+
+schedule.scheduleJob({
+  minute: 30,
+  hour: 1
+}, function() {
+  build_source_list();
 });
 
 
