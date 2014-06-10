@@ -36,15 +36,20 @@ var db;
 var channels = {};
 var clients = [];
 var stats = {};
+var sources = {};
 
 io.set('log level', 1);
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
-  scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
-  //do the initial build of the stats
-  db.collection('call_volume', function(err, collection) {
-    build_stat(collection);
+  scannerDb.authenticate(config.dbUser, config.dbPass, function() {
+    //do the initial build of the stats
+    db.collection('call_volume', function(err, collection) {
+      build_stat(collection);
+    });
+    db.collection('source_list', function(err, collection) {
+      sources = collection;
+    });
   });
 });
 
@@ -883,14 +888,33 @@ app.post('/', function(req, res) {
   });
 });
 
+app.post('/sources', function(req, res) {
+  var filter_code = req.body.filter_code;
+  if (!filter_code) filter_code = "";
+  var filter_date = "new Date('" + req.body.filter_date + "');";
+  if (!filter_date) filter_date = "\'\'";
+  var user = req.user;
+  res.render('player', {
+    filter_date: filter_date,
+    filter_code: filter_code,
+    user: user
+  });
+});
+
+
+
 app.get('/stats', function(req, res) {
   res.render('stats', {});
 });
 app.get('/volume', function(req, res) {
-
   res.contentType('json');
   res.send(JSON.stringify(stats));
 });
+app.get('/source_list', function(req, res) {
+  res.contentType('json');
+  res.send(JSON.stringify(sources));
+});
+
 app.get('/clients', function(req, res) {
   res.render('clients', {clients: clients});
 });
