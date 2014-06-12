@@ -107,7 +107,7 @@ function nav_click() {
 
 }
 
-function fetch_sources(url) {
+function fetch_sources() {
 
 
 
@@ -126,9 +126,9 @@ function fetch_sources(url) {
 
 		success: function(data) {
 			$("#source_table").empty();
-			if (typeof data.calls !== "undefined") {
-				for (var i = 0; i < data.calls.length; i++) {
-					print_source_row(data.calls[i]);
+			if (typeof data !== "undefined") {
+				for (var i = 0; i < data.length; i++) {
+					print_source_row(data[i]);
 				}
 			}
 

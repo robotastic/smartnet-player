@@ -52,6 +52,7 @@ scanner.open(function(err, scannerDb) {
     collection.find().toArray(function(err, results) {
       sources = results;
     });
+    
     });
   });
 });
