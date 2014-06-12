@@ -72,30 +72,34 @@ if(typeof console === "undefined") {
 
 function print_source_row(source) {
 
-
+	var count =0;
 
 	
-	var newrow = $("<tr class='call-row'/>");
 
-	newrow.append("<td>" + source._id + "</td>");
+	var newcell = $("<td/>");
 	for (tgNum in source.value) {
 		tgTotal = source.value[tgNum];
-		if (typeof channels[tgNum] == 'undefined') {
-			newrow.append("<td>" + tgNum + "</td>");
-			newrow.append("<td></td>");
-			newrow.append("<td></td>");
-			newrow.append("<td>" + tgTotal + "</td>");
-		} else {
-			newrow.append("<td>" + tgNum + "</td>");
-			newrow.append("<td>" + channels[tgNum].desc + "</td>");
-			newrow.append("<td>" + channels[tgNum].group + "</td>");
-			newrow.append("<td>" + tgTotal+ "</td>");
+		var newrow = $("<tr class='call-row'/>");
+		if (count ==0) {
+		newrow.append("<td rowspan='" + Object.keys(source.value).length + "'>" + source._id + "</td>");
 		}
-	
+		if (typeof channels[tgNum] == 'undefined') {
+			newcell.append("<td>" + tgNum + "</td>");
+			newcell.append("<td></td>");
+			newcell.append("<td></td>");
+			newcell.append("<td>" + tgTotal + "</td>");
+		} else {
+			newcell.append("<td>" + tgNum + "</td>");
+			newcell.append("<td>" + channels[tgNum].desc + "</td>");
+			newcell.append("<td>" + channels[tgNum].group + "</td>");
+			newcell.append("<td>" + tgTotal+ "</td>");
+		}
+	$("#source_table").append(newrow);
+	count++;
 	}
 
 
-		$("#source_table").append(newrow);
+		
 
 }
 
