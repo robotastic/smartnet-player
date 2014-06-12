@@ -48,7 +48,10 @@ scanner.open(function(err, scannerDb) {
       build_stat(collection);
     });
     db.collection('source_list', function(err, collection) {
-      sources = collection;
+
+    collection.find().toArray(function(err, results) {
+      sources = results;
+    });
     });
   });
 });
