@@ -903,6 +903,7 @@ app.get('/volume', function(req, res) {
 });
 app.get('/source_list', function(req, res) {
   res.contentType('json');
+  console.log(util.inspect(sources));
   res.send(JSON.stringify(sources));
 });
 
