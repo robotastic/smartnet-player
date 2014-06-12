@@ -81,7 +81,7 @@ function print_source_row(source) {
 		tgTotal = source.value[tgNum];
 		var newrow = $("<tr class='call-row'/>");
 		if (count ==0) {
-		newrow.append("<td rowspan='" + Object.keys(source.value).length + "'><a href='http://openmhz.com/scanner/src-"+ tgNum + "'> + source._id + "</a></td>");
+		newrow.append("<td rowspan='" + Object.keys(source.value).length + "'><a href='http://openmhz.com/scanner/src-"+ tgNum + "'>" + source._id + "</a></td>");
 		}
 		if (typeof channels[tgNum] == 'undefined') {
 			newrow.append("<td>" + tgNum + "</td>");
