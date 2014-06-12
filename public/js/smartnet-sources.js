@@ -87,8 +87,8 @@ function print_source_row(source) {
 			newrow.append("<td>" + tgTotal + "</td>");
 		} else {
 			newrow.append("<td>" + tgNum + "</td>");
-			newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
-			newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
+			newrow.append("<td>" + channels[tgNum].desc + "</td>");
+			newrow.append("<td>" + channels[tgNum].group + "</td>");
 			newrow.append("<td>" + tgTotal+ "</td>");
 		}
 	
