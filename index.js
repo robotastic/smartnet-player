@@ -49,10 +49,11 @@ scanner.open(function(err, scannerDb) {
     });
     db.collection('source_list', function(err, collection) {
 
-    collection.find().toArray(function(err, results) {
+    collection.find( function(err, cursor) {
+      cursor.sort({"value.total":-1}).toArray(function(err, results) {
       sources = results;
     });
-
+    });
     });
   });
 });
