@@ -84,15 +84,15 @@ function print_source_row(source) {
 		newrow.append("<td rowspan='" + Object.keys(source.value).length + "'>" + source._id + "</td>");
 		}
 		if (typeof channels[tgNum] == 'undefined') {
-			newcell.append("<td>" + tgNum + "</td>");
-			newcell.append("<td></td>");
-			newcell.append("<td></td>");
-			newcell.append("<td>" + tgTotal + "</td>");
+			newrow.append("<td>" + tgNum + "</td>");
+			newrow.append("<td></td>");
+			newrow.append("<td></td>");
+			newrow.append("<td>" + tgTotal + "</td>");
 		} else {
-			newcell.append("<td>" + tgNum + "</td>");
-			newcell.append("<td>" + channels[tgNum].desc + "</td>");
-			newcell.append("<td>" + channels[tgNum].group + "</td>");
-			newcell.append("<td>" + tgTotal+ "</td>");
+			newrow.append("<td>" + tgNum + "</td>");
+			newrow.append("<td>" + channels[tgNum].desc + "</td>");
+			newrow.append("<td>" + channels[tgNum].group + "</td>");
+			newrow.append("<td>" + tgTotal+ "</td>");
 		}
 	$("#source_table").append(newrow);
 	count++;
