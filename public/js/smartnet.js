@@ -1,5 +1,6 @@
 //var socket = io.connect('http://robotastic.com');
 var channels;
+var source_names = {};
 var per_page;
 var socket;
 var live = false;
@@ -180,6 +181,20 @@ function call_over(event) {
 	}
 }
 
+function source_string(call) {
+	var srcString = "";
+	if (call.srcList) {
+		for (var src in call.srcList) {
+			if (source_names.hasOwnProperty(src)) {
+				srcString = srcString + source_names[src].shortName + " ";
+			} else {
+				srcString = srcString + src + " ";
+			}
+		}
+	}
+
+	return srcString;
+}
 
 function print_call_row(call, direction, live) {
 
@@ -207,7 +222,7 @@ function print_call_row(call, direction, live) {
 		newrow.append("<td>" + call.len + "</td>");
 		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + " - " + time.toLocaleDateString()  + "</td>");
-		newrow.append("<td>" + call.freq + "</td>");
+		newrow.append("<td>" + source_string(call) + "</td>");
 		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>Uknown</td>");
 		newrow.append("<td>Uknown</td>");
@@ -215,7 +230,7 @@ function print_call_row(call, direction, live) {
 		newrow.append("<td>" + call.len + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].alpha + "</td>");
 		newrow.append("<td>" + time.toLocaleTimeString() + " - " + time.toLocaleDateString()  +"</td>");
-		newrow.append("<td>" + call.freq + "</td>");
+		newrow.append("<td>" + source_string(call) + "</td>");
 		newrow.append("<td>" + call.talkgroup + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].desc + "</td>");
 		newrow.append("<td>" + channels[call.talkgroup].group + "</td>");
@@ -514,6 +529,7 @@ $(document).ready(function() {
 		contentType: "application/json",
 		success: function(data) {
 			channels = data.channels;
+			source_names = data.source_names;
 			add_filters();
 			add_tg_filter();
 			init_table();

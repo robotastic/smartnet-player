@@ -1,5 +1,6 @@
 //var socket = io.connect('http://robotastic.com');
 var channels;
+var source_names;
 var per_page;
 var socket;
 
@@ -190,6 +191,7 @@ $(document).ready(function() {
 		contentType: "application/json",
 		success: function(data) {
 			channels = data.channels;
+			source_names = data.source_names;
 			init_table();
 		}
 	});

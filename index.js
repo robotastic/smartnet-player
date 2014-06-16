@@ -37,6 +37,7 @@ var channels = {};
 var clients = [];
 var stats = {};
 var sources = {};
+var source_names = {};
 
 io.set('log level', 1);
 
@@ -46,6 +47,11 @@ scanner.open(function(err, scannerDb) {
     //do the initial build of the stats
     db.collection('call_volume', function(err, collection) {
       build_stat(collection);
+    });
+    db.collection('source_names', function(err, collection){
+      collection.find().toArray(function(err, results) {
+        source_names = results;
+      });
     });
     db.collection('source_list', function(err, collection) {
 
@@ -477,7 +483,8 @@ app.get('/channels', function(req, res) {
 
   res.contentType('json');
   res.send(JSON.stringify({
-    channels: channels
+    channels: channels,
+    source_names: source_names
   }));
 
 
@@ -586,6 +593,7 @@ function get_calls(query, res) {
               filename: item.path + item.name,
               time: item.time,
               freq: item.freq,
+              srcList: item.srcList,
               stars: item.stars,
               len: Math.round(item.len)
             };
