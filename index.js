@@ -50,7 +50,10 @@ scanner.open(function(err, scannerDb) {
     });
     db.collection('source_names', function(err, collection){
       collection.find().toArray(function(err, results) {
-        source_names = results;
+        for (var src in results) {
+          source_names[results[src]] = { name: results[src].name, shortName: results[src].shortName};
+        }
+        
       });
     });
     db.collection('source_list', function(err, collection) {
