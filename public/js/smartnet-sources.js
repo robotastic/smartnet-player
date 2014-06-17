@@ -95,6 +95,9 @@ function print_source_row(source) {
 			newrow.append("<td>" + channels[tgNum].group + "</td>");
 			newrow.append("<td>" + tgTotal+ "</td>");
 		}
+		if (count ==0) {
+		newrow.append("<td rowspan='" + Object.keys(source.value).length + "'>source_names[source._id].short_name</td>");
+		}
 	$("#source_table").append(newrow);
 	count++;
 	}
