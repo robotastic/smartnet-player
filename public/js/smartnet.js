@@ -185,10 +185,11 @@ function source_string(call) {
 	var srcString = "";
 	if (call.srcList) {
 		for (var src in call.srcList) {
-			if (source_names.hasOwnProperty(call.srcList[src])) {
-				srcString = srcString + source_names[src].shortName + " ";
+			srcNum = call.srcList[src];
+			if (source_names.hasOwnProperty(srcNum)) {
+				srcString = srcString + source_names[srcNum].shortName + " ";
 			} else {
-				srcString = srcString + call.srcList[src] + " ";
+				srcString = srcString + srcNum + " ";
 			}
 		}
 	}
