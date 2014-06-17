@@ -51,7 +51,7 @@ scanner.open(function(err, scannerDb) {
     db.collection('source_names', function(err, collection){
       collection.find().toArray(function(err, results) {
         for (var src in results) {
-          source_names[results[src]] = { name: results[src].name, shortName: results[src].shortName};
+          source_names[results[src]._id] = { name: results[src].name, shortName: results[src].shortName};
         }
         
       });
