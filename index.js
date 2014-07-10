@@ -995,6 +995,10 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 var symbCount = data.symbCount;
                 var srcList = data.srcList;
                 var recNum = data.num;
+                fs.unlink(json_file, function (err) {
+                if (err) 
+                console.log('JSON Delete Error: ' + err + " JSON: " + json_file);
+              });
           }
          
           
