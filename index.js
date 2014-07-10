@@ -976,7 +976,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         var json_file = path.dirname(f) + "/" + name + ".json";
         fs.readFile(json_file, 'utf8', function (err, data) {
           if (err) {
-            console.log('Error: ' + err);
+            console.log('JSON Error: ' + err);
+                          console.log("Base: " + base_path + " Local: " + local_path + " Basename: " + path.basename(f));
+              console.log("F Path: " + path.dirname(f));
                 var srcList = [];
                 var headerCriticalErrors = 0;
                 var headerErrors = 0;
@@ -997,9 +999,14 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
          
           
           fs.rename(f, target_file, function(err) {
-            if (err)
-              throw err;
-
+            if (err) {
+              console.log("Rename Error: " + err);
+              console.log("Base: " + base_path + " Local: " + local_path + " Basename: " + path.basename(f));
+              console.log("F Path: " + path.dirname(f));
+              //throw err;
+  
+            } else {
+            
             probe(target_file, function(err, probeData) {
 
               transItem = {
@@ -1048,6 +1055,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 });
               });
            });
+            }
           });
         });
       }
