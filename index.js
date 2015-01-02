@@ -93,8 +93,27 @@ talkgroup_filters['tag-transportation'] = [ 40080,35632,35600,34576,34512 ];
 talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];
 
 
-
-
+fs.createReadStream('ChanList.csv').pipe(csv.parse()).pipe(csv.transform(function(row) {     
+    console.log(row);
+        channels[row.Num] = {
+      alpha: row.Alpha,
+      desc: row.Description,
+      tag: row.Tag,
+      group: row.Group
+    };
+    var tg_array = new Array();
+    tg_array.push(parseInt(row.Num));
+    talkgroup_filters['tg-' + row.Num] = tg_array;
+    return row;
+    // handle each row before the "end" or "error" stuff happens above
+})).on('readable', function(){
+  while(this.read()){}
+}).on('end', function() {
+    // yay, end
+}).on('error', function(error) {
+    // oh no, error
+});
+/*
 csv()
   .from.path('ChanList.csv', {
     columns: true
@@ -115,7 +134,7 @@ csv()
     tg_array.push(parseInt(row.Num));
     talkgroup_filters['tg-' + row.Num] = tg_array;
     return row;
-  });
+  });*/
 
 function compile(str, path) {
   return stylus(str)
