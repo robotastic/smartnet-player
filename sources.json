@@ -1,0 +1,32 @@
+db.source_names.insert( {_id: 5517, shortName: "Amb15", name: "Ambulance 15"});
+db.source_names.insert( {_id: 43461, shortName: "ParaDisp", name: "ParaTransit Dispatch"});
+db.source_names.insert( {_id: 5169, shortName: "ELO", name: "EMS Liaison Officer"});
+db.source_names.insert( {_id: 4705, shortName: "EvtComm", name: "Special Event Command"});
+db.source_names.insert( {_id: 34165, shortName: "StECont", name: "St Elizabeth Control"});
+db.source_names.insert( {_id: 5268, shortName: "Bt5", name: "Battalion 5"});
+db.source_names.insert( {_id: 44125, shortName: "UDCBase", name: "UDC PD Base"});
+db.source_names.insert( {_id: 3704, shortName: "ELO", name: "EMS Liaison Officer"});
+
+db.source_names.insert( {_id: 4315, shortName: "Ops6", name: "Special Ops 6"});
+db.source_names.insert( {_id: 2780, shortName: "Trk3", name: "Truck 3"});
+db.source_names.insert( {_id: 2507, shortName: "Trk2", name: "Truck 2"});
+
+db.source_names.insert( {_id: 5454, shortName: "Amb27", name: "Ambulance 27"});
+db.source_names.insert( {_id: 5473, shortName: "Amb26", name: "Ambulance 26"});
+db.source_names.insert( {_id: 5286, shortName: "Amb9", name: "Ambulance 9"});
+db.source_names.insert( {_id: 3883, shortName: "Amb15", name: "Ambulance 15"});
+db.source_names.insert( {_id: 5464, shortName: "Amb8", name: "Ambulance Basic 8"});
+db.source_names.insert( {_id: 44721, shortName: "StECont", name: "St Elizabeth Control"});
+db.source_names.insert( {_id: 5581, shortName: "Amb33", name: "Ambulance 33"});
+db.source_names.insert( {_id: 4249, shortName: "So12", name: "Special Event 12"});
+db.source_names.insert( {_id: 5260, shortName: "Ops4", name: "Special Ops 4"});
+db.source_names.insert( {_id: 5464, shortName: "Amb19", name: "Ambulance Medic 19"});
+db.source_names.insert( {_id: 5429, shortName: "Amb18", name: "Ambulance 18"});
+db.source_names.insert( {_id: 42848, shortName: "TrafDisp", name: "Traffic Management Dispatch"});
+db.source_names.insert( {_id: 4261, shortName: "Amb3", name: "Ambulance 3"});
+db.source_names.insert( {_id: 5494, shortName: "Amb27", name: "Ambulance Medic 27"});
+db.source_names.insert( {_id: 5518, shortName: "Amb10", name: "Ambulance 10"});
+db.source_names.insert( {_id: 5433, shortName: "Amb19", name: "Ambulance 19"});
+db.source_names.insert( {_id: 5502, shortName: "Amb6", name: "Ambulance 6"});
+db.source_names.insert( {_id: 5516, shortName: "Amb13", name: "Ambulance 13"});
+db.source_names.insert( {_id: 5495, shortName: "Amb30", name: "Ambulance Medic 30"});
