@@ -93,7 +93,7 @@ talkgroup_filters['tag-transportation'] = [ 40080,35632,35600,34576,34512 ];
 talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];
 
 
-fs.createReadStream('ChanList.csv').pipe(csv.parse()).pipe(csv.transform(function(row) {     
+fs.createReadStream('ChanList.csv').pipe(csv.parse({columns: [ 'Num', 'Hex', 'Mode', 'Alpha', 'Description', 'Tag', 'Group' ]})).pipe(csv.transform(function(row) {     
     console.log(row);
         channels[row.Num] = {
       alpha: row.Alpha,
