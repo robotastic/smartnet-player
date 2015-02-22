@@ -1100,7 +1100,7 @@ var wss = new WebSocketServer({    server: server});
       code: null
     };
          // emitted after handshake
-        sys.debug("connect: " + ws);
+        console.log("connect: " + ws);
 
         // # Add to our list of clients
         clients.push(client);
@@ -1114,7 +1114,7 @@ var wss = new WebSocketServer({    server: server});
     console.log('disconnected');
 
           // emitted when server or client closes connection
-        sys.debug("close");
+        console.log("close");
         for(var i = 0; i < clients.length; i++) {
           // # Remove from our connections list so we don't send
           // # to a dead socket
