@@ -1109,7 +1109,7 @@ var wss = new WebSocketServer({    server: server});
         // setTimeout(websocket.end, 10 * 1000); 
 
    
-
+         ws.send('something');
   ws.on('close', function close() {
     console.log('disconnected');
 
