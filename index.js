@@ -8,7 +8,7 @@ var schedule = require('node-schedule');
 var mkdirp = require('mkdirp');
 var app = express(),
   http = require('http'),
-  server = http.createServer(app),
+  server = http.createServer(app);
 //  io = require('socket.io').listen(server);
 var WebSocket = require('ws');
 
@@ -1088,7 +1088,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
-var wss = new WebSocketServer();
+var wss = new WebSocketServer({    httpServer: server});
 
 //io.set('close timeout', 200);
 //io.set('heartbeat timeout', 200);
