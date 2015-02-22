@@ -8,10 +8,8 @@ var schedule = require('node-schedule');
 var mkdirp = require('mkdirp');
 var app = express(),
   http = require('http'),
-  server = http.createServer(app);
-//  io = require('socket.io').listen(server);
-var WebSocketServer = require('ws').Server;
-
+  server = http.createServer(app),
+  io = require('socket.io').listen(server);
 var csv = require('csv');
 var sys = require('sys');
 var fs = require('fs');
@@ -41,7 +39,7 @@ var stats = {};
 var sources = {};
 var source_names = {};
 
-//io.set('log level', 1);
+io.set('log level', 1);
 
 scanner.open(function(err, scannerDb) {
   db = scannerDb;
@@ -954,14 +952,14 @@ function notify_clients(call) {
     //console.log(util.inspect(clients[i].socket));
     if (clients[i].code == "") {
       //console.log("Call TG # is set to All");
-      clients[i].socket.send(JSON.stringify(call));
+      clients[i].socket.emit('calls', call);
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
         //console.log("Talkgroup filter found: " + clients[i].code);
 
         if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           //console.log("Call TG # Found in filer");
-          clients[i].socket.send(JSON.stringify(call));
+          clients[i].socket.emit('calls', call);
         }
       }
     }
@@ -1088,54 +1086,9 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
-var wss = new WebSocketServer({    server: server});
-
-//io.set('close timeout', 200);
-//io.set('heartbeat timeout', 200);
-//io.set('heartbeat interval', 90);
-  wss.on('connection', function connection(ws) {
-      var client = {
-      id: ws.id,
-      socket: ws,
-      code: null
-    };
-         // emitted after handshake
-        console.log("connect: " + ws);
-
-        // # Add to our list of clients
-        clients.push(client);
-
-        // server closes connection after 10s, will also get "close" event
-        // setTimeout(websocket.end, 10 * 1000); 
-
-   
-         ws.send('something');
-  ws.on('close', function close() {
-    console.log('disconnected');
-
-          // emitted when server or client closes connection
-        console.log("close");
-        for(var i = 0; i < clients.length; i++) {
-          // # Remove from our connections list so we don't send
-          // # to a dead socket
-      if(clients[i].socket == ws) {
-        clients.splice(i);
-        break;
-      }
-        }
-
-  });
-
-  ws.on('message', function message(data, flags) {
-    var object = JSON.parse(data);
-
-    console.log("Socket.IO - Filter-Code: " + util.inspect(object) + " Data: " + data);
-    var index = clients.indexOf(client);
-    clients[index].code = object.code;
-    
-  });
-});
-/*
+io.set('close timeout', 200);
+io.set('heartbeat timeout', 200);
+io.set('heartbeat interval', 90);
 io.sockets.on('connection', function(socket) {
   var client = {
     id: socket.id,
@@ -1156,5 +1109,5 @@ io.sockets.on('connection', function(socket) {
     clients[index].code = data.code;
   });
   socket.emit('ready', {});
-});*/
+});
 server.listen(3004);

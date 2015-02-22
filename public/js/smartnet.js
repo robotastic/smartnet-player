@@ -333,12 +333,9 @@ function filter_calls() {
 	filter_code = code;
 	fetch_calls();
 	if (live) {
-		socket.send(JSON.stringify({
- 			code: filter_code
-		}));
-		/*socket.emit('code', {
+		socket.emit('code', {
 			code: filter_code
-		});*/
+		});
 	}
 }
 
@@ -488,15 +485,9 @@ function init_table() {
 }
 
 function socket_connect() {
-	console.log("Trying to connect");
+
 	if (!socket) {
-		console.log('func socket_connect');
-		socket = new WebSocket('ws://openmhz.com');
-    socket.onmessage = function(e) {
-        console.log(e.data); //prints [Object object] string and not the object
-    };
-}
-    /*
+		//console.log('func socket_connect');
 		socket = io.connect('http://openmhz.com');
 		socket.on('calls', function(data) {
 			//console.log("Socket.io - Recv: " + data);
@@ -519,14 +510,14 @@ function socket_connect() {
 	} else {
 		//console.log('func socket_reconnect');
 		socket.socket.reconnect();
-	}*/
+	}
 }
 
 
 
 function socket_disconnect() {
-	console.log('func socket_disconnect');
-	if (socket) socket.close();
+	//console.log('func socket_disconnect');
+	if (socket) socket.disconnect();
 }
 
 $(document).ready(function() {
