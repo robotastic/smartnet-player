@@ -492,9 +492,10 @@ function socket_connect() {
 	if (!socket) {
 		//console.log('func socket_connect');
 		socket = new WebSocket('ws://openmhz.com');
-    ws.onmessage = function(e) {
+    socket.onmessage = function(e) {
         console.log(e.data); //prints [Object object] string and not the object
     };
+}
     /*
 		socket = io.connect('http://openmhz.com');
 		socket.on('calls', function(data) {
