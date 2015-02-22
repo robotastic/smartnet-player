@@ -488,9 +488,9 @@ function init_table() {
 }
 
 function socket_connect() {
-
+	console.log("Trying to connect");
 	if (!socket) {
-		//console.log('func socket_connect');
+		console.log('func socket_connect');
 		socket = new WebSocket('ws://openmhz.com');
     socket.onmessage = function(e) {
         console.log(e.data); //prints [Object object] string and not the object
