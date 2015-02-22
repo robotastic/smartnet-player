@@ -10,7 +10,7 @@ var app = express(),
   http = require('http'),
   server = http.createServer(app);
 //  io = require('socket.io').listen(server);
-var WebSocket = require('ws');
+var WebSocketServer = require('ws').server;
 
 var csv = require('csv');
 var sys = require('sys');
