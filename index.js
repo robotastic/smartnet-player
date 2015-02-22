@@ -1100,7 +1100,7 @@ var wss = new WebSocketServer({    server: server});
       code: null
     };
          // emitted after handshake
-        sys.debug("connect: " + resource);
+        sys.debug("connect: " + ws);
 
         // # Add to our list of clients
         clients.push(client);
