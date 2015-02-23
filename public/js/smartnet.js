@@ -487,6 +487,9 @@ function init_table() {
 
 }
 
+var heartbeat_msg = '--heartbeat--', heartbeat_interval = null, missed_heartbeats = 0;
+
+
 function socket_connect() {
 	console.log("Trying to connect");
 	if (!socket) {
@@ -494,6 +497,32 @@ function socket_connect() {
 		socket = new WebSocket('ws://openmhz.com/');
     socket.onmessage = function(e) {
         console.log(e.data); //prints [Object object] string and not the object
+
+	    if (e.data === heartbeat_msg) {
+	        // reset the counter for missed heartbeats
+	        missed_heartbeats = 0;
+	        return;
+	    }
+
+
+    };
+    socket.onopen = function(e) {
+    	if (heartbeat_interval === null) {
+	        missed_heartbeats = 0;
+	        heartbeat_interval = setInterval(function() {
+	            try {
+	                missed_heartbeats++;
+	                if (missed_heartbeats >= 3)
+	                    throw new Error("Too many missed heartbeats.");
+	                ws.send(heartbeat_msg);
+	            } catch(e) {
+	                clearInterval(heartbeat_interval);
+	                heartbeat_interval = null;
+	                console.warn("Closing connection. Reason: " + e.message);
+	                ws.close();
+	            }
+	        }, 5000);
+	    }
     };
 }
     /*

@@ -1099,6 +1099,7 @@ var wss = new WebSocketServer({    server: server});
       socket: ws,
       code: null
     };
+    var heartbeat_msg = '--heartbeat--'
          // emitted after handshake
         console.log("connect: " + ws);
 
@@ -1127,6 +1128,10 @@ var wss = new WebSocketServer({    server: server});
   });
 
   ws.on('message', function message(data, flags) {
+    if (data == heartbeat_msg) {
+      ws.send('--heartbeat--');
+      return;
+    }
     var object = JSON.parse(data);
 
     console.log("Socket.IO - Filter-Code: " + util.inspect(object) + " Data: " + data);
