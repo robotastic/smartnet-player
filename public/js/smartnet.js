@@ -521,7 +521,7 @@ function socket_connect() {
 	                console.warn("Closing connection. Reason: " + e.message);
 	                socket.close();
 	            }
-	        }, 5000);
+	        }, 30000);
 	    }
     };
 }
