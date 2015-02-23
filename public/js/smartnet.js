@@ -514,12 +514,12 @@ function socket_connect() {
 	                missed_heartbeats++;
 	                if (missed_heartbeats >= 3)
 	                    throw new Error("Too many missed heartbeats.");
-	                ws.send(heartbeat_msg);
+	                socket.send(heartbeat_msg);
 	            } catch(e) {
 	                clearInterval(heartbeat_interval);
 	                heartbeat_interval = null;
 	                console.warn("Closing connection. Reason: " + e.message);
-	                ws.close();
+	                socket.close();
 	            }
 	        }, 5000);
 	    }
