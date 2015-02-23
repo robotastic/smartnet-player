@@ -1088,7 +1088,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
-var wss = new WebSocketServer({   port: 3005});
+var wss = new WebSocketServer({    server: server});
 
 //io.set('close timeout', 200);
 //io.set('heartbeat timeout', 200);
