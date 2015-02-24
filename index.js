@@ -950,7 +950,7 @@ app.get('/clients', function(req, res) {
 });
 
 function notify_clients(call) {
-
+  call.type = "call";
   for (var i = 0; i < clients.length; i++) {
     //console.log(util.inspect(clients[i].socket));
     if (clients[i].code == "") {
@@ -962,6 +962,7 @@ function notify_clients(call) {
 
         if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           //console.log("Call TG # Found in filer");
+
           clients[i].socket.send(JSON.stringify(call));
         }
       }
