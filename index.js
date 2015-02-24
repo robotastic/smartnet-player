@@ -9,8 +9,9 @@ var mkdirp = require('mkdirp');
 var app = express(),
   http = require('http'),
   server = http.createServer(app);
+  var WebSocketServer = require('websocket').server;
 //  io = require('socket.io').listen(server);
-var WebSocketServer = require('ws').Server;
+//var WebSocketServer = require('ws').Server;
 
 var csv = require('csv');
 var sys = require('sys');
@@ -1088,6 +1089,64 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   });
 });
 
+wsServer = new WebSocketServer({
+    httpServer: server,
+    // You should not use autoAcceptConnections for production
+    // applications, as it defeats all standard cross-origin protection
+    // facilities built into the protocol and the browser.  You should
+    // *always* verify the connection's origin and decide whether or not
+    // to accept it.
+    autoAcceptConnections: false
+});
+
+function originIsAllowed(origin) {
+  // put logic here to detect whether the specified origin is allowed.
+  return true;
+}
+
+wsServer.on('request', function(request) {
+    if (!originIsAllowed(request.origin)) {
+      // Make sure we only accept requests from an allowed origin
+      request.reject();
+      console.log(('Rejected: ' + new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
+      return;
+    } else {
+      console.log(('Accepted: ' + new Date()) + ' Connection from origin ' + request.origin + ' rejected.'); 
+    }
+
+    var connection = request.accept('echo-protocol', request.origin);
+    var client = {
+      socket: connection,
+      code: null
+    };
+    clients.push(client);
+    console.log((new Date()) + ' Connection accepted.');
+    connection.on('message', function(message) {
+        if (message.type === 'utf8') {
+            console.log('Received Message: ' + message.utf8Data);
+            connection.sendUTF(message.utf8Data);
+        }
+        else if (message.type === 'binary') {
+            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
+            connection.sendBytes(message.binaryData);
+        }
+    });
+    connection.on('close', function(reasonCode, description) {
+        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+        for(var i = 0; i < clients.length; i++) {
+          // # Remove from our connections list so we don't send
+          // # to a dead socket
+          if(clients[i].socket == connection) {
+            clients.splice(i);
+            break;
+          }
+        }
+    });
+});
+
+
+
+/*
 var wss = new WebSocketServer({    server: server});
 
 //io.set('close timeout', 200);
@@ -1139,7 +1198,7 @@ var wss = new WebSocketServer({    server: server});
     clients[index].code = object.code;
     
   });
-});
+});*/
 /*
 io.sockets.on('connection', function(socket) {
   var client = {
