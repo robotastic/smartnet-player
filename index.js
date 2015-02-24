@@ -1126,7 +1126,7 @@ wsServer.on('request', function(request) {
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
-          var data = message.utf8Data;
+          var data = JSON.parse(message.utf8Data);
           if (typeof data.type !== "undefined") {
             if (data.type == 'code') {
               var index = clients.indexOf(client);

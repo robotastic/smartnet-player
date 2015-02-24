@@ -498,7 +498,7 @@ function socket_connect() {
 		socket = new WebSocket('ws://openmhz.com/');
     socket.onmessage = function(e) {
         console.log(e.data); //prints [Object object] string and not the object
-        var message = e.data;
+        var message = JSON.parse(e.data);
         if (typeof message.type !== "undefined") {
 	        if (message.type == 'calls') {
 	        	if (typeof message.calls !== "undefined") {
