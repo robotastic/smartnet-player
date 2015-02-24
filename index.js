@@ -1114,7 +1114,7 @@ wsServer.on('request', function(request) {
       console.log(('Accepted: ' + new Date()) + ' Connection from origin ' + request.origin + ' rejected.'); 
     }
 
-    var connection = request.accept('echo-protocol', request.origin);
+    var connection = request.accept(null, request.origin);
     var client = {
       socket: connection,
       code: null
