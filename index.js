@@ -951,6 +951,7 @@ app.get('/clients', function(req, res) {
 
 function notify_clients(call) {
   call.type = "call";
+  console.log("New Call sending to " + clients.length + " clients");
   for (var i = 0; i < clients.length; i++) {
     //console.log(util.inspect(clients[i].socket));
     if (clients[i].code == "") {
