@@ -956,6 +956,7 @@ function notify_clients(call) {
     //console.log(util.inspect(clients[i].socket));
     if (clients[i].code == "") {
       //console.log("Call TG # is set to All");
+      console.log(" - Sending one");
       clients[i].socket.send(JSON.stringify(call));
     } else {
       if (typeof talkgroup_filters[clients[i].code] !== "undefined") {
@@ -963,7 +964,7 @@ function notify_clients(call) {
 
         if (talkgroup_filters[clients[i].code].indexOf(call.talkgroup) > -1) {
           //console.log("Call TG # Found in filer");
-
+          console.log(" - Sending one filter");
           clients[i].socket.send(JSON.stringify(call));
         }
       }
