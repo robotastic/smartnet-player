@@ -334,6 +334,7 @@ function filter_calls() {
 	fetch_calls();
 	if (live) {
 		socket.send(JSON.stringify({
+			type: 'code',
  			code: filter_code
 		}));
 		/*socket.emit('code', {
@@ -498,16 +499,18 @@ function socket_connect() {
     socket.onmessage = function(e) {
         console.log(e.data); //prints [Object object] string and not the object
         var message = e.data;
-        if (message.type == 'calls') {
-        	if (typeof message.calls !== "undefined") {
-				for (var i = 0; i < message.calls.length; i++) {
-					print_call_row(message.calls[i], 'newer', true);
+        if (typeof message.type !== "undefined") {
+	        if (message.type == 'calls') {
+	        	if (typeof message.calls !== "undefined") {
+					for (var i = 0; i < message.calls.length; i++) {
+						print_call_row(message.calls[i], 'newer', true);
+					}
 				}
-			}
-			if (typeof message.talkgroup !== "undefined") {
-				print_call_row(message, 'newer', true);
-			}
-        }
+				if (typeof message.talkgroup !== "undefined") {
+					print_call_row(message, 'newer', true);
+				}
+	        }
+   		}	
 
 
 
@@ -515,6 +518,7 @@ function socket_connect() {
     };
     socket.onopen = function(e) {
     	socket.send(JSON.stringify({
+    		type: 'code',
  			code: filter_code
 		}));
     };

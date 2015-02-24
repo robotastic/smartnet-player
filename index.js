@@ -1126,8 +1126,18 @@ wsServer.on('request', function(request) {
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+          var data = message.utf8Data;
+          if (typeof data.type !== "undefined") {
+            if (data.type == 'code') {
+              var index = clients.indexOf(client);
+              clients[index].code = data.code;
+              console.log("Client " + index + " code set to: " + data.code);
+            }
+
+
+          }
+            //console.log('Received Message: ' + message.utf8Data);
+            //connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
             console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
@@ -1190,6 +1200,7 @@ var wss = new WebSocketServer({    server: server});
   });
 
   ws.on('message', function message(data, flags) {
+    if ()
     if (data == heartbeat_msg) {
       ws.send('--heartbeat--');
       return;
