@@ -9,61 +9,28 @@ var now_playing = null;
 var autoplay = false;
 
 var groups = [{
-	name: 'Fire/EMS',
+	name: 'Fire',
 	code: 'group-fire'
 }, {
-	name: 'DC Common',
-	code: 'group-common'
+	name: 'Medical',
+	code: 'group-medical'
 }, {
 	name: 'Services',
 	code: 'group-services'
-}];
-var tags = [{
-	name: 'Emergency Ops',
-	code: 'tag-ops'
 }, {
-	name: 'EMS',
-	code: 'tag-ems'
+	name: 'Emergency',
+	code: 'group-emergency'
 }, {
-	name: 'Fire Dispatch',
-	code: 'tag-fire-dispatch'
-}, {
-	name: 'Fire',
-	code: 'tag-fire'
-}, {
-	name: 'Hospital',
-	code: 'tag-hospital'
-}, {
-	name: 'Interop',
-	code: 'tag-interop'
-}, {
-	name: 'Law Dispatch',
-	code: 'tag-law-dispatch'
-}, {
-	name: 'Public Works',
-	code: 'tag-public-works'
-}, {
-	name: 'Public Health',
-	code: 'tag-public-health'
-}, {
-	name: 'Parks',
-	code: 'tag-parks'
-}, {
-	name: 'Water',
-	code: 'tag-water'
-}, {
-	name: 'Paratransit',
-	code: 'tag-paratransit'
+	name: 'Police',
+	code: 'group-police'
 }, {
 	name: 'Security',
-	code: 'tag-security'
-}, {
-	name: 'St. Elizabeth',
-	code: 'tag-st-e'
+	code: 'group-security'
 }, {
 	name: 'Transportation',
-	code: 'tag-transportation'
+	code: 'group-transportation'
 }];
+
 
 if(typeof console === "undefined") {
     console = {
@@ -350,10 +317,7 @@ function add_filters() {
 		var group = groups[i];
 		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).data('name', group.name).click(filter_calls));
 	}
-	for (var i = 0; i < tags.length; i++) {
-		var tag = tags[i];
-		$("#tag-filter").append($('<li><a href="#">' + tag.name + '</a></li>').data('code', tag.code).data('name', tag.name).click(filter_calls));
-	}
+
 }
 
 function add_tg_filter() {
@@ -471,12 +435,7 @@ function find_code_name(code) {
 			return group.name
 		}
 	}
-	for (var i = 0; i < tags.length; i++) {
-		var tag = tags[i];
-		if (tag.code == code) {
-			return tag.name;
-		}
-	}
+
 	return 'All';
 }
 

@@ -73,7 +73,7 @@ scanner.open(function(err, scannerDb) {
 
 var numResults = 50;
 var talkgroup_filters = {};
-talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
+/*talkgroup_filters['group-fire'] = [1616, 1632, 1648, 1680, 1696, 1712, 1744, 1760, 1776, 1808, 1824, 1840, 1872, 1888, 1904, 1920, 1936, 1952, 1968, 2000, 2016, 2048, 2064, 2080, 2096, 2112, 2128, 2144, 2160, 2176, 2192, 2224, 2240, 2272, 2288, 2304, 2320, 2336, 2352, 2368, 2384, 2400, 2416, 2432, 2448, 2464, 2480, 2496, 2512, 2592, 2608, 2640, 2720, 2736, 2752, 2848, 2864, 2880, 9808, 9824, 9840, 9872, 9984, 10032, 40000, 40032];
 
 talkgroup_filters['group-common'] = [2656, 2672, 9936, 9968, 16624, 19248, 33616, 33648, 35536, 35568, 37456, 37488, 37648, 37680, 59952, 59968];
 
@@ -93,7 +93,7 @@ talkgroup_filters['tag-public-health'] = [ 34480,34448,34416,33584 ];
 talkgroup_filters['tag-security'] = [37232,35440,35408,35152,34864,34832,34192,34128,33840];
 talkgroup_filters['tag-st-e'] = [ 34384,34368,34352,34320,34288 ];
 talkgroup_filters['tag-transportation'] = [ 40080,35632,35600,34576,34512 ];
-talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];
+talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];*/
 
 
 fs.createReadStream('ChanList.csv').pipe(csv.parse({columns: [ 'Num', 'Hex', 'Mode', 'Alpha', 'Description', 'Tag', 'Group' ]})).pipe(csv.transform(function(row) {     
@@ -107,6 +107,13 @@ fs.createReadStream('ChanList.csv').pipe(csv.parse({columns: [ 'Num', 'Hex', 'Mo
     var tg_array = new Array();
     tg_array.push(parseInt(row.Num));
     talkgroup_filters['tg-' + row.Num] = tg_array;
+
+    var tag_key = 'group-' + row.Group.toLowerCase();
+    if (!(tag_key in talkgroup_filters)) {
+      talkgroup_filters[tag_key] = new Array();
+    }
+    talkgroup_filters[tag_key].push(row.Num);
+
     return row;
     // handle each row before the "end" or "error" stuff happens above
 })).on('readable', function(){
@@ -652,29 +659,14 @@ function build_filter(code, start_time, direction, stars) {
       filter = {
         srcList: src_num
       };
+    } else if (code.substring(0, 6) == 'group-') {
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
     } else {
       switch (code) {
-        case 'group-fire':
-          filter = {
-            talkgroup: {
-              $in: talkgroup_filters[code]
-            }
-          };
-          break;
-        case 'group-common':
-          filter = {
-            talkgroup: {
-              $in: talkgroup_filters[code]
-            }
-          };
-          break;
-        case 'group-services':
-          filter = {
-            talkgroup: {
-              $in: talkgroup_filters[code]
-            }
-          };
-          break;
         case 'tag-ops':
         case 'tag-ems':
         case 'tag-fire-dispatch':
