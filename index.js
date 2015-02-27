@@ -614,7 +614,7 @@ app.get('/call/:id', function(req, res) {
 function get_calls(query, res) {
 
   var calls = [];
-  console.log(util.inspect(query));
+  console.log(util.inspect(query.filter));
   db.collection('transmissions', function(err, transCollection) {
     transCollection.find(query.filter).count(function(e, count) {
       transCollection.find(query.filter, function(err, cursor) {
