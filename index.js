@@ -112,7 +112,7 @@ fs.createReadStream('ChanList.csv').pipe(csv.parse({columns: [ 'Num', 'Hex', 'Mo
     if (!(tag_key in talkgroup_filters)) {
       talkgroup_filters[tag_key] = new Array();
     }
-    talkgroup_filters[tag_key].push(row.Num);
+    talkgroup_filters[tag_key].push(parseInt(row.Num));
 
     return row;
     // handle each row before the "end" or "error" stuff happens above
@@ -666,7 +666,7 @@ function build_filter(code, start_time, direction, stars) {
         console.log("Group: " + util.inspect(talkgroup_filters[code]));
           filter = {
             talkgroup: {
-              $in: parseInt(talkgroup_filters[code])
+              $in: talkgroup_filters[code]
             }
           };
     } else {
