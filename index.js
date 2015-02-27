@@ -513,6 +513,7 @@ app.get('/about', function(req, res) {
 
 app.get('/channels', function(req, res) {
 
+console.log(util.inspect(talkgroup_filters));
   res.contentType('json');
   res.send(JSON.stringify({
     channels: channels,
@@ -648,7 +649,9 @@ function get_calls(query, res) {
 
 function build_filter(code, start_time, direction, stars) {
   var filter = {};
+
   if (code) {
+    console.log("Build Filter: " + code);
     if (code.substring(0, 3) == 'tg-') {
       tg_num = parseInt(code.substring(3));
       filter = {
