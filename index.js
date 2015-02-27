@@ -666,7 +666,7 @@ function build_filter(code, start_time, direction, stars) {
         console.log("Group: " + util.inspect(talkgroup_filters[code]));
           filter = {
             talkgroup: {
-              $in: talkgroup_filters[code]
+              $in: parseInt(talkgroup_filters[code])
             }
           };
     } else {
