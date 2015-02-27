@@ -1126,8 +1126,12 @@ wsServer.on('request', function(request) {
           if (typeof data.type !== "undefined") {
             if (data.type == 'code') {
               var index = clients.indexOf(client);
-              clients[index].code = data.code;
-              console.log("Client " + index + " code set to: " + data.code);
+              if (index != -1) {
+                clients[index].code = data.code;
+                console.log("Client " + index + " code set to: " + data.code);
+              } else {
+                console.log("Client not Found!");
+              }
             }
 
 
