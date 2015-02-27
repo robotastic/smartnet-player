@@ -663,6 +663,7 @@ function build_filter(code, start_time, direction, stars) {
         srcList: src_num
       };
     } else if (code.substring(0, 6) == 'group-') {
+        console.log("Group: " + util.inspect(talkgroup_filters[code]));
           filter = {
             talkgroup: {
               $in: talkgroup_filters[code]
