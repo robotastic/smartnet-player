@@ -973,7 +973,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
 
   monitor.on("created", function(f, stat) {
-
+/*
     if (path.basename(f) == 'unit_check.json') {
       fs.readFile(f, 'utf8', function (err, data) {
           if (!err) {
@@ -996,7 +996,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
             
           }
       });
-    }
+    }*/
     if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.m4a');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
