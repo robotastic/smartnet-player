@@ -974,6 +974,29 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
   monitor.on("created", function(f, stat) {
 
+    if (path.basename(f) == 'unit_check.json') {
+      fs.readFile(f, 'utf8', function (err, data) {
+          if (!err) {
+            data = JSON.parse(data);
+            db.collection('affiliation', function(err, affilCollection) {
+              for (talkgroup in data.talkgroups) {
+                var affilItem = {
+                  tg: talkgroup,
+                  count: data.talkgroups[talkgroup],
+                  date: new Date()
+                };
+              
+
+                  affilCollection.insert(affilItem, function(err, objects) {
+                    if (err) console.warn(err.message);
+                    
+                  });
+              }
+            });
+            
+          }
+      });
+    }
     if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.m4a');
     /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
