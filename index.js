@@ -980,7 +980,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
         console.log("Error: " + err);
 
           if (!err) {
-            //data = JSON.parse(data);
+            data = JSON.parse(data);
             console.log("Data: " + util.inspect(data));
             db.collection('affiliation', function(err, affilCollection) {
 
