@@ -974,33 +974,39 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
 
   monitor.on("created", function(f, stat) {
 
-    if (path.basename(f) == 'unit_check.json') {
-      console.log("Unit Check: " + f);
-      fs.readFile(f, 'utf8', function (err, data) {
-        console.log("Error: " + err);
+    if ((path.extname(f) == '.json') && (monitor.files[f] === undefined))  {
+      var name = path.basename(f, '.json');
+      var regex = /([0-9]*)-unit_check/
+      var result = name.match(regex);
+      if (result!=null) 
+      {
+        console.log("Unit Check: " + f);
+        fs.readFile(f, 'utf8', function (err, data) {
+          console.log("Error: " + err);
 
-          if (!err) {
-            data = JSON.parse(data);
-            console.log("Data: " + util.inspect(data));
-            db.collection('affiliation', function(err, affilCollection) {
+            if (!err) {
+              data = JSON.parse(data);
+              console.log("Data: " + util.inspect(data));
+              db.collection('affiliation', function(err, affilCollection) {
 
-              for (talkgroup in data.talkgroups) {
-                var affilItem = {
-                  tg: talkgroup,
-                  count: data.talkgroups[talkgroup],
-                  date: new Date()
-                };
+                for (talkgroup in data.talkgroups) {
+                  var affilItem = {
+                    tg: talkgroup,
+                    count: data.talkgroups[talkgroup],
+                    date: new Date()
+                  };
+                
+                  console.log("Inserting: "+ affilItem);
+                    affilCollection.insert(affilItem, function(err, objects) {
+                      if (err) console.warn(err.message);
+                      
+                    });
+                }
+              });
               
-                console.log("Inserting: "+ affilItem);
-                  affilCollection.insert(affilItem, function(err, objects) {
-                    if (err) console.warn(err.message);
-                    
-                  });
-              }
-            });
-            
-          }
-      });
+            }
+        });
+      }
     }
     if ((path.extname(f) == '.m4a') && (monitor.files[f] === undefined)) {
       var name = path.basename(f, '.m4a');
