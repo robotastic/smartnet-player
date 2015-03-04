@@ -975,10 +975,15 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
   monitor.on("created", function(f, stat) {
 
     if (path.basename(f) == 'unit_check.json') {
+      console.log("Unit Check: " + f);
       fs.readFile(f, 'utf8', function (err, data) {
+        console.log("Error: " + err);
+
           if (!err) {
             data = JSON.parse(data);
+            console.log("Data: " + util.inspect(data));
             db.collection('affiliation', function(err, affilCollection) {
+
               for (talkgroup in data.talkgroups) {
                 var affilItem = {
                   tg: talkgroup,
@@ -986,7 +991,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                   date: new Date()
                 };
               
-
+                console.log("Inserting: "+ affilItem);
                   affilCollection.insert(affilItem, function(err, objects) {
                     if (err) console.warn(err.message);
                     
