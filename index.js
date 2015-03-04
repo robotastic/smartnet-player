@@ -985,7 +985,13 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
           console.log("Error: " + err);
 
             if (!err) {
+              try {
               data = JSON.parse(data);
+              } catch (e) {
+                // An error has occured, handle it, by e.g. logging it
+                data.talkgroups = {};
+                console.log(e);
+              }
               console.log("Data: " + util.inspect(data));
               db.collection('affiliation', function(err, affilCollection) {
 
