@@ -245,7 +245,7 @@ return result;
 
 db.collection('affiliation', function(err, afilCollection) {
 
-    transCollection.mapReduce(map, reduce, {
+    afilCollection.mapReduce(map, reduce, {
       query: {
           date: { // 18 minutes ago (from now)
               $gt: new Date(ISODate().getTime() - 1000 * 60 * 60)
