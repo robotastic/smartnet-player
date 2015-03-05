@@ -1051,7 +1051,6 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                     date: new Date()
                   };
                 
-                  console.log("Inserting: "+ affilItem);
                     affilCollection.insert(affilItem, function(err, objects) {
                       if (err) console.warn(err.message);
                       
