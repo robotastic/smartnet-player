@@ -39,6 +39,7 @@ var db;
 var channels = {};
 var clients = [];
 var stats = {};
+var affiliations = {};
 var sources = {};
 var source_names = {};
 
@@ -152,6 +153,19 @@ function compile(str, path) {
     .use(nib())
 }
 
+function build_affiliation_array(collection) {
+  affiliations = {};
+  collection.find().toArray(function(err, results) {
+      if (err) console.log(err);
+      if (results && (results.length > 0)) {
+        for (var i = 0; i < results.length; i++) {
+          affiliations[results[i]._id.tg] = results[i].values;
+        }
+      }
+  });
+}
+
+
 function build_stat(collection) {
   var chan_count = 0;
   stats = {};
@@ -202,6 +216,51 @@ function build_stat(collection) {
   }
 }
 
+function build_unit_affiliation() {
+    map = function() {
+    var now = new Date();
+    var difference = now.getTime() - this.date.getTime();
+    var minute = Math.floor(difference / 1000 / 60 / 5);
+    emit({
+      tg: this.tg
+    }, {
+      count: this.count,
+      minute: minute
+
+    });
+  }
+
+  reduce = function(key, values) {
+  var result = {
+    values: []
+  };
+values.forEach(function(v){
+        result.values[v.minute] = v.count;
+});
+return result;
+  }
+
+
+db.collection('affiliation', function(err, afilCollection) {
+
+    transCollection.mapReduce(map, reduce, {
+      query: {
+          date: { // 18 minutes ago (from now)
+              $gt: new Date(ISODate().getTime() - 1000 * 60 * 60)
+          }
+      },
+      out: {
+        replace: "recent_affiliation"
+      }
+    }, function(err, collection) {
+      if (err) console.error(err);
+      if (collection) {
+        build_affiliation_array(collection);
+      }
+    });
+  });
+
+}
 function build_call_volume() {
 
   map = function() {
@@ -490,7 +549,11 @@ function ensureAuthenticated(req, res, next) {
 
 
 
-
+schedule.scheduleJob({
+  minute: 0
+}, function() {
+  build_unit_affiliation();
+});
 
 
 schedule.scheduleJob({
@@ -934,6 +997,10 @@ app.get('/stats', function(req, res) {
 app.get('/volume', function(req, res) {
   res.contentType('json');
   res.send(JSON.stringify(stats));
+});
+app.get('/affiliation', function(req, res) {
+  res.contentType('json');
+  res.send(JSON.stringify(affiliations));
 });
 app.get('/source_list', function(req, res) {
   res.contentType('json');
