@@ -70,8 +70,13 @@ html
 
           var barsWidth = (w - padding);
           var barWidth =  barsWidth / channel.length;
-          svg.selectAll("line")
+
+
+          svg.selectAll("path")
              .data(channel)
+             .enter().append("path")
+             .attr("d", line);
+             /*
              .append("line")
              .attr("x", function(d, i) { return (barsWidth - ((i + 1) *  barWidth) + padding); })
              .attr("y", function(d) { return h - yScale(d) })
@@ -82,7 +87,7 @@ html
                 //back.setMinutes(0);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " + d + " Units"; 
-                return return_string; });
+                return return_string; });*/
 
         /*svg.selectAll("rect")
              .data(channel)
