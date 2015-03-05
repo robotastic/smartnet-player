@@ -67,6 +67,8 @@ scanner.open(function(err, scannerDb) {
       sources = results;
     });
     });
+    build_unit_affiliation();
+    build_call_volume();
     });
   });
 });
@@ -1245,8 +1247,7 @@ wsServer.on('request', function(request) {
     });
 });
 
-build_unit_affiliation();
-build_call_volume();
+
 
 schedule.scheduleJob({
   minute: 0
