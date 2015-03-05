@@ -162,10 +162,12 @@ function build_affiliation_array(collection) {
       if (results && (results.length > 0)) {
         for (var i = 0; i < results.length; i++) {
           console.log(util.inspect(results[i]));
-          affiliations[results[i]._id.tg] = results[i].values;
+          affiliations[results[i]._id.tg] = results[i].value;
         }
       }
+      console.log(util.inspect(affiliations));
   });
+
 }
 
 
@@ -235,10 +237,9 @@ function build_unit_affiliation() {
 
   reduce = function(key, values) {
   var result = {
-    values: []
   };
 values.forEach(function(v){
-        result.values[v.minute] = v.count;
+        result[v.minute] = v.count;
 });
 return result;
   }
