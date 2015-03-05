@@ -698,7 +698,6 @@ function build_filter(code, start_time, direction, stars) {
   var filter = {};
 
   if (code) {
-    console.log("Build Filter: " + code);
     if (code.substring(0, 3) == 'tg-') {
       tg_num = parseInt(code.substring(3));
       filter = {
@@ -710,7 +709,6 @@ function build_filter(code, start_time, direction, stars) {
         srcList: src_num
       };
     } else if (code.substring(0, 6) == 'group-') {
-        console.log("Group: " + util.inspect(talkgroup_filters[code]));
           filter = {
             talkgroup: {
               $in: talkgroup_filters[code]
