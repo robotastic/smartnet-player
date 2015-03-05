@@ -72,7 +72,6 @@ html
           var barWidth =  barsWidth / channel.length;
           svg.selectAll("line")
              .datum(channel)
-             .enter()
              .append("line")
              .attr("x", function(d, i) { return (barsWidth - ((i + 1) *  barWidth) + padding); })
              .attr("y", function(d) { return h - yScale(d) })
