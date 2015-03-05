@@ -161,6 +161,7 @@ function build_affiliation_array(collection) {
       if (err) console.log(err);
       if (results && (results.length > 0)) {
         for (var i = 0; i < results.length; i++) {
+          console.log(util.inspect(results[i]));
           affiliations[results[i]._id.tg] = results[i].values;
         }
       }
