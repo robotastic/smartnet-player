@@ -236,8 +236,7 @@ function build_unit_affiliation() {
   }
 
   reduce = function(key, values) {
-  var result = {
-  };
+  var result = [];
 values.forEach(function(v){
         result[v.minute] = v.count;
 });
