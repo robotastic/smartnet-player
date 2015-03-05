@@ -549,25 +549,6 @@ function ensureAuthenticated(req, res, next) {
 
 
 
-schedule.scheduleJob({
-  minute: 0
-}, function() {
-  build_unit_affiliation();
-});
-
-
-schedule.scheduleJob({
-  minute: 0
-}, function() {
-  build_call_volume();
-});
-
-schedule.scheduleJob({
-  minute: 30,
-  hour: 1
-}, function() {
-  build_source_list();
-});
 
 
 app.get('/about', function(req, res) {
@@ -1264,82 +1245,28 @@ wsServer.on('request', function(request) {
     });
 });
 
+build_unit_affiliation();
+build_call_volume();
+
+schedule.scheduleJob({
+  minute: 0
+}, function() {
+  build_unit_affiliation();
+});
 
 
-/*
-var wss = new WebSocketServer({    server: server});
+schedule.scheduleJob({
+  minute: new schedule.Range(0, 59, 5)
+}, function() {
+  build_call_volume();
+});
 
-//io.set('close timeout', 200);
-//io.set('heartbeat timeout', 200);
-//io.set('heartbeat interval', 90);
-  wss.on('connection', function connection(ws) {
-      var client = {
-      id: ws.id,
-      socket: ws,
-      code: null
-    };
-    var heartbeat_msg = '--heartbeat--'
-         // emitted after handshake
-        console.log("connect: " + ws);
+schedule.scheduleJob({
+  minute: 30,
+  hour: 1
+}, function() {
+  build_source_list();
+});
 
-        // # Add to our list of clients
-        clients.push(client);
 
-        // server closes connection after 10s, will also get "close" event
-        // setTimeout(websocket.end, 10 * 1000); 
-
-   
-         ws.send('something');
-  ws.on('close', function close() {
-    console.log('disconnected');
-
-          // emitted when server or client closes connection
-        console.log("close");
-        for(var i = 0; i < clients.length; i++) {
-          // # Remove from our connections list so we don't send
-          // # to a dead socket
-      if(clients[i].socket == ws) {
-        clients.splice(i);
-        break;
-      }
-        }
-
-  });
-
-  ws.on('message', function message(data, flags) {
-    if ()
-    if (data == heartbeat_msg) {
-      ws.send('--heartbeat--');
-      return;
-    }
-    var object = JSON.parse(data);
-
-    console.log("Socket.IO - Filter-Code: " + util.inspect(object) + " Data: " + data);
-    var index = clients.indexOf(client);
-    clients[index].code = object.code;
-    
-  });
-});*/
-/*
-io.sockets.on('connection', function(socket) {
-  var client = {
-    id: socket.id,
-    socket: socket,
-    code: null
-  };
-  console.log("Socket.IO - Client Joined: " + socket.id);
-  clients.push(client);
-
-  socket.on('disconnect', function() {
-    clients.splice(clients.indexOf(client), 1);
-    console.log("Socket.IO - " + socket.id + ' disconnected');
-    //remove user from db
-  });
-  socket.on('code', function(data) {
-    console.log("Socket.IO - Filter-Code: " + util.inspect(data) + " Socket ID: " + socket.id);
-    var index = clients.indexOf(client);
-    clients[index].code = data.code;
-  });
-  socket.emit('ready', {});
-});*/
 server.listen(3004);
