@@ -162,7 +162,7 @@ function build_affiliation_array(collection) {
       if (results && (results.length > 0)) {
         for (var i = 0; i < results.length; i++) {
           console.log(util.inspect(results[i]));
-          affiliations[results[i]._id.tg] = results[i].value;
+          affiliations[results[i]._id.tg] = results[i].value.count;
         }
       }
       console.log(util.inspect(affiliations));
@@ -236,9 +236,11 @@ function build_unit_affiliation() {
   }
 
   reduce = function(key, values) {
-  var result = new Array(15);
+  var result = {
+    count = []
+  };
 values.forEach(function(v){
-        result[v.minute] = v.count;
+        result.count[v.minute] = v.count;
 });
 return result;
   }
