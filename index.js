@@ -60,6 +60,7 @@ scanner.open(function(err, scannerDb) {
         
       });
     });
+    build_unit_affiliation();
     db.collection('source_list', function(err, collection) {
 
     collection.find( function(err, cursor) {
@@ -67,8 +68,7 @@ scanner.open(function(err, scannerDb) {
       sources = results;
     });
     });
-    build_unit_affiliation();
-    build_call_volume();
+
     });
   });
 });
