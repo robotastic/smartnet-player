@@ -70,7 +70,7 @@ html
 
           var barsWidth = (w - padding);
           var barWidth =  barsWidth / channel.length;
-
+/*
           var line = d3.svg.line()
           .x(function(d) { return x(d); })
           .y(function(d, i) { return y(channel[i]); });
@@ -79,20 +79,9 @@ html
              .data(channel)
              .enter().append("path")
              .attr("d", line);
-             /*
-             .append("line")
-             .attr("x", function(d, i) { return (barsWidth - ((i + 1) *  barWidth) + padding); })
-             .attr("y", function(d) { return h - yScale(d) })
-             .append("svg:title")
-             .text(function(d, i) { 
-                var back = new Date();
-                back.setMinutes(start.getMinutes() - i*5);
-                //back.setMinutes(0);
-                var date_string = back.toDateString() + " " + back.toLocaleTimeString();
-                var return_string = date_string + " - " + d + " Units"; 
-                return return_string; });*/
+         */
 
-        /*svg.selectAll("rect")
+        svg.selectAll("rect")
              .data(channel)
              .enter()
              .append("rect")
@@ -110,7 +99,7 @@ html
                 //back.setMinutes(0);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " + d + " Units"; 
-                return return_string; });*/
+                return return_string; });
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
