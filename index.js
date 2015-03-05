@@ -561,7 +561,7 @@ app.get('/about', function(req, res) {
 
 app.get('/channels', function(req, res) {
 
-console.log(util.inspect(talkgroup_filters));
+
   res.contentType('json');
   res.send(JSON.stringify({
     channels: channels,
@@ -972,7 +972,9 @@ app.get('/sources', function(req, res) {
   res.render('sources');
 });
 
-
+app.get('/afil', function(req, res) {
+  res.render('afil', {});
+});
 
 app.get('/stats', function(req, res) {
   res.render('stats', {});

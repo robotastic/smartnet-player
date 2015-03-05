@@ -42,16 +42,17 @@ html
 
           
           var start = new Date(current);
-          start.setDate(start.getDate() - 1);
+          start.setHours(start.getHours() - 1);
+          //start.setDate(start.getDate() - 1);
           var x = d3.time.scale().domain([start, current]).range([padding, w]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
 
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic)])
+                     .domain([0, d3.max(channel)])
                      .rangeRound([ padding, h-padding]);
           var yAxisScale = d3.scale.linear()
-                     .domain([0, d3.max(channel.historic)])
+                     .domain([0, d3.max(channel)])
                      .rangeRound([ h - padding, padding]);
           //Define X axis
           var xAxis = d3.svg.axis()
@@ -65,10 +66,10 @@ html
                   .ticks(5);
 
           var barsWidth = (w - padding);
-          var barWidth =  barsWidth / channel.historic.length;
+          var barWidth =  barsWidth / channel.length;
           
           svg.selectAll("rect")
-             .data(channel.historic)
+             .data(channel)
              .enter()
              .append("rect")
              .on("click", clickEvent)
@@ -81,8 +82,8 @@ html
              .text(function(d, i) { 
                 var back = new Date();
                 
-                back.setHours(start.getHours() - i);
-                back.setMinutes(0);
+                back.setHours(start.getMinutes() - i*5);
+                //back.setMinutes(0);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
                 var return_string = date_string + " - " + d + " Calls"; 
                 return return_string; });
@@ -95,17 +96,17 @@ html
               .attr("transform", "translate(" + padding + ",0)")
               .call(yAxis);
         }
-        $.getJSON( "/volume", function( data ) {
+        $.getJSON( "/affiliation", function( data ) {
           var i =0;
           var current = new Date();
-          current.setHours(current.getHours() - 1);
-          current.setMinutes(0);
-          current.setSeconds(0);
+          //current.setHours(current.getHours() - 1);
+          //current.setMinutes(0);
+          //current.setSeconds(0);
           $.each( data, function( key, val ) {
             i++;
             var li = $("<li/>", {class: "list-group-item" });
             var div = $("<div/>", {id: "graph-"+i, class: "graph"});
-            li.append("<h4/>").text(val.name + ' - ' + val.desc);
+            li.append("<h4/>").text(key);
             li.append(div);
             $("#graphs").append(li);
             add_graph("#graph-"+i, val, current);
