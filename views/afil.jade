@@ -46,10 +46,13 @@ html
           //start.setDate(start.getDate() - 1);
           var x = d3.time.scale().domain([start, current]).range([padding, w]);
           var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
-
+          var max = d3.max(channel);
+          if (max < 25) {
+            max = 25;
+          }
 
           var yScale = d3.scale.linear()
-                     .domain([0, d3.max(channel)])
+                     .domain([0, ])
                      .rangeRound([ padding, h-padding]);
           var yAxisScale = d3.scale.linear()
                      .domain([0, d3.max(channel)])
@@ -67,8 +70,11 @@ html
 
           var barsWidth = (w - padding);
           var barWidth =  barsWidth / channel.length;
-          
-          svg.selectAll("rect")
+          svg.append("path")
+              .datum(channel)
+              .attr("class", "line")
+              .attr("d", line);
+        /*  svg.selectAll("rect")
              .data(channel)
              .enter()
              .append("rect")
@@ -82,11 +88,11 @@ html
              .text(function(d, i) { 
                 var back = new Date();
                 
-                back.setHours(start.getMinutes() - i*5);
+                back.setMinutes(start.getMinutes() - i*5);
                 //back.setMinutes(0);
                 var date_string = back.toDateString() + " " + back.toLocaleTimeString();
-                var return_string = date_string + " - " + d + " Calls"; 
-                return return_string; });
+                var return_string = date_string + " - " + d + " Units"; 
+                return return_string; });*/
           svg.append("g")
               .attr("class", "axis")
               .attr("transform", "translate(0," + (h - padding) + ")")
