@@ -73,7 +73,7 @@ html
 
           var line = d3.svg.line()
           .x(function(d) { return x(d); })
-          .y(function(d, i) { return y(tl.close[i]); });
+          .y(function(d, i) { return y(channel[i]); });
 
           svg.selectAll("path")
              .data(channel)
