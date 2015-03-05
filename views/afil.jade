@@ -52,10 +52,10 @@ html
           }
 
           var yScale = d3.scale.linear()
-                     .domain([0, ])
+                     .domain([0, max ])
                      .rangeRound([ padding, h-padding]);
           var yAxisScale = d3.scale.linear()
-                     .domain([0, d3.max(channel)])
+                     .domain([0, max])
                      .rangeRound([ h - padding, padding]);
           //Define X axis
           var xAxis = d3.svg.axis()
