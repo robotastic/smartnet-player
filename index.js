@@ -244,11 +244,11 @@ return result;
 
 
 db.collection('affiliation', function(err, afilCollection) {
-
+    var now = new Date();
     afilCollection.mapReduce(map, reduce, {
       query: {
           date: { // 18 minutes ago (from now)
-              $gt: new Date(ISODate().getTime() - 1000 * 60 * 60)
+              $gt: new Date(now.getTime() - 1000 * 60 * 60)
           }
       },
       out: {
