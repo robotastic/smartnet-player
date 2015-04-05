@@ -564,6 +564,7 @@ app.get('/channels', function(req, res) {
 
 
   res.contentType('json');
+  res.setHeader('Access-Control-Allow-Origin','*');
   res.send(JSON.stringify({
     channels: channels,
     source_names: source_names
@@ -585,6 +586,7 @@ app.get('/card/:id', function(req, res) {
           var time = new Date(item.time);
           var timeString = time.toLocaleTimeString("en-US");
           var dateString = time.toDateString();
+          res.setHeader('Access-Control-Allow-Origin','*');
           res.render('card', {
             item: item,
             channel: channels[item.talkgroup],
@@ -612,6 +614,7 @@ app.get('/star/:id', function(req, res) {
       console.warn(err.message); // returns error if no matching object found
       }else{
             res.contentType('json');
+            res.setHeader('Access-Control-Allow-Origin','*');
             res.send(JSON.stringify({
               stars: object.stars
             }));  
@@ -637,6 +640,7 @@ app.get('/call/:id', function(req, res) {
           var timeString = time.toLocaleTimeString("en-US");
           var dateString = time.toDateString();
 
+          res.setHeader('Access-Control-Allow-Origin','*');
           res.render('call', {
             item: item,
             channel: channels[item.talkgroup],
@@ -682,6 +686,7 @@ function get_calls(query, res) {
             calls.push(call);
           } else {
             res.contentType('json');
+            res.setHeader('Access-Control-Allow-Origin','*');
             res.send(JSON.stringify({
               calls: calls,
               count: count,
@@ -982,15 +987,17 @@ app.get('/stats', function(req, res) {
 });
 app.get('/volume', function(req, res) {
   res.contentType('json');
+  res.setHeader('Access-Control-Allow-Origin','*');
   res.send(JSON.stringify(stats));
 });
 app.get('/affiliation', function(req, res) {
   res.contentType('json');
+  res.setHeader('Access-Control-Allow-Origin','*');
   res.send(JSON.stringify(affiliations));
 });
 app.get('/source_list', function(req, res) {
   res.contentType('json');
-  
+  res.setHeader('Access-Control-Allow-Origin','*');
   res.send(JSON.stringify(sources));
 });
 
