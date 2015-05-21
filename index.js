@@ -1006,6 +1006,46 @@ app.get('/source_list', function(req, res) {
   res.send(JSON.stringify(sources));
 });
 
+app.get('/call_info/:id', function(req, res) {
+  var objectId = req.params.id;
+  var o_id = new BSON.ObjectID(objectId);
+  res.contentType('json');
+  db.collection('transmissions', function(err, transCollection) {
+    transCollection.findOne({
+        '_id': o_id
+      },
+      function(err, item) {
+        //console.log(util.inspect(item));
+        if (item) {
+          var time = new Date(item.time);
+          var timeString = time.toLocaleTimeString("en-US");
+          var dateString = time.toDateString();
+
+          res.setHeader('Access-Control-Allow-Origin','*');
+          res.send({
+            item: item,
+            channel: channels[item.talkgroup],
+            talkgroup: item.talkgroup,
+            time: timeString,
+            date: dateString,
+            objectId: objectId,
+            freq: item.freq,
+            srcList: item.srcList,
+            audioErrors: item.audioErrors,
+            headerErrors: item.headerErrors,
+            headerCriticalErrors: item.headerCriticalErrors,
+            symbCount: item.symbCount,
+            recNum: item.recNum
+          });
+
+        } else {
+          res.send(404, 'Sorry, we cannot find that!');
+        }
+      });
+  });
+});
+
+
 app.get('/clients', function(req, res) {
   res.render('clients', {clients: clients});
 });
