@@ -1175,7 +1175,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
               //throw err;
   
             } else {
-            setTimeout({
+            setTimeout(function(){
             probe(target_file, function(err, probeData) {
 
               transItem = {
