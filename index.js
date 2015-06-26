@@ -1175,7 +1175,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
               //throw err;
   
             } else {
-            
+            setTimeout({
             probe(target_file, function(err, probeData) {
 
               transItem = {
@@ -1224,6 +1224,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                 });
               });
            });
+            }, 5000);
             }
           });
         });
