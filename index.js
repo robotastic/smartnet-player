@@ -769,7 +769,7 @@ function build_filter(code, start_time, direction, stars) {
 
   }
   filter.len = {
-    $gte: 1.0
+    $gte: -1.0
   };
 
   if (stars) {
@@ -1196,7 +1196,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
               //transItem.len = reader.chunkSize / reader.byteRate;
 
               if (err) {
-                //console.log("Error with FFProbe: " + err);
+                console.log("Error with FFProbe: " + err);
                 transItem.len = -1;
               } else {
                 transItem.len = probeData.format.duration;
