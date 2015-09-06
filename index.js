@@ -966,7 +966,7 @@ app.post('/source_name', function(req, res) {
       name = name.replace(/[^\w\s]/gi, '');
     }
     if (shortName){
-      shortName = shortName.replace(/[^\w\s]/gi, '');
+      shortName = shortName.replace(/[^\w]/gi, '');
     }
     console.log("TG: " + tg + " Name: " + name + " shortName: "+ shortName);
     if (name && shortName) {
