@@ -1252,6 +1252,7 @@ watch.createMonitor('/home/luke/smartnet-upload', function(monitor) {
                     stars: transItem.stars,
                     freq: transItem.freq,
                     time: transItem.time,
+                    srcList: transItem.srcList,
                     len: Math.round(transItem.len)
                   };
 
