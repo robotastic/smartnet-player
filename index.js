@@ -55,7 +55,7 @@ scanner.open(function(err, scannerDb) {
     db.collection('source_names', function(err, collection){
       collection.find().toArray(function(err, results) {
         for (var src in results) {
-          source_names[results[src]._id] = { name: results[src].name, shortName: results[src].shortName};
+          source_names[results[src].tg] = { name: results[src].name, shortName: results[src].shortName};
         }
         
       });
@@ -954,6 +954,42 @@ app.get('/beta', function(req, res) {
     user: user
   });
 });*/
+
+app.post('/source_name', function(req, res) {
+  var tg = req.body.tg;
+  if (!isNaN(tg) && (tg > 0)) {
+    var name = req.body.name;
+    var shortName = req.body.shortName;
+    if (name) {
+      name = name.replace(/[^\w\s]/gi, '');
+    }
+    if (shortName){
+      shortName = shortName.replace(/[^\w\s]/gi, '');
+    }
+
+    if (name && shortName) {
+      sourceNameItem = {
+        tg: tg,
+        name: name,
+        shortName: shortName
+      };
+
+      db.collection('source_names', function(err, sourceNameCollection) {
+                sourceNameCollection.insert(shortNameItem, function(err, objects) {
+                  if (err) console.warn(err.message);
+                  
+                  source_names[tg] = { name: name, shortName: shortName};
+                  
+                  res.contentType('json');
+                  res.setHeader('Access-Control-Allow-Origin','*');
+                  res.send(JSON.stringify({
+                    source_names: source_names
+                  }));
+                });
+              });
+    }
+  }
+});
 
 app.get('/', function(req, res) {
   var filter_code = "";
