@@ -957,16 +957,18 @@ app.get('/beta', function(req, res) {
 
 app.post('/source_name', function(req, res) {
   var tg = req.body.tg;
+  console.log("TG: " + tg);
   if (!isNaN(tg) && (tg > 0)) {
     var name = req.body.name;
     var shortName = req.body.shortName;
+    console.log("TG: " + tg + " Name: " + name + " shortName: "+ shortName);
     if (name) {
       name = name.replace(/[^\w\s]/gi, '');
     }
     if (shortName){
       shortName = shortName.replace(/[^\w\s]/gi, '');
     }
-
+    console.log("TG: " + tg + " Name: " + name + " shortName: "+ shortName);
     if (name && shortName) {
       sourceNameItem = {
         tg: tg,
@@ -975,7 +977,7 @@ app.post('/source_name', function(req, res) {
       };
 
       db.collection('source_names', function(err, sourceNameCollection) {
-                sourceNameCollection.insert(shortNameItem, function(err, objects) {
+                sourceNameCollection.insert(sourceNameItem, function(err, objects) {
                   if (err) console.warn(err.message);
                   
                   source_names[tg] = { name: name, shortName: shortName};
