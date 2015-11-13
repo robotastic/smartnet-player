@@ -727,6 +727,7 @@ function beta_build_filter(filter_type, code, start_time, direction) {
       filter = {
         srcList: code
       };
+    }
     if (filter_type == FilterType.Group) {
           filter = {
             talkgroup: {
