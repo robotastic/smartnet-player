@@ -880,7 +880,7 @@ app.get('/beta/older/:time', function(req, res) {
 app.get('/beta', function(req, res) {
   var filter_code = req.query["filter_code"];
   var filter_type = req.query["filter-type"];
-  console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
+  console.log( " Filter code: " + filter_code + " Filter Type: " + filter_type);
   console.log(util.inspect(req.query));
   var query = beta_build_filter(filter_type, filter_code, null, 'older');
 
