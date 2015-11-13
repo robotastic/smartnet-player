@@ -706,6 +706,70 @@ function get_calls(query, res) {
 
 }
 
+function beta_build_filter(filter_type, code, start_time, direction) {
+  var filter = {};
+  var FilterType = {
+        All: 0,
+        Talkgroup: 1,
+        Group: 2,
+        Unit: 3
+    };
+  if (filter_type) {
+    if (filter_type == FilterType.Talkgroup) {
+      filter = {
+        talkgroup: {
+          $in: code
+        }
+      };
+    }
+
+    if (filter_type == FilterType.Unit) {
+      filter = {
+        srcList: code
+      };
+    if (filter_type == FilterType.Group) {
+          filter = {
+            talkgroup: {
+              $in: talkgroup_filters[code]
+            }
+          };
+    } 
+  }
+
+  if (start_time) {
+    var start = new Date(start_time);
+    if (direction == 'newer') {
+      filter.time = {
+        $gt: start
+      };
+    } else {
+      filter.time = {
+        $lt: start
+      };
+    }
+
+  }
+  filter.len = {
+    $gte: -1.0
+  };
+
+
+  var sort_order = {};
+  if (direction == 'newer') {
+    sort_order['time'] = 1;
+  } else {
+    sort_order['time'] = -1;
+  }
+
+  var query = {};
+  query['filter'] = filter;
+  query['direction'] = direction;
+  query['sort_order'] = sort_order;
+
+  return query;
+}
+
+
 function build_filter(code, start_time, direction, stars) {
   var filter = {};
 
@@ -789,6 +853,39 @@ function build_filter(code, start_time, direction, stars) {
 
   return query;
 }
+
+app.get('/beta/newer/:time', function(req, res) {
+  var filter_code = req.query["filter-code"];
+  var filter_type = req.query["filter-type"];
+  var start_time = parseInt(req.params.time);
+  console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
+  console.log(util.inspect(req.query));
+  var query = beta_build_filter(filter_type, filter_code, start_time, 'newer');
+
+  get_calls(query, res);
+});
+
+app.get('/beta/older/:time', function(req, res) {
+  var filter_code = req.query["filter-code"];
+  var filter_type = req.query["filter-type"];
+  var start_time = parseInt(req.params.time);
+  console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
+  console.log(util.inspect(req.query));
+  var query = beta_build_filter(filter_type, filter_code, start_time, 'older');
+
+  get_calls(query, res);
+});
+
+app.get('/beta', function(req, res) {
+  var filter_code = req.query["filter_code"];
+  var filter_type = req.query["filter-type"];
+  console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
+  console.log(util.inspect(req.query));
+  var query = beta_build_filter(filter_type, filter_code, null, 'older');
+
+  get_calls(query, res);
+});
+
 
 app.get('/calls/newer/:time', function(req, res) {
   var start_time = parseInt(req.params.time);
