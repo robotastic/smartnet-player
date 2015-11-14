@@ -716,9 +716,12 @@ function beta_build_filter(filter_type, code, start_time, direction) {
     };
   if (filter_type) {
     if (filter_type == FilterType.Talkgroup) {
+      var codeArray = code.split(',').map(function(item) {
+        return parseInt(item, 10);
+      });
       filter = {
         talkgroup: {
-          $in: code
+          $in: codeArray
         }
       };
     }
