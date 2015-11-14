@@ -715,7 +715,7 @@ function beta_build_filter(filter_type, code, start_time, direction) {
         Unit: 3
     };
   if (filter_type) {
-    if (filter_type == FilterType.Talkgroup) {
+    if (filter_type == "talkgroup") {
       var codeArray = code.split(',').map(function(item) {
         return parseInt(item, 10);
       });
@@ -726,12 +726,12 @@ function beta_build_filter(filter_type, code, start_time, direction) {
       };
     }
 
-    if (filter_type == FilterType.Unit) {
+    if (filter_type == "unit") {
       filter = {
         srcList: code
       };
     }
-    if (filter_type == FilterType.Group) {
+    if (filter_type == "group") {
           filter = {
             talkgroup: {
               $in: talkgroup_filters[code]
