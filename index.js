@@ -863,9 +863,10 @@ app.get('/beta/newer/:time', function(req, res) {
   var filter_type = req.query["filter-type"];
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
-  console.log(util.inspect(req.query));
+  
   var query = beta_build_filter(filter_type, filter_code, start_time, 'newer');
-
+  console.log(util.inspect(query));
+  
   get_calls(query, res);
 });
 
@@ -874,9 +875,10 @@ app.get('/beta/older/:time', function(req, res) {
   var filter_type = req.query["filter-type"];
   var start_time = parseInt(req.params.time);
   console.log("time: " + start_time + " Filter code: " + filter_code + " Filter Type: " + filter_type);
-  console.log(util.inspect(req.query));
+  
   var query = beta_build_filter(filter_type, filter_code, start_time, 'older');
-
+  console.log(util.inspect(query));
+  
   get_calls(query, res);
 });
 
@@ -884,9 +886,10 @@ app.get('/beta', function(req, res) {
   var filter_code = req.query["filter-code"];
   var filter_type = req.query["filter-type"];
   console.log( " Filter code: " + filter_code + " Filter Type: " + filter_type);
-  console.log(util.inspect(req.query));
+  
   var query = beta_build_filter(filter_type, filter_code, null, 'older');
-
+  console.log(util.inspect(query));
+  
   get_calls(query, res);
 });
 
