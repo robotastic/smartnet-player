@@ -1321,7 +1321,11 @@ watch.createMonitor('/home/luke/smartnet-upload', function (monitor) {
                         console.log("F Path: " + path.dirname(f));
                         var srcList = [];
                     } else {
+                        try{
                         data = JSON.parse(data);
+                        } catch (e) {
+                            console.log(e);
+                        }
                         var srcList = data.srcList;
                         fs.unlink(json_file, function (err) {
                             if (err)
