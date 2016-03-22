@@ -1321,8 +1321,8 @@ watch.createMonitor('/home/luke/smartnet-upload', function (monitor) {
                         console.log("F Path: " + path.dirname(f));
                         var srcList = [];
                     } else {
-                        try{
-                        data = JSON.parse(data);
+                        try {
+                            data = JSON.parse(data);
                         } catch (e) {
                             console.log(e);
                         }
@@ -1429,19 +1429,23 @@ wsServer.on('request', function (request) {
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
-            var data = JSON.parse(message.utf8Data);
-            if (typeof data.type !== "undefined") {
-                if (data.type == 'code') {
-                    var index = clients.indexOf(client);
-                    if (index != -1) {
-                        clients[index].code = data.code;
-                        console.log("Client " + index + " code set to: " + data.code);
-                    } else {
-                        console.log("Client not Found!");
+            try {
+                var data = JSON.parse(message.utf8Data);
+                if (typeof data.type !== "undefined") {
+                    if (data.type == 'code') {
+                        var index = clients.indexOf(client);
+                        if (index != -1) {
+                            clients[index].code = data.code;
+                            console.log("Client " + index + " code set to: " + data.code);
+                        } else {
+                            console.log("Client not Found!");
+                        }
                     }
                 }
+            } catch (e) {
+                // An error has occured, handle it, by e.g. logging it
 
-
+                console.log(e);
             }
             console.log('Received Message: ' + message.utf8Data);
             connection.sendUTF(message.utf8Data);
