@@ -8,8 +8,8 @@ var fs = require('fs');
 var path = require('path');
 var config = require('./config.json');
 var Db = require('mongodb').Db,
-  Connection = require('mongodb').Connection,
-  Server = require('mongodb').Server;
+    Connection = require('mongodb').Connection,
+    Server = require('mongodb').Server;
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
@@ -18,17 +18,17 @@ var db;
 var channels = {};
 
 function compile(str, path) {
-  return stylus(str)
-    .set('filename', path)
-    .use(nib())
+    return stylus(str)
+        .set('filename', path)
+        .use(nib())
 }
 
 function add_file(files, i) {
-    if ( i< files.length) {
-    var f = path.join(source_path, files[i]);
-    console.log("Trying: " +f);
+    if (i < files.length) {
+        var f = path.join(source_path, files[i]);
+        console.log("Trying: " + f);
 
-    if ((path.extname(f) == '.m4a') ) {
+        if ((path.extname(f) == '.m4a')) {
             var name = path.basename(f, '.m4a');
             /*if ((path.extname(f) == '.wav') && (monitor.files[f] === undefined)) {
               var name = path.basename(f, '.wav');*/
@@ -125,24 +125,24 @@ function add_file(files, i) {
                     });
                 });
             }
-        }    
-    } else {
-      add_file(files,i+1);
+        }
+
+        add_file(files, i + 1);
     }
 
-  }
 }
+
 
 
 
 var source_path = '/home/luke/smartnet-upload';
 
-scanner.open(function(err, scannerDb) {
-  db = scannerDb;
-  scannerDb.authenticate(config.dbUser, config.dbPass, function() {});
+scanner.open(function (err, scannerDb) {
+    db = scannerDb;
+    scannerDb.authenticate(config.dbUser, config.dbPass, function () {});
 
 
-  var files = fs.readdirSync(source_path);
-  console.log("Found " + files.length + " Files");
-  add_file(files,0);
+    var files = fs.readdirSync(source_path);
+    console.log("Found " + files.length + " Files");
+    add_file(files, 0);
 });
