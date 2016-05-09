@@ -127,6 +127,7 @@ function add_file(files, i) {
             }
         }
 
+        
         add_file(files, i + 1);
     }
 
