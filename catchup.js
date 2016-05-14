@@ -43,7 +43,7 @@ var affiliations = {};
 var sources = {};
 var source_names = {};
 
-io.set('log level', 1);
+//io.set('log level', 1);
 
 scanner.open(function (err, scannerDb) {
     db = scannerDb;

@@ -9,61 +9,28 @@ var now_playing = null;
 var autoplay = false;
 
 var groups = [{
-	name: 'Fire/EMS',
+	name: 'Fire',
 	code: 'group-fire'
 }, {
-	name: 'DC Common',
-	code: 'group-common'
+	name: 'Medical',
+	code: 'group-medical'
 }, {
 	name: 'Services',
 	code: 'group-services'
-}];
-var tags = [{
-	name: 'Emergency Ops',
-	code: 'tag-ops'
 }, {
-	name: 'EMS',
-	code: 'tag-ems'
+	name: 'Emergency',
+	code: 'group-emergency'
 }, {
-	name: 'Fire Dispatch',
-	code: 'tag-fire-dispatch'
-}, {
-	name: 'Fire',
-	code: 'tag-fire'
-}, {
-	name: 'Hospital',
-	code: 'tag-hospital'
-}, {
-	name: 'Interop',
-	code: 'tag-interop'
-}, {
-	name: 'Law Dispatch',
-	code: 'tag-law-dispatch'
-}, {
-	name: 'Public Works',
-	code: 'tag-public-works'
-}, {
-	name: 'Public Health',
-	code: 'tag-public-health'
-}, {
-	name: 'Parks',
-	code: 'tag-parks'
-}, {
-	name: 'Water',
-	code: 'tag-water'
-}, {
-	name: 'Paratransit',
-	code: 'tag-paratransit'
+	name: 'Police',
+	code: 'group-police'
 }, {
 	name: 'Security',
-	code: 'tag-security'
-}, {
-	name: 'St. Elizabeth',
-	code: 'tag-st-e'
+	code: 'group-security'
 }, {
 	name: 'Transportation',
-	code: 'tag-transportation'
+	code: 'group-transportation'
 }];
+
 
 if(typeof console === "undefined") {
     console = {
@@ -333,9 +300,12 @@ function filter_calls() {
 	filter_code = code;
 	fetch_calls();
 	if (live) {
-		socket.emit('code', {
-			code: filter_code
-		});
+
+		socket.send(JSON.stringify({
+			type: 'code',
+ 			code: filter_code
+		}));
+
 	}
 }
 
@@ -346,10 +316,7 @@ function add_filters() {
 		var group = groups[i];
 		$("#group-filter").append($('<li><a href="#">' + group.name + '</a></li>').data('code', group.code).data('name', group.name).click(filter_calls));
 	}
-	for (var i = 0; i < tags.length; i++) {
-		var tag = tags[i];
-		$("#tag-filter").append($('<li><a href="#">' + tag.name + '</a></li>').data('code', tag.code).data('name', tag.name).click(filter_calls));
-	}
+
 }
 
 function add_tg_filter() {
@@ -467,12 +434,7 @@ function find_code_name(code) {
 			return group.name
 		}
 	}
-	for (var i = 0; i < tags.length; i++) {
-		var tag = tags[i];
-		if (tag.code == code) {
-			return tag.name;
-		}
-	}
+
 	return 'All';
 }
 
@@ -484,29 +446,41 @@ function init_table() {
 
 }
 
+
+
+
 function socket_connect() {
 
 	if (!socket) {
-		//console.log('func socket_connect');
-		socket = io.connect('http://openmhz.com');
-		socket.on('calls', function(data) {
-			//console.log("Socket.io - Recv: " + data);
-			if (typeof data.calls !== "undefined") {
-				for (var i = 0; i < data.calls.length; i++) {
-					print_call_row(data.calls[i], 'newer', true);
-				}
-			}
-			if (typeof data.talkgroup !== "undefined") {
-				print_call_row(data, 'newer', true);
-			}
 
-		});
-		socket.on('ready', function(data) {
-			//console.log("Ready: " + data);
-			socket.emit('code', {
-				code: filter_code
-			});
-		});
+		console.log('func socket_connect');
+		socket = new WebSocket('ws://openmhz.com/');
+    socket.onmessage = function(e) {
+        console.log(e.data); //prints [Object object] string and not the object
+        var message = JSON.parse(e.data);
+        if (typeof message.type !== "undefined") {
+	        if (message.type == 'calls') {
+	        	if (typeof message.calls !== "undefined") {
+					for (var i = 0; i < message.calls.length; i++) {
+						print_call_row(message.calls[i], 'newer', true);
+					}
+				}
+				if (typeof message.talkgroup !== "undefined") {
+					print_call_row(message, 'newer', true);
+				}
+	        }
+   		}	
+
+
+
+
+    };
+    socket.onopen = function(e) {
+    	socket.send(JSON.stringify({
+    		type: 'code',
+ 			code: filter_code
+		}));
+    };
 	} else {
 		//console.log('func socket_reconnect');
 		socket.socket.reconnect();

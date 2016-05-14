@@ -1,0 +1,130 @@
+doctype html
+html
+  include includes/head
+    script(type='text/javascript', src="http://d3js.org/d3.v3.min.js")
+
+  body
+    include includes/navbar
+    
+    .container
+      .jumbotron
+        p Each charts shows the number of calls in a Talkgroup over the past 24 hours
+      ul.list-group(id="graphs")
+      
+      script.
+        var margin = {top: 20, right: 20, bottom: 30, left: 40};
+        var w = parseInt(d3.select('#graphs').style('width'), 10);
+        var w = w - margin.left - margin.right;
+            
+            
+        
+
+        //var w = 700;
+        var h = 125;
+        var barPadding = 1;
+        var padding = 30;
+
+
+        function clickEvent(d, i) {
+            var graph = $(this).closest("div");
+            var channel = graph.data("channel");
+            var start = graph.data("start");
+            var filter_code = 'tg-' + channel.num;
+
+
+            start.setHours(start.getHours() - i);
+            window.location.href = '/scanner/newer/' + start.getTime() + '/' + filter_code;
+                
+        };
+
+        function add_graph(id, channel, current) {
+          $(id).data('channel', channel).data('start', current);
+
+          
+          var start = new Date(current);
+          start.setHours(start.getHours() - 1);
+          //start.setDate(start.getDate() - 1);
+          var x = d3.time.scale().domain([start, current]).range([padding, w]);
+          var svg = d3.select(id).append("svg").attr("width", w).attr("height", h);
+          var max = d3.max(channel);
+          if (max < 25) {
+            max = 25;
+          }
+
+          var yScale = d3.scale.linear()
+                     .domain([0, max ])
+                     .rangeRound([ padding, h-padding]);
+          var yAxisScale = d3.scale.linear()
+                     .domain([0, max])
+                     .rangeRound([ h - padding, padding]);
+          //Define X axis
+          var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom")
+                    .ticks(6);
+          //Define Y axis
+          var yAxis = d3.svg.axis()
+                    .scale(yAxisScale)
+                    .orient("left")
+                  .ticks(5);
+
+          var barsWidth = (w - padding);
+          var barWidth =  barsWidth / channel.length;
+
+        svg.selectAll("rect")
+             .data(channel)
+             .enter()
+             .append("rect")
+             .on("click", clickEvent)
+             .attr("x", function(d, i) { return (barsWidth - ((i + 1) *  barWidth) + padding); })
+             .attr("y", function(d) { return h - yScale(d) })
+             .attr("width",  barWidth - barPadding)
+             .attr("height", function(d) { return  yScale(d) - padding; })
+             .attr("fill", "teal")
+             .append("svg:title")
+             .text(function(d, i) { 
+                var back = new Date();
+                
+                back.setMinutes(start.getMinutes() - i*5);
+                //back.setMinutes(0);
+                var date_string = back.toDateString() + " " + back.toLocaleTimeString();
+                var return_string = date_string + " - " + d + " Units"; 
+                return return_string; });
+          svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0," + (h - padding) + ")")
+              .call(xAxis);
+          svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(" + padding + ",0)")
+              .call(yAxis);
+        }
+        $.getJSON( "/affiliation", function( data ) {
+          var i =0;
+          var current = new Date();
+          //current.setHours(current.getHours() - 1);
+          //current.setMinutes(0);
+          //current.setSeconds(0);
+          $.each( data, function( key, val ) {
+            i++;
+            var li = $("<li/>", {class: "list-group-item" });
+            var div = $("<div/>", {id: "graph-"+i, class: "graph"});
+            li.append("<h4/>").text(key);
+            li.append(div);
+            $("#graphs").append(li);
+            add_graph("#graph-"+i, val, current);
+          });
+        });
+
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-45563211-1', 'openmhz.com');
+        ga('send', 'pageview');
+        
+    #jquery_jplayer_1.jp-jplayer
+
+
