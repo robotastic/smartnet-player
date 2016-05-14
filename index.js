@@ -105,7 +105,7 @@ talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];*/
 
 
 fs.createReadStream('ChanList.csv').pipe(csv.parse({
-    columns: ['Num', 'Hex', 'Mode', 'Alpha', 'Description', 'Tag', 'Group']
+    columns: ['Num', 'Hex', 'Mode', 'Alpha', 'Description', 'Tag', 'Group', 'Priority']
 })).pipe(csv.transform(function (row) {
     console.log(row);
     channels[row.Num] = {
