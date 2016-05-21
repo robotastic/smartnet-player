@@ -1,4 +1,5 @@
 {
 	"dbUser": "scanner",
-	"dbPass": "vcW6rEixic3kdBWj"
+	"dbPass": "vcW6rEixic3kdBWj",
+    "uploadDirectory": "/upload"
 }

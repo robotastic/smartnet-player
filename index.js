@@ -1249,7 +1249,7 @@ function notify_clients(call) {
         }
     }
 }
-watch.createMonitor('/home/luke/smartnet-upload', function (monitor) {
+watch.createMonitor(config.uploadDirectory, function (monitor) {
     monitor.files['*.m4a'];
     //monitor.files['*.wav'];
 
