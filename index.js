@@ -1307,7 +1307,7 @@ watch.createMonitor(config.uploadDirectory, function (monitor) {
                 var time = new Date(parseInt(result[2]) * 1000);
                 var freq = parseFloat(result[3]);
                 //var base_path = '/srv/www/openmhz.com/media';
-                var base_path = '/srv/www/openmhz.com/public/media';
+                var base_path = config.mediaDirectory;
                 var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
                 mkdirp.sync(base_path + local_path, function (err) {
                     if (err) console.error(err);

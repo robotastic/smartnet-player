@@ -1,5 +1,6 @@
 {
 	"dbUser": "scanner",
 	"dbPass": "vcW6rEixic3kdBWj",
-    "uploadDirectory": "/upload"
+    "uploadDirectory": "/home/app/smartnet-player/upload",
+    "mediaDirectory": "/home/app/smartnet-player/media"
 }
