@@ -1334,62 +1334,70 @@ watch.createMonitor(config.uploadDirectory, function (monitor) {
                     }
 
 
-                    fs.rename(f, target_file, function (err) {
-                        if (err) {
-                            console.log("Rename Error: " + err);
-                            console.log("Base: " + base_path + " Local: " + local_path + " Basename: " + path.basename(f));
-                            console.log("F Path: " + path.dirname(f));
-                            //throw err;
+                    var source_file = fs.createReadStream(f);
+                    var destination_file = fs.createWriteStream(target_file);
 
-                        } else {
-                            setTimeout(function () {
-                                probe(target_file, function (err, probeData) {
+                    source.pipe(destination_file);
+                    source.on('end', function () {
 
-                                    transItem = {
-                                        talkgroup: tg,
-                                        time: time,
-                                        name: path.basename(f),
-                                        freq: freq,
-                                        stars: 0,
-                                        path: local_path,
-                                        srcList: srcList
-                                    };
-                                    //transItem.len = reader.chunkSize / reader.byteRate;
+                        setTimeout(function () {
+                            probe(target_file, function (err, probeData) {
 
-                                    if (err) {
-                                        console.log("Error with FFProbe: " + err);
-                                        transItem.len = -1;
-                                    } else {
-                                        transItem.len = probeData.format.duration;
-                                    }
-                                    db.collection('transmissions', function (err, transCollection) {
-                                        transCollection.insert(transItem, function (err, objects) {
-                                            if (err) console.warn(err.message);
-                                            var objectId = transItem._id;
+                                transItem = {
+                                    talkgroup: tg,
+                                    time: time,
+                                    name: path.basename(f),
+                                    freq: freq,
+                                    stars: 0,
+                                    path: local_path,
+                                    srcList: srcList
+                                };
+                                //transItem.len = reader.chunkSize / reader.byteRate;
 
-                                            //console.log("Added: " + f);
-                                            var call = {
-                                                objectId: objectId,
-                                                talkgroup: transItem.talkgroup,
-                                                filename: transItem.path + transItem.name,
-                                                stars: transItem.stars,
-                                                freq: transItem.freq,
-                                                time: transItem.time,
-                                                srcList: transItem.srcList,
-                                                len: Math.round(transItem.len)
-                                            };
+                                if (err) {
+                                    console.log("Error with FFProbe: " + err);
+                                    transItem.len = -1;
+                                } else {
+                                    transItem.len = probeData.format.duration;
+                                }
+                                db.collection('transmissions', function (err, transCollection) {
+                                    transCollection.insert(transItem, function (err, objects) {
+                                        if (err) console.warn(err.message);
+                                        var objectId = transItem._id;
 
-                                            // we only want to notify clients if the clip is longer than 1 second.
-                                            if (transItem.len >= 1) {
-                                                notify_clients(call);
-                                            }
-                                        });
+                                        //console.log("Added: " + f);
+                                        var call = {
+                                            objectId: objectId,
+                                            talkgroup: transItem.talkgroup,
+                                            filename: transItem.path + transItem.name,
+                                            stars: transItem.stars,
+                                            freq: transItem.freq,
+                                            time: transItem.time,
+                                            srcList: transItem.srcList,
+                                            len: Math.round(transItem.len)
+                                        };
+
+                                        // we only want to notify clients if the clip is longer than 1 second.
+                                        if (transItem.len >= 1) {
+                                            notify_clients(call);
+                                        }
                                     });
                                 });
-                            }, 5000);
-                        }
+                            });
+                        }, 5000);
+
+                        fs.unlink(f, function (err) {
+                            if (err) {
+                                console.log("Rename Error: " + err);
+                                console.log("Base: " + base_path + " Local: " + local_path + " Basename: " + path.basename(f));
+                                console.log("F Path: " + path.dirname(f));
+                            }
+
+                        });
                     });
+
                 });
+
             }
         }
     });
