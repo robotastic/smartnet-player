@@ -1337,8 +1337,8 @@ watch.createMonitor(config.uploadDirectory, function (monitor) {
                     var source_file = fs.createReadStream(f);
                     var destination_file = fs.createWriteStream(target_file);
 
-                    source.pipe(destination_file);
-                    source.on('end', function () {
+                    source_file.pipe(destination_file);
+                    source_file.on('end', function () {
 
                         setTimeout(function () {
                             probe(target_file, function (err, probeData) {
