@@ -24,7 +24,8 @@
     "wav": "~0.1.2",
     "websocket": "~1.0.17",
     "ws": "~0.7.1",
-    "mongodb": "~1.4.26"
+    "mongodb": "~1.4.26",
+    "multer": "^1.1.0"
   },
   "devDependencies": {},
   "scripts": {

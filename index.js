@@ -30,6 +30,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+var multer = require('multer');
+var upload = multer({
+    dest: config.uploadDirectory
+});
 
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
@@ -42,7 +46,6 @@ var stats = {};
 var affiliations = {};
 var sources = {};
 var source_names = {};
-
 
 
 scanner.open(function (err, scannerDb) {
@@ -107,7 +110,7 @@ talkgroup_filters['tag-water'] = [ 35088,35056,35024 ];*/
 fs.createReadStream('ChanList.csv').pipe(csv.parse({
     columns: ['Num', 'Hex', 'Mode', 'Alpha', 'Description', 'Tag', 'Group', 'Priority']
 })).pipe(csv.transform(function (row) {
-   
+
     channels[row.Num] = {
         alpha: row.Alpha,
         desc: row.Description,
@@ -348,8 +351,8 @@ function build_source_list() {
 
 
         values.forEach(function (v) {
-            for (var k in v) { // iterate colors                                                                                                                                       
-                if (!talkgroups[k]) // init missing counter                                                                                                                            
+            for (var k in v) { // iterate colors
+                if (!talkgroups[k]) // init missing counter
                 {
                     talkgroups[k] = 0;
                 }
@@ -410,7 +413,7 @@ app.use(session({
 /* app.use(express.session({ secret: 'keyboard cat',
            cookie : {
              maxAge: 3600000 // see below
-           } 
+           }
          }));*/
 //app.use(express.cookieSession({ secret: 'keyboard cat' }));
 // Initialize Passport!  Also use passport.session() middleware, to support
@@ -1249,6 +1252,105 @@ function notify_clients(call) {
         }
     }
 }
+
+app.post('/upload', upload.single('call'), function(req, res, next) {
+    console.log(req.file);
+    console.log(req.body);
+
+    /** When using the "single"
+        data come in "req.file" regardless of the attribute "name". **/
+    var tmp_path = req.file.path;
+
+    /** The original name of the uploaded file
+        stored in the variable "originalname". **/
+    var target_path = 'uploads/' + req.file.originalname;
+
+    if (req.file && (path.extname(req.file.originalname)) == '.m4a') {
+
+        var talkgroup = parseInt(req.body.talkgroup);
+        var freq = parseFloat(req.body.freq);
+        var time = new Date(parseInt(req.body.start_time) * 1000);
+        var emergency = parseInt(req.body.emergency);
+
+        try {
+
+        var srcList = JSON.parse(req.body.source_list);
+
+
+      } catch (err){
+        var srcList = [];
+        console.log(err);
+
+      }
+
+            var base_path = config.mediaDirectory;
+            var local_path = "/" + time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + "/";
+            mkdirp.sync(base_path + local_path, function(err) {
+                if (err) console.error(err);
+            });
+            var target_file = base_path + local_path + path.basename(req.file.originalname);
+
+
+            var src = fs.createReadStream(req.file.path);
+            var dest = fs.createWriteStream(target_file);
+            src.pipe(dest);
+            src.on('error', function(err) {
+              console.log(err);
+              res.render('error');
+            });
+            src.on('end', function() {
+              probe(target_file, function(err, probeData) {
+
+                  transItem = {
+                      talkgroup: talkgroup,
+                      time: time,
+                      name: path.basename(req.file.originalname),
+                      freq: freq,
+                      emergency: emergency,
+                      path: local_path,
+                      srcList: srcList
+                  };
+
+                  //transItem.len = reader.chunkSize / reader.byteRate;
+
+                  if (err) {
+                      //console.log("Error with FFProbe: " + err);
+                      transItem.len = -1;
+                  } else {
+                      transItem.len = probeData.format.duration;
+                  }
+                  console.log(util.inspect(transItem));
+                  db.collection('transmissions', function(err, transCollection) {
+                      transCollection.insert(transItem, function(err, objects) {
+                          if (err) console.warn(err.message);
+                          var objectId = transItem._id;
+
+                          //console.log("Added: " + f);
+                          var call = {
+                              objectId: objectId,
+                              talkgroup: transItem.talkgroup,
+                              filename: transItem.path + transItem.name,
+                              stars: transItem.stars,
+                              freq: transItem.freq,
+                              time: transItem.time,
+                              len: Math.round(transItem.len)
+                          };
+
+                          // we only want to notify clients if the clip is longer than 1 second.
+                          if (transItem.len >= 1) {
+                              notify_clients(call);
+                          }
+                      });
+                  });
+              });
+
+              res.status(200);
+              res.send("Success\n");
+            });
+
+        }
+});
+
 watch.createMonitor(config.uploadDirectory, function (monitor) {
     monitor.files['*.m4a'];
     //monitor.files['*.wav'];
