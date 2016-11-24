@@ -2,5 +2,7 @@
 	"dbUser": "scanner",
 	"dbPass": "vcW6rEixic3kdBWj",
     "uploadDirectory": "/home/app/smartnet-player/upload",
-    "mediaDirectory": "/home/app/smartnet-player/media"
+    "mediaDirectory": "/home/app/smartnet-player/media",
+    "twitterConsumerKey": "changeme",
+    "twitterConsumerSecret": "changeme"
 }
